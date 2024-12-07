@@ -7,6 +7,24 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Installation
+
+If you don't have PHP, Composer, or the Laravel installer, run this:
+
+```
+/bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.3)"
+```
+
+After that run this to get up and running:
+
+```
+cd example-app
+npm install && npm run build
+composer run dev
+```
+
+[See more info](https://laravel.com/docs/11.x/installation)
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
