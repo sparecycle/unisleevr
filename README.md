@@ -46,7 +46,7 @@ php artisan migrate
 
 ## Running the project
 
-Once you have followed the Installation instructions, run the following to star the app:
+Once you have followed the Installation instructions, run the following to start the app:
 
 ```
 composer run dev
