@@ -18,7 +18,6 @@ If you don't have PHP, Composer, or the Laravel installer, run this:
 After that run this to get up and running:
 
 ```
-cd example-app
 npm install && npm run build
 composer run dev
 ```
