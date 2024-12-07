@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Installation
+## Pre-Installation
 
 If you don't have PHP, Composer, or the Laravel installer, run this:
 
@@ -15,14 +15,42 @@ If you don't have PHP, Composer, or the Laravel installer, run this:
 /bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.3)"
 ```
 
-After that run this to get up and running:
+## Installation
+
+1. Now that you have Composer, install your dependencies:
 
 ```
-npm install && npm run build
-composer run dev
+composer install
+npm install
+```
+
+2. Set up your environment file:
+
+```
+cp .env.example .env
+```
+
+3. Generate your app key:
+
+```
+php artisan key:generate
+```
+
+4. Create database migrations:
+
+```
+php artisan migrate
 ```
 
 [See more info](https://laravel.com/docs/11.x/installation)
+
+## Running the project
+
+Once you have followed the Installation instructions, run the following to star the app:
+
+```
+composer run dev
+```
 
 ## About Laravel
 
