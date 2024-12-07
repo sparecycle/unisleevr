@@ -4,6 +4,7 @@ export default function Founder() {
             <h1>Founders</h1>
             <ul>
                 <li>Nick Zou</li>
+                <li>Second! Jordan</li>
             </ul>
         </main>
     );
