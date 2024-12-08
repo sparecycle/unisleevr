@@ -12,12 +12,21 @@ export default function Dashboard() {
         >
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">
-                            You're logged in!
-                        </div>
+            <div className="container mx-auto px-3 py-4">
+                <div className="-mx-3 flex flex-wrap">
+                    <div className="w-1/2 px-3 pb-3">
+                        <button className="btn w-full">Import a list</button>
+                    </div>
+                    <div className="w-1/2 px-3 pb-3">
+                        <button className="btn w-full">Create a list</button>
+                    </div>
+                    <div className="w-1/2 px-3 pb-3">
+                        <button className="btn w-full">Edit a list</button>
+                    </div>
+                    <div className="w-1/2 px-3 pb-3">
+                        <button className="btn w-full">
+                            View my shared cards
+                        </button>
                     </div>
                 </div>
             </div>
