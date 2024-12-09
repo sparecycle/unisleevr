@@ -3,25 +3,35 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 use App\Models\Card;
 
-class StreamScryfallCards extends Command
+class DownloadAndImportScryfallCards extends Command
 {
-    protected $signature = 'scryfall:stream-cards';
-    protected $description = 'Stream and import Magic: The Gathering cards from Scryfall';
+    protected $signature = 'scryfall:download-import-cards';
+    protected $description = 'Download and import Magic: The Gathering cards from Scryfall';
 
     public function handle()
     {
         $this->info('Fetching bulk data URL...');
         $bulkDataUrl = 'https://api.scryfall.com/bulk-data/default-cards';
 
-        $response = file_get_contents($bulkDataUrl);
-        $bulkData = json_decode($response, true);
+        $response = Http::get($bulkDataUrl);
+        $bulkData = $response->json();
 
         $downloadUrl = $bulkData['download_uri'];
+        $localFilePath = storage_path('app/scryfall_cards.json');
 
-        $this->info('Downloading and streaming bulk card data...');
-        $handle = fopen($downloadUrl, 'r');
+        $this->info("Downloading bulk data to {$localFilePath}...");
+        $downloadResponse = Http::withOptions(['sink' => $localFilePath])->get($downloadUrl);
+
+        if ($downloadResponse->status() !== 200) {
+            $this->error('Failed to download the bulk data file.');
+            return 1;
+        }
+
+        $this->info('Processing the downloaded file...');
+        $handle = fopen($localFilePath, 'r');
 
         if ($handle) {
             while (($line = fgets($handle)) !== false) {
@@ -33,7 +43,7 @@ class StreamScryfallCards extends Command
             }
             fclose($handle);
         } else {
-            $this->error('Unable to open the data stream.');
+            $this->error('Unable to open the downloaded file.');
         }
 
         $this->info('Card import completed!');
