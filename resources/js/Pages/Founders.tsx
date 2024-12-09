@@ -5,6 +5,7 @@ export default function Founder() {
             <ul>
                 <li>Nick Zou</li>
                 <li>Jordan Armstrong</li>
+                <li>Adrian Davila-Zuniga</li>
             </ul>
         </main>
     );
