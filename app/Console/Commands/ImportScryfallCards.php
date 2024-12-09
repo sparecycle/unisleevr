@@ -8,9 +8,25 @@ use App\Models\Card;
 
 class ImportScryfallCards extends Command
 {
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
     protected $signature = 'scryfall:import-cards';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Import Magic: The Gathering cards from Scryfall';
 
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
     public function handle()
     {
         $this->info('Fetching bulk data URL...');
@@ -21,7 +37,7 @@ class ImportScryfallCards extends Command
         $cards = Http::get($downloadUrl)->json();
 
         $this->info('Processing and importing cards...');
-        collect($cards)->chunk(1000)->each(function ($chunk) {
+        collect($cards)->chunk(100)->each(function ($chunk) {
             foreach ($chunk as $card) {
                 Card::updateOrCreate(
                     ['id' => $card['id']],
@@ -43,5 +59,6 @@ class ImportScryfallCards extends Command
         });
 
         $this->info('Card import completed!');
+        return 0;
     }
 }
