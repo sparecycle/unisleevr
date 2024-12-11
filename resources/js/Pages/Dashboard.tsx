@@ -41,11 +41,20 @@ export default function Dashboard() {
                     <div className="w-1/4">
                     <p>Double sided card</p>
                     <MTGCard 
-                        imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                        title='Goblin Gathering'
-                        description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                        colorIdentity='R'
-                        cmc={4}
+                        imgSrc='https://cards.scryfall.io/large/front/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778'
+                        title='Wandering Archaic'
+                        description='Whenever an opponent casts an instant or sorcery spell, they may pay {2}. If they don’t, you may copy that spell. You may choose new targets for the copy.'
+                        colorIdentity='C'
+                        cmc={5}
+                        backCardData={
+                            {
+                                imgSrc:'https://cards.scryfall.io/large/back/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778',
+                                title:'Explore the Vastlands',
+                                description:'Each player looks at the top five cards of their library and may reveal a land card and/or an instant or sorcery card from among them. Each player puts the cards they revealed this way into their hand and the rest on the bottom of their library in a random order. Each player gains 3 life.',
+                                colorIdentity:'C',
+                                cmc:3
+                            }
+                        }
                     ></MTGCard>
                     </div>
                     <div className="w-1/4">
@@ -61,7 +70,7 @@ export default function Dashboard() {
                     <div className="w-1/4">
                     <p>card broken image</p>
                     <MTGCard 
-                        imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                        imgSrc='https://cards.scryfall.io/broken image.jpg?1584830914'
                         title='Goblin Gathering'
                         description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
                         colorIdentity='R'
