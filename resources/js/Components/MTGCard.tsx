@@ -13,6 +13,7 @@ type cardDataType = {
 const MTGCard =  ({ imgSrc,title,description,backCardData }:cardDataType) => {
 
     const [isFlipped, setIsFlipped] = useState(false);
+    const [brokenImage, setBrokenImage] = useState(false);
 
     return (
         <div className="card bg-base-100 w-full shadow-xl">
@@ -22,11 +23,18 @@ const MTGCard =  ({ imgSrc,title,description,backCardData }:cardDataType) => {
                 'transform': isFlipped ? 'rotateY(.5turn)' : 'rotateY(0)'
                 }}>
                 <div className="card__front absolute top-0 bottom-0 right-0" style={{'backfaceVisibility': 'hidden'}}>
-                    <figure className="rounded-3xl">
-                        <img
-                        src={imgSrc}
-                        alt={title} />
-                    </figure>
+                    {!brokenImage && (
+
+                        <figure className="rounded-3xl">
+                                <img
+                                src={imgSrc}
+                                alt={title} 
+                                onError={()=>{setBrokenImage(true)}}
+                            />
+                            
+                        </figure>
+                    )}
+
                     <div className="card-body">
                         <h2 className="card-title">{title}</h2>
                         <p>{description}</p>
