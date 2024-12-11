@@ -2,6 +2,8 @@ import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
+import MTGCard from '@/Components/MTGCard';
+
 
 export default function Dashboard() {
     const [showModal, setShowModal] = useState(false);
@@ -35,6 +37,36 @@ export default function Dashboard() {
                         <button className="btn w-full">
                             View my shared cards
                         </button>
+                    </div>
+                    <div className="w-1/4">
+                    <p>Double sided card</p>
+                    <MTGCard 
+                        imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                        title='Goblin Gathering'
+                        description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                        colorIdentity='R'
+                        cmc={4}
+                    ></MTGCard>
+                    </div>
+                    <div className="w-1/4">
+                    <p>standard card</p>
+                    <MTGCard 
+                        imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                        title='Goblin Gathering'
+                        description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                        colorIdentity='R'
+                        cmc={4}
+                    ></MTGCard>
+                    </div>
+                    <div className="w-1/4">
+                    <p>card broken image</p>
+                    <MTGCard 
+                        imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                        title='Goblin Gathering'
+                        description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                        colorIdentity='R'
+                        cmc={4}
+                    ></MTGCard>
                     </div>
                 </div>
             </div>
