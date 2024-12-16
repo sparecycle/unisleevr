@@ -21,7 +21,7 @@ class Deck extends Model
             throw new \Exception('A deck can have at most 2 commanders');
         }
 
-        if(count($cardIds) === 0) {
+        if(count($cardIds) === 2) {
             // we should probably have sound validation to make sure the parners are valid   
         }
 
