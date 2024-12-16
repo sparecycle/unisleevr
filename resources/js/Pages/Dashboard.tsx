@@ -38,7 +38,7 @@ export default function Dashboard() {
                             View my shared cards
                         </button>
                     </div>
-                    
+                    {/* this is all dummy content for testing and should be deleted eventually */}
                     <div className='flex w-full flex-wrap'>
                         <div className="w-1/4 max-md:w-1/2 px-2 mb-2 text-center">
                             <p>Double sided card</p>
