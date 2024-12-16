@@ -56,7 +56,7 @@ export default function Dashboard() {
                             ></MTGCard>
                         </div>
                         <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">Double sided card 1 broken image</p>
+                            <p className="text-center">Double sided card 1 bad image</p>
                             <MTGCard 
                                 imgSrc='https://cards.scryfall.io/large/front/1/8/brokenimage.jpg?1626663778'
                                 title='Wandering Archaic'
@@ -71,7 +71,7 @@ export default function Dashboard() {
                             ></MTGCard>
                         </div>
                         <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">Double sided card 2 broken images</p>
+                            <p className="text-center">Double sided card 2 bad images</p>
                             <MTGCard 
                                 imgSrc='https://cards.scryfall.io/large/front/1/8/brokenimage.jpg?1626663778'
                                 title='Wandering Archaic'
@@ -94,73 +94,9 @@ export default function Dashboard() {
                             ></MTGCard>
                         </div>
                         <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">card broken image</p>
+                            <p className="text-center">card bad image</p>
                             <MTGCard 
                                 imgSrc='https://cards.scryfall.io/broken image.jpg?1584830914'
-                                title='Goblin Gathering'
-                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                            ></MTGCard>
-                        </div>
-                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">standard card</p>
-                            <MTGCard 
-                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                                title='Goblin Gathering'
-                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                            ></MTGCard>
-                        </div>
-                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">standard card</p>
-                            <MTGCard 
-                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                                title='Goblin Gathering'
-                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                            ></MTGCard>
-                        </div>
-                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">standard card</p>
-                            <MTGCard 
-                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                                title='Goblin Gathering'
-                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                            ></MTGCard>
-                        </div>
-                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">standard card</p>
-                            <MTGCard 
-                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                                title='Goblin Gathering'
-                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                            ></MTGCard>
-                        </div>
-                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">standard card</p>
-                            <MTGCard 
-                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                                title='Goblin Gathering'
-                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                            ></MTGCard>
-                        </div>
-                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">standard card</p>
-                            <MTGCard 
-                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                                title='Goblin Gathering'
-                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                            ></MTGCard>
-                        </div>
-                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">standard card</p>
-                            <MTGCard 
-                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                                title='Goblin Gathering'
-                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                            ></MTGCard>
-                        </div>
-                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
-                            <p className="text-center">standard card</p>
-                            <MTGCard 
-                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
                                 title='Goblin Gathering'
                                 description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
                             ></MTGCard>
