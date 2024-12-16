@@ -17,7 +17,7 @@ export default function Dashboard() {
         >
             <Head title="Dashboard" />
 
-            <div className="container mx-auto px-3 py-4">
+            <div className="container mx-auto px-3 py-4 ">
                 <div className="-mx-3 flex flex-wrap">
                     <div className="w-1/2 px-3 pb-3">
                         <button
@@ -38,45 +38,156 @@ export default function Dashboard() {
                             View my shared cards
                         </button>
                     </div>
-                    <div className="w-1/4">
-                    <p>Double sided card</p>
-                    <MTGCard 
-                        imgSrc='https://cards.scryfall.io/large/front/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778'
-                        title='Wandering Archaic'
-                        description='Whenever an opponent casts an instant or sorcery spell, they may pay {2}. If they don’t, you may copy that spell. You may choose new targets for the copy.'
-                        colorIdentity='C'
-                        cmc={5}
-                        backCardData={
-                            {
-                                imgSrc:'https://cards.scryfall.io/large/back/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778',
-                                title:'Explore the Vastlands',
-                                description:'Each player looks at the top five cards of their library and may reveal a land card and/or an instant or sorcery card from among them. Each player puts the cards they revealed this way into their hand and the rest on the bottom of their library in a random order. Each player gains 3 life.',
-                                colorIdentity:'C',
-                                cmc:3
-                            }
-                        }
-                    ></MTGCard>
+                    
+                    <div className='flex w-full flex-wrap'>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2 text-center">
+                            <p>Double sided card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778'
+                                title='Wandering Archaic'
+                                description='Whenever an opponent casts an instant or sorcery spell, they may pay {2}. If they don’t, you may copy that spell. You may choose new targets for the copy.'
+                                backCardData={
+                                    {
+                                        imgSrc:'https://cards.scryfall.io/large/back/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778',
+                                        title:'Explore the Vastlands',
+                                        description:'Each player looks at the top five cards of their library and may reveal a land card and/or an instant or sorcery card from among them. Each player puts the cards they revealed this way into their hand and the rest on the bottom of their library in a random order. Each player gains 3 life.',
+                                    }
+                                }
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">Double sided card 1 broken image</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/8/brokenimage.jpg?1626663778'
+                                title='Wandering Archaic'
+                                description='Whenever an opponent casts an instant or sorcery spell, they may pay {2}. If they don’t, you may copy that spell. You may choose new targets for the copy.'
+                                backCardData={
+                                    {
+                                        imgSrc:'https://cards.scryfall.io/large/back/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778',
+                                        title:'Explore the Vastlands',
+                                        description:'Each player looks at the top five cards of their library and may reveal a land card and/or an instant or sorcery card from among them. Each player puts the cards they revealed this way into their hand and the rest on the bottom of their library in a random order. Each player gains 3 life.',
+                                    }
+                                }
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">Double sided card 2 broken images</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/8/brokenimage.jpg?1626663778'
+                                title='Wandering Archaic'
+                                description='Whenever an opponent casts an instant or sorcery spell, they may pay {2}. If they don’t, you may copy that spell. You may choose new targets for the copy.'
+                                backCardData={
+                                    {
+                                        imgSrc:'https://cards.scryfall.io/large/back/1/8/18a2bbroken.jpg?1626663778',
+                                        title:'Explore the Vastlands',
+                                        description:'Each player looks at the top five cards of their library and may reveal a land card and/or an instant or sorcery card from among them. Each player puts the cards they revealed this way into their hand and the rest on the bottom of their library in a random order. Each player gains 3 life.',
+                                    }
+                                }
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">card broken image</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/broken image.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
+                                title='Goblin Gathering'
+                                description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
+                            ></MTGCard>
+                        </div>
+                        <div className="w-1/4 max-md:w-1/2 px-2 mb-2">
+                            <p className="text-center">standard card to search</p>
+                            <MTGCard 
+                                imgSrc='https://cards.scryfall.io/large/front/6/c/6c44738c-706f-40b2-a09d-b21cd0889049.jpg?1673306670'
+                                title='Combat Research'
+                                description='Enchant creature
+
+                                Enchanted creature has “Whenever this creature deals combat damage to a player, draw a card.”
+                                
+                                As long as enchanted creature is legendary, it gets +1/+1 and has ward {1}. (Whenever enchanted creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays {1}.)'
+                            ></MTGCard>
+                        </div>
+
                     </div>
-                    <div className="w-1/4">
-                    <p>standard card</p>
-                    <MTGCard 
-                        imgSrc='https://cards.scryfall.io/large/front/1/4/147bef05-4497-44d5-9dd6-fb5dc08e78f7.jpg?1584830914'
-                        title='Goblin Gathering'
-                        description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                        colorIdentity='R'
-                        cmc={4}
-                    ></MTGCard>
-                    </div>
-                    <div className="w-1/4">
-                    <p>card broken image</p>
-                    <MTGCard 
-                        imgSrc='https://cards.scryfall.io/broken image.jpg?1584830914'
-                        title='Goblin Gathering'
-                        description='Create a number of 1/1 red Goblin creature tokens equal to two plus the number of cards named Goblin Gathering in your graveyard.'
-                        colorIdentity='R'
-                        cmc={4}
-                    ></MTGCard>
-                    </div>
+                    
                 </div>
             </div>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
