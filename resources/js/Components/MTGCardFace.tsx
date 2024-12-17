@@ -1,5 +1,3 @@
-import React from 'react';
-
 type cardFaceDataType = {
     imgSrc: string;
     title: string;
@@ -65,7 +63,7 @@ const MTGCardFace = ({
                         </div>
                     </div>
 
-                    <div className="flex w-full justify-between min-h-[80%] flex-col">
+                    <div className="flex min-h-[80%] w-full flex-col justify-between">
                         <div>
                             <p>{description}</p>
                         </div>
