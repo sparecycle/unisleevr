@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ImSpinner11 } from 'react-icons/im';
+import MTGCardFace from './MTGCardFace';
 
 type cardFaceDataType = {
     imgSrc: string;
@@ -81,7 +82,7 @@ const MTGCard = ({
                             </div>
                         </div>
 
-                        <div className="flex w-full justify-between min-h-[80%] flex-col">
+                        <div className="flex w-full justify-between min-h-[80%] flex-col bg-slate-200">
                             <div>
                                 <p>{description}</p>
                             </div>
@@ -125,16 +126,18 @@ const MTGCard = ({
                         </div>
                     )}
 
-                    {renderCardFace({
-                        imgSrc,
-                        title,
-                        cardSuperType,
-                        cardType,
-                        colorIdentity,
-                        powerToughness,
-                        manaCost,
-                        description,
-                    })}
+                    <MTGCardFace
+                        imgSrc={imgSrc}
+                        title={title}
+                        cardSuperType={cardSuperType}
+                        cardType={cardType}
+                        colorIdentity={colorIdentity}
+                        powerToughness={powerToughness}
+                        manaCost={manaCost}
+                        description={description}
+                        setBrokenImage={setBrokenImage}
+                        brokenImage={brokenImage}
+                    />
                 </div>
                 {backCardData && (
                     <div
@@ -152,16 +155,18 @@ const MTGCard = ({
                                 <ImSpinner11 />
                             </button>
                         </div>
-                        {renderCardFace({
-                            imgSrc: backCardData.imgSrc,
-                            title: backCardData.title,
-                            cardSuperType: backCardData.cardSuperType,
-                            cardType: backCardData.cardType,
-                            colorIdentity: backCardData.colorIdentity,
-                            powerToughness: backCardData.powerToughness,
-                            manaCost: backCardData.manaCost,
-                            description: backCardData.description,
-                        })}
+                        <MTGCardFace
+                            imgSrc={backCardData.imgSrc}
+                            title={backCardData.title}
+                            cardSuperType={backCardData.cardSuperType}
+                            cardType={backCardData.cardType}
+                            colorIdentity={backCardData.colorIdentity}
+                            powerToughness={backCardData.powerToughness}
+                            manaCost={backCardData.manaCost}
+                            description={backCardData.description}
+                            setBrokenImage={setBrokenBackImage}
+                            brokenImage={brokenBackImage}
+                        />
                     </div>
                 )}
             </div>
