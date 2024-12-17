@@ -20,10 +20,10 @@ const MTGCard = ({
 
     return (
         <div
-            className={`card relative h-screen max-h-[25vw] w-full overflow-hidden rounded-2xl shadow-xl max-md:max-h-[50vw]`}
+            className={`card relative aspect-[2.5/3.5] w-full overflow-hidden rounded-[3.5] shadow-xl`}
         >
             <div
-                className="card_content relative rounded-2xl"
+                className="card_content relative"
                 style={{
                     transformStyle: 'preserve-3d',
                     transition: 'transform 1s',
@@ -35,7 +35,7 @@ const MTGCard = ({
                     style={{ backfaceVisibility: 'hidden' }}
                 >
                     {backCardData && (
-                        <div className="card-actions absolute z-10 h-screen max-h-[25vw] w-full content-center justify-end max-md:max-h-[50vw]">
+                        <div className="card-actions absolute z-10 w-full aspect-[2.5/3.5] content-center justify-end">
                             <button
                                 className="btn btn-primary rounded-full border-none bg-stone-50/50 hover:rotate-180 hover:bg-stone-50"
                                 onClick={() => setIsFlipped(!isFlipped)}
@@ -45,9 +45,9 @@ const MTGCard = ({
                         </div>
                     )}
                     {!brokenImage && (
-                        <figure className="relative rounded-2xl">
+                        <figure className="relative rounded-[3.5]">
                             <img
-                                className="h-screen max-h-[25vw] rounded-2xl max-md:max-h-[50vw]"
+                                className="rounded-[3.5] w-full"
                                 src={imgSrc}
                                 alt={title}
                                 onError={() => {
@@ -59,7 +59,7 @@ const MTGCard = ({
 
                     <div className="card-body absolute top-0 p-0">
                         <div
-                            className={`card-body-text w-full ${!brokenImage && 'opacity-0'} h-screen max-h-[25vw] rounded-2xl bg-slate-800 p-4 max-md:max-h-[50vw]`}
+                            className={`card-body-text w-full ${!brokenImage && 'opacity-0'} rounded-[3.5] bg-slate-800 p-4 aspect-[2.5/3.5]`}
                         >
                             <h2 className="card-title">{title}</h2>
                             <p>{description}</p>
@@ -82,9 +82,9 @@ const MTGCard = ({
                                 <ImSpinner11 />
                             </button>
                         </div>
-                        <figure className="z-1 relative rounded-2xl">
+                        <figure className="z-1 relative rounded-[3.5]">
                             <img
-                                className="h-screen max-h-[25vw] rounded-2xl max-md:max-h-[50vw]"
+                                className="rounded-[3.5] w-full"
                                 src={backCardData.imgSrc}
                                 alt={backCardData.title}
                                 onError={() => {
@@ -94,7 +94,7 @@ const MTGCard = ({
                         </figure>
                         <div className="card-body absolute top-0 p-0">
                             <div
-                                className={`card-body-text w-full ${!brokenBackImage && 'opacity-0'} h-screen max-h-[25vw] rounded-2xl bg-slate-800 p-4`}
+                            className={`card-body-text w-full ${!brokenBackImage && 'opacity-0'} rounded-[3.5] bg-slate-800 p-4 aspect-[2.5/3.5]`}
                             >
                                 <h2 className="card-title">
                                     {backCardData.title}
