@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ImSpinner11 } from 'react-icons/im';
 
-type cardDataType = {
+type cardFaceDataType = {
     imgSrc: string;
     title: string;
     cardSuperType: string;
@@ -9,8 +9,11 @@ type cardDataType = {
     colorIdentity?: string;
     manaCost?: string;
     description: string;
-    backCardData?: cardDataType;
     powerToughness?: [string, string];
+};
+
+type cardDataType = cardFaceDataType & {
+    backCardData?: cardDataType;
 };
 
 const MTGCard = ({
@@ -27,6 +30,73 @@ const MTGCard = ({
     const [isFlipped, setIsFlipped] = useState(false);
     const [brokenImage, setBrokenImage] = useState(false);
     const [brokenBackImage, setBrokenBackImage] = useState(false);
+
+    const renderCardFace = ({
+        imgSrc,
+        title,
+        cardSuperType,
+        cardType,
+        colorIdentity,
+        powerToughness,
+        manaCost,
+        description,
+    }: cardFaceDataType) => {
+        return (
+            <>
+                {!brokenImage && (
+                    <figure className="relative">
+                        <img
+                            className="w-full rounded-[6%]"
+                            src={imgSrc}
+                            alt={title}
+                            onError={() => {
+                                setBrokenImage(true);
+                            }}
+                        />
+                    </figure>
+                )}
+
+                <div className="card-body absolute top-0 p-0">
+                    <div
+                        className={`card-body-text w-full ${!brokenImage && 'opacity-0'} flex aspect-[2.5/3.5] flex-col justify-between bg-slate-800 p-4`}
+                    >
+                        <div className="w-full">
+                            <div className="mb-2 flex w-full justify-between align-baseline">
+                                <div>
+                                    <h3 className="card-title">{title}</h3>
+                                </div>
+                                <div>
+                                    {manaCost && (
+                                        <span className="mana-cost">
+                                            {manaCost}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <p className="mb-2">
+                                    {cardSuperType}
+                                    {cardType && ` - ${cardType}`}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex w-full justify-between min-h-[80%] flex-col">
+                            <div>
+                                <p>{description}</p>
+                            </div>
+
+                            {powerToughness && (
+                                <div className="mt-2 flex w-full justify-end">
+                                    <span>{`${powerToughness[0]}/${powerToughness[1]}`}</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    };
 
     return (
         <div
@@ -54,55 +124,17 @@ const MTGCard = ({
                             </button>
                         </div>
                     )}
-                    {!brokenImage && (
-                        <figure className="relative">
-                            <img
-                                className="w-full rounded-[6%]"
-                                src={imgSrc}
-                                alt={title}
-                                onError={() => {
-                                    setBrokenImage(true);
-                                }}
-                            />
-                        </figure>
-                    )}
 
-                    <div className="card-body absolute top-0 p-0">
-                        <div
-                            className={`card-body-text w-full ${!brokenImage && 'opacity-0'} flex aspect-[2.5/3.5] flex-col justify-between bg-slate-800 p-4`}
-                        >
-                            <div className="w-full">
-                                <div className="mb-2 flex w-full justify-between">
-                                    <div>
-                                        <h3 className="card-title">{title}</h3>
-                                    </div>
-                                    <div>
-                                        {manaCost && (
-                                            <span className="mana-cost">
-                                                {manaCost}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                                <div>
-                                    <p className="mb-2">
-                                        {cardSuperType}
-                                        {cardType && ` - ${cardType}`}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <p>{description}</p>
-                            </div>
-
-                            {powerToughness && (
-                                <div className="mt-2 flex w-full justify-end self-end">
-                                    <span>{`${powerToughness[0]}/${powerToughness[1]}`}</span>
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    {renderCardFace({
+                        imgSrc,
+                        title,
+                        cardSuperType,
+                        cardType,
+                        colorIdentity,
+                        powerToughness,
+                        manaCost,
+                        description,
+                    })}
                 </div>
                 {backCardData && (
                     <div
@@ -120,54 +152,16 @@ const MTGCard = ({
                                 <ImSpinner11 />
                             </button>
                         </div>
-                        <figure className="z-1 relative">
-                            <img
-                                className="w-full rounded-[6%]"
-                                src={backCardData.imgSrc}
-                                alt={backCardData.title}
-                                onError={() => {
-                                    setBrokenBackImage(true);
-                                }}
-                            />
-                        </figure>
-                        <div className="card-body absolute top-0 p-0">
-                            <div
-                                className={`card-body-text w-full ${!brokenBackImage && 'opacity-0'} flex aspect-[2.5/3.5] flex-col justify-between bg-slate-800 p-4`}
-                            >
-                                <div className="w-full">
-                                    <div className="mb-2 flex w-full justify-between">
-                                        <div>
-                                            <h3 className="card-title">
-                                                {backCardData.title}
-                                            </h3>
-                                        </div>
-                                        <div>
-                                            {backCardData.manaCost && (
-                                                <span className="mana-cost">
-                                                    {backCardData.manaCost}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p className="mb-2">
-                                            {backCardData.cardSuperType}
-                                            {backCardData.cardType && ` - ${backCardData.cardType}`}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <p>{backCardData.description}</p>
-                                </div>
-
-                                {backCardData.powerToughness && (
-                                    <div className="mt-2 flex w-full justify-end self-end">
-                                        <span>{`${backCardData.powerToughness[0]}/${backCardData.powerToughness[1]}`}</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                        {renderCardFace({
+                            imgSrc: backCardData.imgSrc,
+                            title: backCardData.title,
+                            cardSuperType: backCardData.cardSuperType,
+                            cardType: backCardData.cardType,
+                            colorIdentity: backCardData.colorIdentity,
+                            powerToughness: backCardData.powerToughness,
+                            manaCost: backCardData.manaCost,
+                            description: backCardData.description,
+                        })}
                     </div>
                 )}
             </div>
