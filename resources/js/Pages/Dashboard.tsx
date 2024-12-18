@@ -45,10 +45,10 @@ export default function Dashboard() {
                                 imgSrc="https://cards.scryfall.io/large/front/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778"
                                 title="Wandering Archaic"
                                 cardSuperType="Creature"
-                                cardType='Avatar'
+                                cardType="Avatar"
                                 manaCost="{5}"
                                 description="Whenever an opponent casts an instant or sorcery spell, they may pay {2}. If they don’t, you may copy that spell. You may choose new targets for the copy."
-                                powerToughness={['4','4']}
+                                powerToughness={['4', '4']}
                                 backCardData={{
                                     imgSrc: 'https://cards.scryfall.io/large/back/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778',
                                     title: 'Explore the Vastlands',
@@ -68,9 +68,9 @@ export default function Dashboard() {
                                 title="Wandering Archaic"
                                 description="Whenever an opponent casts an instant or sorcery spell, they may pay {2}. If they don’t, you may copy that spell. You may choose new targets for the copy."
                                 cardSuperType="Creature"
-                                cardType='Avatar'
+                                cardType="Avatar"
                                 manaCost="{5}"
-                                powerToughness={['4','4']}
+                                powerToughness={['4', '4']}
                                 backCardData={{
                                     imgSrc: 'https://cards.scryfall.io/large/back/1/8/18a2bdc8-b705-4eb5-b3a5-ff2e2ab8f312.jpg?1626663778',
                                     title: 'Explore the Vastlands',
@@ -90,9 +90,9 @@ export default function Dashboard() {
                                 title="Wandering Archaic"
                                 description="Whenever an opponent casts an instant or sorcery spell, they may pay {2}. If they don’t, you may copy that spell. You may choose new targets for the copy."
                                 cardSuperType="Creature"
-                                cardType='Avatar'
+                                cardType="Avatar"
                                 manaCost="{5}"
-                                powerToughness={['4','4']}
+                                powerToughness={['4', '4']}
                                 backCardData={{
                                     imgSrc: 'https://cards.scryfall.io/large/back/1/8/18a2bbroken.jpg?1626663778',
                                     title: 'Explore the Vastlands',
@@ -146,7 +146,7 @@ export default function Dashboard() {
                                 
                                 As long as enchanted creature is legendary, it gets +1/+1 and has ward {1}. (Whenever enchanted creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays {1}.)"
                                 cardSuperType="Enchantment"
-                                cardType='Aura'
+                                cardType="Aura"
                                 manaCost="{U}"
                             ></MTGCard>
                         </div>
