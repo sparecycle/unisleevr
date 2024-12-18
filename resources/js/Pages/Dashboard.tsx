@@ -38,7 +38,7 @@ export default function Dashboard() {
                         </button>
                     </div>
                     {/* this is all dummy content for testing and should be deleted eventually */}
-                    <div className="flex w-full flex-wrap med:mx-[-2]">
+                    <div className="flex w-full flex-wrap md:mx-[-2]">
                         <div className="mb-2 w-full px-2 md:w-1/2 lg:w-1/4">
                             <p className="text-center">Double sided card</p>
                             <MTGCard
