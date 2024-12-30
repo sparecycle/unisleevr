@@ -29,6 +29,7 @@ class DeckNew extends Command
     {
         // $this->info('hello world');
         $deckName = $this->ask('Deck Name:');
+        $deckUserID = $this->ask('User ID:');
         $this->info($deckName);
 
         if ($this->confirm('Is this information correct?')) {
