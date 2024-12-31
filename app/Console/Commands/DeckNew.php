@@ -35,6 +35,7 @@ class DeckNew extends Command
         if ($this->confirm('Is this information correct?')) {
             $deck = new Deck();
             $deck->name = $deckName;
+            $deck->user_id = $deckUserID;
             $deck->save();
 
             $this->info("Saved.");
