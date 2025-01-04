@@ -17,7 +17,7 @@ class RebuildCardsTable extends Command
     {
         ini_set('memory_limit', '1G');
         $this->info('Fetching Scryfall bulk data URL...');
-        $bulkDataUrl = 'https://api.scryfall.com/bulk-data/default-cards';
+        $bulkDataUrl = 'https://api.scryfall.com/bulk-data/oracle-cards';
         $response = Http::get($bulkDataUrl);
         
         if ($response->failed()) {
@@ -58,16 +58,14 @@ class RebuildCardsTable extends Command
                     ['id' => $card->id],
                     [
                         'name' => $card->name ?? null,
+                        'type_line' => $card->type_line ?? null,
+                        'oracle_text' => $card->oracle_text ?? null,
+                        'color_identity' => isset($card->color_identity) ? json_encode($card->color_identity) : '{}',
+                        'mana_cost' => $card->mana_cost ?? null,
+                        'power' => $card->power ?? null,
+                        'toughness' => $card->toughness ?? null,
                         'scryfall_uri' => $card->scryfall_uri ?? null,
-                        'highres_image' => $card->highres_image ?? false,
-                        'image_status' => $card->image_status ?? 'unknown',
                         'image_uris' => isset($card->image_uris) ? json_encode($card->image_uris) : '{}',
-                        'foil' => $card->foil ?? false,
-                        'nonfoil' => $card->nonfoil ?? false,
-                        'finishes' => isset($card->finishes) ? json_encode($card->finishes) : '[]',
-                        'set' => $card->set ?? 'unknown',
-                        'set_name' => $card->set_name ?? 'unknown',
-                        'collector_number' => $card->collector_number ?? '0',
                         ]
                     );
                     $processed++;

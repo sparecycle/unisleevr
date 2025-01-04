@@ -15,13 +15,16 @@ class ShowCards extends Command
         $cards = DB::table('cards')->take(10)->get();
 
         $this->info("Displaying the first 10 cards:");
-        $this->table(['Scryfall ID', 'Name', 'Set', 'Collector Number', 'Scryfall URI'], $cards->map(function ($card) {
+        $this->table(['id', 'name', 'type line', 'color identity','mana cost','power','toughness', 'oracle text'], $cards->map(function ($card) {
             return [
                 $card->id,
                 $card->name,
-                $card->set,
-                $card->collector_number,
-                $card->scryfall_uri,
+                $card->type_line,
+                $card->color_identity,
+                $card->mana_cost,
+                $card->power,
+                $card->toughness,
+                $card->oracle_text,
             ];
         })->toArray());
     }
