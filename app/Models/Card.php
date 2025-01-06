@@ -31,7 +31,7 @@ class Card extends Model
         'color_identity' => 'array',
     ];
 
-
+    // define the inverse many to many relationship with the Deck model, also the method
     public function decks(): BelongsToMany
     {
         return $this->belongsToMany(Deck::class);
