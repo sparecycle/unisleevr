@@ -10,6 +10,9 @@ class Card extends Model
 {
     use HasFactory;
 
+    protected $keyType = 'string'; // UUID is a string
+    public $incrementing = false; // UUIDs are not auto-incrementing
+
     protected $fillable = [
         'id',
         'name',

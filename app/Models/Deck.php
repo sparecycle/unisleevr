@@ -31,3 +31,5 @@ class Deck extends Model
     //     'cards' => 'array'
     // ];
 }
+
+
