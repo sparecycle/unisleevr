@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
@@ -26,4 +27,10 @@ class Card extends Model
         'image_uris' => 'array',
         'color_identity' => 'array',
     ];
+
+
+    public function decks(): BelongsToMany
+    {
+        return $this->belongsToMany(Deck::class);
+    }
 }
