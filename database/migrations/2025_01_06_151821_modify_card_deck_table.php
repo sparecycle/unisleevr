@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('decks', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('name');
+        Schema::table('card_deck', function (Blueprint $table) {
+            $table->dropForeign(['card_id']); // Drop the existing foreign key
+            $table->dropColumn('card_id'); // Drop the existing column
+            $table->foreignUuid('card_id')->constrained()->onDelete('cascade'); // Add as UUID
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('decks');
+        //
     }
 };

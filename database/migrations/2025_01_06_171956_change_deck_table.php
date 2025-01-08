@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('decks', function (Blueprint $table) {
-            $table->foreignId('user_id');
+        $table->dropColumn('cards'); // remove the cards column as is no longer needed
         });
     }
 
@@ -21,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('decks');
+        //
     }
 };

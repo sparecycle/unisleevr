@@ -10,7 +10,7 @@ use App\Models\Card;
 
 class RebuildCardsTable extends Command
 {
-    protected $signature = 'scryfall:rebuild-cards';
+    protected $signature = 'scryfall:rebuild';
     protected $description = 'Rebuild the cards table daily using Scryfall bulk data';
     
     public function handle()
