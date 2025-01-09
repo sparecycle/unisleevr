@@ -52,13 +52,22 @@ class RebuildCardsTable extends Command
         $this->info('Streaming and processing JSON array...');
         $cards = Items::fromFile($filePath);
         $processed = 0;
+        
         foreach ($cards as $card) {
+            $cardTypeInput = $card->type_line;
+            $cardSuperTypes = [];
+            $cardSubTypes = [];
+            if($cardTypeInput) {
+                list($cardSuperTypes, $cardSubTypes) = splitStringByHyphen($input);
+            }
+
             try {
                 Card::updateOrCreate(
                     ['id' => $card->id],
                     [
                         'name' => $card->name ?? null,
-                        'type_line' => $card->type_line ?? null,
+                        'type_line' => 'test type',
+                        // 'type_line' => $cardTypeInput ? json_encode([$cardSuperTypes, $cardSubTypes]) : null,
                         'oracle_text' => $card->oracle_text ?? null,
                         'color_identity' => isset($card->color_identity) ? json_encode($card->color_identity) : '{}',
                         'mana_cost' => $card->mana_cost ?? null,
