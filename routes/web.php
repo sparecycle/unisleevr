@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CardController;
+
+use App\Models\Card;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,7 +19,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $cards = Card::paginate(10);
+
+    return Inertia::render('Dashboard', [
+        'cards' => $cards
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/founders', function() {
@@ -27,5 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::resource('cards', CardController::class)
+    ->only(['index', 'store'])
+    ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
