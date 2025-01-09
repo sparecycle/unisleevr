@@ -1,9 +1,5 @@
 <?php    
 
-function formatDate($date) {
-    return \Carbon\Carbon::parse($date)->format('Y-m-d');
-}
-
 function splitStringByHyphen($input) {
     // Match words before and after the hyphen
     preg_match('/^(.+?)\s*—\s*(.+)$/', $input, $matches);

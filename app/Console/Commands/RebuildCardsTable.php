@@ -66,8 +66,7 @@ class RebuildCardsTable extends Command
                     ['id' => $card->id],
                     [
                         'name' => $card->name ?? null,
-                        'type_line' => 'test type',
-                        // 'type_line' => $cardTypeInput ? json_encode([$cardSuperTypes, $cardSubTypes]) : null,
+                        'type_line' => $cardTypeInput ? json_encode([$cardSuperTypes, $cardSubTypes]) : null,
                         'oracle_text' => $card->oracle_text ?? null,
                         'color_identity' => isset($card->color_identity) ? json_encode($card->color_identity) : '{}',
                         'mana_cost' => $card->mana_cost ?? null,
