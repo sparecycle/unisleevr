@@ -1,30 +1,21 @@
 import { useState } from 'react';
 import { ImSpinner11 } from 'react-icons/im';
+import { CardDataType } from '../types/mtg';
+
 import MTGCardFace from './MTGCardFace';
 
-type cardDataType = {
-    imgSrc: string;
-    title: string;
-    cardSuperType: string;
-    cardType?: string;
-    colorIdentity?: string;
-    manaCost?: string;
-    description: string;
-    powerToughness?: [string, string];
-    backCardData?: cardDataType;
-};
 
 const MTGCard = ({
     imgSrc,
-    title,
+    name,
     cardSuperType,
     cardType,
     colorIdentity,
     powerToughness,
     manaCost,
-    description,
+    oracle_text,
     backCardData,
-}: cardDataType) => {
+}: CardDataType) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [brokenImage, setBrokenImage] = useState(false);
     const [brokenBackImage, setBrokenBackImage] = useState(false);
@@ -58,13 +49,13 @@ const MTGCard = ({
 
                     <MTGCardFace
                         imgSrc={imgSrc}
-                        title={title}
+                        name={name}
                         cardSuperType={cardSuperType}
                         cardType={cardType}
                         colorIdentity={colorIdentity}
                         powerToughness={powerToughness}
                         manaCost={manaCost}
-                        description={description}
+                        oracle_text={oracle_text}
                         setBrokenImage={setBrokenImage}
                         brokenImage={brokenImage}
                     />
@@ -87,13 +78,13 @@ const MTGCard = ({
                         </div>
                         <MTGCardFace
                             imgSrc={backCardData.imgSrc}
-                            title={backCardData.title}
+                            name={backCardData.name}
                             cardSuperType={backCardData.cardSuperType}
                             cardType={backCardData.cardType}
                             colorIdentity={backCardData.colorIdentity}
                             powerToughness={backCardData.powerToughness}
                             manaCost={backCardData.manaCost}
-                            description={backCardData.description}
+                            oracle_text={backCardData.oracle_text}
                             setBrokenImage={setBrokenBackImage}
                             brokenImage={brokenBackImage}
                         />

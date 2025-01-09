@@ -1,25 +1,25 @@
 type cardFaceDataType = {
     imgSrc: string;
-    title: string;
+    name: string;
     cardSuperType: string;
     cardType?: string;
     colorIdentity?: string;
     powerToughness?: [string, string];
     manaCost?: string;
-    description: string;
+    oracle_text: string;
     setBrokenImage: (value: boolean) => void;
     brokenImage: boolean;
 };
 
 const MTGCardFace = ({
     imgSrc,
-    title,
+    name,
     cardSuperType,
     cardType,
     colorIdentity,
     powerToughness,
     manaCost,
-    description,
+    oracle_text,
     setBrokenImage,
     brokenImage,
 }: cardFaceDataType) => {
@@ -30,7 +30,7 @@ const MTGCardFace = ({
                     <img
                         className="w-full rounded-[6%]"
                         src={imgSrc}
-                        alt={title}
+                        alt={name}
                         onError={() => {
                             setBrokenImage(true);
                         }}
@@ -45,7 +45,7 @@ const MTGCardFace = ({
                     <div className="w-full">
                         <div className="mb-2 flex w-full justify-between align-baseline">
                             <div>
-                                <h3 className="card-title">{title}</h3>
+                                <h3 className="card-name">{name}</h3>
                             </div>
                             <div>
                                 {manaCost && (
@@ -65,7 +65,7 @@ const MTGCardFace = ({
 
                     <div className="flex min-h-[80%] w-full flex-col justify-between">
                         <div>
-                            <p>{description}</p>
+                            <p>{oracle_text}</p>
                         </div>
 
                         {powerToughness && (
