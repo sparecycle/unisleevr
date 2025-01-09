@@ -16,7 +16,7 @@ export default function Cards({ cards }: { cards: any }) {
 
             <div className="container mx-auto px-3 py-4">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {cards.map((card : any) => (
+                    {cards.data.map((card : any) => (
                         <MTGCard key={card.id} {...card} />
                     ))}
                 </div>

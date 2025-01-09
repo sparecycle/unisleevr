@@ -37,7 +37,7 @@ export default function Authenticated({
                                     href={route('cards.index')}
                                     active={route().current('cards.index')}
                                 >
-                                    Cards
+                                    Card Pool
                                 </NavLink>
                             </div>
                         </div>
