@@ -4,14 +4,14 @@ import { CardDataType } from '../types/mtg';
 
 import MTGCardFace from './MTGCardFace';
 
-
 const MTGCard = ({
     imgSrc,
     name,
     cardSuperType,
     cardType,
     colorIdentity,
-    powerToughness,
+    power,
+    toughness,
     manaCost,
     oracle_text,
     backCardData,
@@ -53,7 +53,8 @@ const MTGCard = ({
                         cardSuperType={cardSuperType}
                         cardType={cardType}
                         colorIdentity={colorIdentity}
-                        powerToughness={powerToughness}
+                        power={power}
+                        toughness={toughness}
                         manaCost={manaCost}
                         oracle_text={oracle_text}
                         setBrokenImage={setBrokenImage}
@@ -82,7 +83,8 @@ const MTGCard = ({
                             cardSuperType={backCardData.cardSuperType}
                             cardType={backCardData.cardType}
                             colorIdentity={backCardData.colorIdentity}
-                            powerToughness={backCardData.powerToughness}
+                            power={backCardData.power}
+                            toughness={backCardData.toughness}
                             manaCost={backCardData.manaCost}
                             oracle_text={backCardData.oracle_text}
                             setBrokenImage={setBrokenBackImage}

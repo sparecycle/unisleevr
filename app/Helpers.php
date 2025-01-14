@@ -11,6 +11,19 @@ function splitStringByHyphen($input) {
         return [$beforeHyphen, $afterHyphen];
     }
     
-    // Return empty arrays if no match found
-    return [[], []];
+    // If no hyphen is found, return all strings in the first array
+    $beforeHyphen = preg_split('/\s+/', trim($input));
+    return [$beforeHyphen, []];
+}
+
+function turnManaCostIntoArray($manaCost) {
+    // Match all mana symbols in the string
+    preg_match_all('/{(.+?)}/', $manaCost, $matches);
+    
+    // Check if the match was successful
+    if (count($matches) === 2) {
+        return $matches[1];
+    }
+    
+    return [];
 }
