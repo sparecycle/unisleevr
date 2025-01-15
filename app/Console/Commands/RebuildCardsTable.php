@@ -52,16 +52,18 @@ class RebuildCardsTable extends Command
         $this->info('Streaming and processing JSON array...');
         $cards = Items::fromFile($filePath);
         $processed = 0;
+        
         foreach ($cards as $card) {
+
             try {
                 Card::updateOrCreate(
                     ['id' => $card->id],
                     [
                         'name' => $card->name ?? null,
-                        'type_line' => $card->type_line ?? null,
+                        'type_line' => $card->type_line ? json_encode(splitStringByHyphen($card->type_line)) : null,
                         'oracle_text' => $card->oracle_text ?? null,
                         'color_identity' => isset($card->color_identity) ? json_encode($card->color_identity) : '{}',
-                        'mana_cost' => $card->mana_cost ?? null,
+                        'mana_cost' => $card->mana_cost ? json_encode(turnManaCostIntoArray($card->mana_cost)) : null,
                         'power' => $card->power ?? null,
                         'toughness' => $card->toughness ?? null,
                         'scryfall_uri' => $card->scryfall_uri ?? null,
