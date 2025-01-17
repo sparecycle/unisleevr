@@ -5,6 +5,7 @@ import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 import { CardDataType, rawCardDataType } from '../types/mtg';
+import PageTitle from '@/Components/PageTitle';
 
 export default function Dashboard({
     cards,
@@ -25,9 +26,9 @@ export default function Dashboard({
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <PageTitle>
                     Dashboard
-                </h2>
+                </PageTitle>
             }
         >
             <Head title="Dashboard" />
