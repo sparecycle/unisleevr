@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Deck;
 use Illuminate\Http\Request;
 
+use Inertia\Inertia;
+
 class DeckController extends Controller
 {
     /**
@@ -12,7 +14,8 @@ class DeckController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Decks/Index', [
+        ]);
     }
 
     /**

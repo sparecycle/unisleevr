@@ -39,6 +39,12 @@ export default function Authenticated({
                                 >
                                     Card Pool
                                 </NavLink>
+                                <NavLink
+                                    href={route('decks.index')}
+                                    active={route().current('decks.index')}
+                                >
+                                    Decks
+                                </NavLink>
                             </div>
                         </div>
 
