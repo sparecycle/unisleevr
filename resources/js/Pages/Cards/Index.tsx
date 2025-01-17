@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType, rawCardDataType } from '@/types/mtg';
 import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
+import PageTitle from '@/Components/PageTitle';
 
 export default function Cards({
     cards,
@@ -23,9 +24,9 @@ export default function Cards({
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <PageTitle>
                     Shared Card Pool
-                </h2>
+                </PageTitle>
             }
         >
             <Head title="Card Pool" />
