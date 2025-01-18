@@ -5,6 +5,7 @@ import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 import { CardDataType, rawCardDataType } from '../types/mtg';
+import { Searchbar } from '@/Components/Searchbar';
 
 export default function Dashboard({
     cards,
@@ -33,6 +34,7 @@ export default function Dashboard({
             <Head title="Dashboard" />
 
             <div className="container mx-auto px-3 py-4">
+                <Searchbar autofocus={true} />
                 <div className="-mx-3 flex flex-wrap">
                     <div className="w-1/2 px-3 pb-3">
                         <button
