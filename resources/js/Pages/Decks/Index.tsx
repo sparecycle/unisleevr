@@ -23,7 +23,7 @@ export default function Decks({decks}:DecksProps) {
             </div>
             <div className="container mx-auto px-3 py-4">
                 {decks.data.length > 0 ? (
-                    <div>There is a deck here.</div>
+                    decks.data.map(deck => <div>{deck.name}</div> )
                 ) : (
                     <div>No decks found.</div>
                 )}
