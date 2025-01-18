@@ -4,12 +4,13 @@ export interface mtgImgSrc {
     png: string;
     art_crop: string;
     border_crop: string;
+    small: string;
 }
 
 export interface rawCardDataType {
     id: string;
     name: string;
-    image_uris: string;
+    image_uris: mtgImgSrc;
     mana_cost: string;
     color_identity: string;
     oracle_text: string;

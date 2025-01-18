@@ -3,16 +3,17 @@ import { useEffect, useState } from 'react';
 
 type SearchbarProps = {
     autofocus: boolean;
+    parentSetter: (value: any) => void;
 };
 
-const Searchbar = ({ autofocus }: SearchbarProps) => {
+const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
     const [search, setSearch] = useState('');
-    const [autoCompleteResults, setAutoCompleteResults] = useState<any>([]);
-    const [results, setResults] = useState([]);
+    const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
+        [],
+    );
+    const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
-
-    console.log(scryfallSearch('omnath'), autofocus);
 
     const validateSearch = (search: string) => {
         if (search.length < 3) {
@@ -30,13 +31,12 @@ const Searchbar = ({ autofocus }: SearchbarProps) => {
         return true;
     };
 
-    const handleSearch = async (search: string) => {
+    const handleSearchOnChange = async (searchQuery: string) => {
         setLoading(true);
-        setSearch(search);
-        if (!validateSearch(search)) {
+        setSearch(searchQuery);
+        if (!validateSearch(searchQuery)) {
             setLoading(false);
             throw new Error(error);
-            return;
         }
         try {
             const data = await scryfallAutoComplete(search);
@@ -49,20 +49,33 @@ const Searchbar = ({ autofocus }: SearchbarProps) => {
         }
     };
 
-    const handleAutoCompleteResultClick = async (searchQuery: string) => {
+    const handleSubmitSearch = async (searchQuery: string) => {
         setLoading(true);
-        setSearch(searchQuery);
         try {
-            const data = await scryfallSearch(searchQuery);
-            setLoading(false);
+            setSearch(searchQuery);
+            const data = await scryfallSearch(search);
             setResults(data);
+            parentSetter(results);
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
+    const handleAutoCompleteResultClick = async (searchQuery: string) => {
+        setLoading(true);
+
+        try {
+            handleSubmitSearch(searchQuery);
+            // setAutoCompleteResults([]);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         if (search.length === 0) {
@@ -81,9 +94,18 @@ const Searchbar = ({ autofocus }: SearchbarProps) => {
     }, [search]);
 
     return (
-        <div className="relative mb-10 w-full">
+        <form
+            className="relative mb-10 w-full"
+            onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmitSearch(search);
+            }}
+        >
             {/* <label htmlFor="search" className="sr-only"> */}
             <label htmlFor="cardSearch">card search</label>
+
+            <input className={'btn btn-primary'} type="submit" value="Submit" />
+
             <input
                 id="cardSearch"
                 type="text"
@@ -92,7 +114,7 @@ const Searchbar = ({ autofocus }: SearchbarProps) => {
                 min={3}
                 max={100}
                 value={search}
-                onChange={(e) => handleSearch(e.target.value)}
+                onChange={(e) => handleSearchOnChange(e.target.value)}
                 autoFocus={autofocus}
             />
             <div
@@ -106,7 +128,9 @@ const Searchbar = ({ autofocus }: SearchbarProps) => {
                                     'cursor-pointer hover:bg-gray-200 hover:text-gray-800'
                                 }
                                 key={`autoCompleteResults-${index}`}
-                                onClick={() => setSearch(result)}
+                                onClick={() =>
+                                    handleAutoCompleteResultClick(result)
+                                }
                             >
                                 {result}
                             </li>
@@ -120,17 +144,7 @@ const Searchbar = ({ autofocus }: SearchbarProps) => {
                 </div>
             )}
             {loading && <div>Loading results...</div>}
-            <button>Search</button>
-            
-            {/* <div className="search-results">
-                {results.map((result) => (
-                    <div key={result.id}>
-                        <h3>{result.name}</h3>
-                        <p>{result.oracle_text}</p>
-                    </div>
-                ))}
-            </div> */}
-        </div>
+        </form>
     );
 };
 
