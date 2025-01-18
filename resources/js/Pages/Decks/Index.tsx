@@ -1,3 +1,4 @@
+import DeckTile from '@/Components/DeckTile';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -23,7 +24,9 @@ export default function Decks({decks}:DecksProps) {
             </div>
             <div className="container mx-auto px-3 py-4">
                 {decks.data.length > 0 ? (
-                    decks.data.map(deck => <div>{deck.name}</div> )
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {decks.data.map(deck => <DeckTile title={deck.name} /> )}
+                    </div>
                 ) : (
                     <div>No decks found.</div>
                 )}
