@@ -191,7 +191,7 @@ export default function Authenticated({
                 </header>
             )}
 
-            <main>{children}</main>
+            <main className='dark:text-white'>{children}</main>
         </div>
     );
 }
