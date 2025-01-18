@@ -2,20 +2,15 @@ import Modal from '@/Components/Modal';
 import MTGCard from '@/Components/MTGCard';
 import Searchbar from '@/Components/Searchbar';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
-import { CardDataType, rawCardDataType } from '../types/mtg';
+import { CardDataType } from '../types/mtg';
 
-export default function Dashboard({
-    cards,
-}: {
-    cards: { data: rawCardDataType[] };
-}) {
+// TO DO: remove cards from props and replace with decks
+export default function Dashboard({ cards }: { cards: { data: any } }) {
     console.log('10 straight raw cards from BE - ', cards);
     const [showModal, setShowModal] = useState(false);
-    const [searchResults, setSearchResults] = useState<any>([]);
-    const [cardsToDisplay, setCardsToDisplay] = useState<any>([]);
+    const [searchResults, setSearchResults] = useState<CardDataType[]>([]);
 
     const handleSearchResults = (results: any) => {
         if (results.length === 0) {
@@ -24,17 +19,8 @@ export default function Dashboard({
         }
         if (results.length > 0) {
             setSearchResults(results);
-
-            const parsedResults = searchResults.map(
-                (card: rawCardDataType): CardDataType => {
-                    return parseCardData(card);
-                },
-            );
-            // we are using a different state to display the cards because we might apply filtering after the search results or paginate
-            setCardsToDisplay(parsedResults);
         }
     };
-
 
     return (
         <AuthenticatedLayout
@@ -71,27 +57,28 @@ export default function Dashboard({
                             View my shared cards
                         </button>
                     </div>
-                    {cardsToDisplay.length > 0 && (
+                    {searchResults.length > 0 && (
                         <div className="w-full px-3 pb-3">
                             <h2 className="text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
                                 Search Query
                             </h2>
                             <div className="flex w-full flex-wrap">
-                                {cardsToDisplay.map((card: any) => (
+                                {searchResults.map((card: CardDataType) => (
                                     <div
                                         key={`${card.id}`}
                                         className="mb-2 w-full px-2 md:w-1/2 lg:w-1/4"
                                     >
                                         <MTGCard
                                             id={card.id}
-                                            imgSrc={card.image_uris}
+                                            imgUris={card.imgUris}
                                             name={card.name}
-                                            oracle_text={card.oracle_text}
+                                            oracleText={card.oracleText}
                                             cardSuperType={card.cardSuperType}
                                             cardType={card.cardType}
                                             manaCost={card.manaCost}
                                             power={card.power}
                                             toughness={card.toughness}
+                                            backCardData={card.backCardData}
                                         ></MTGCard>
                                     </div>
                                 ))}

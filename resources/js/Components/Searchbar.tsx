@@ -1,10 +1,12 @@
 import { scryfallAutoComplete, scryfallSearch } from '@/api/Scryfall';
-import { useEffect, useState } from 'react';
+import { parseCardData } from '@/utility';
+import { useState } from 'react';
 import { ImSearch } from 'react-icons/im';
+import { CardDataType } from '../types/mtg';
 
 type SearchbarProps = {
     autofocus: boolean;
-    parentSetter: (value: any) => void;
+    parentSetter: (value: CardDataType[] | void[]) => void;
 };
 
 const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
@@ -12,23 +14,19 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
     const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
         [],
     );
-    const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
 
     const validateSearch = (search: string) => {
         if (search.length < 3) {
             setError('Search must be at least 3 characters');
-            throw new Error(error);
             return false;
         } else if (search.length > 100) {
             setError('Search must be less than 100 characters');
-            throw new Error(error);
             return false;
-        } else {
-            setError(undefined);
         }
 
+        setError(undefined);
         return true;
     };
 
@@ -55,9 +53,9 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
         try {
             setSearch(searchQuery);
             const data = await scryfallSearch(search);
-            setResults(data);
+            const output = await parseCardData(data);
             setAutoCompleteResults([]);
-            parentSetter(results);
+            parentSetter(output);
         } catch (error) {
             console.error(error);
         } finally {
@@ -70,7 +68,7 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
 
         try {
             handleSubmitSearch(searchQuery);
-            // setAutoCompleteResults([]);
+            setAutoCompleteResults([]);
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -78,22 +76,6 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        if (search.length === 0) {
-            setAutoCompleteResults([]);
-            setResults([]);
-            setError(undefined);
-            setLoading(false);
-        }
-        if (search.length < 3 || error) {
-            setAutoCompleteResults([]);
-            setResults([]);
-        }
-        if (!error) {
-            setError(undefined);
-        }
-    }, [search]);
 
     return (
         <form
@@ -103,7 +85,6 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
                 handleSubmitSearch(search);
             }}
         >
-            {/* <label htmlFor="search" className="sr-only"> */}
             <label htmlFor="cardSearch" className="sr-only">
                 card search
             </label>
