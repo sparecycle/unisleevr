@@ -5,7 +5,7 @@ import { CardDataType } from '../types/mtg';
 import MTGCardFace from './MTGCardFace';
 
 const MTGCard = ({
-    imgSrc,
+    imgUris,
     name,
     cardSuperType,
     cardType,
@@ -13,7 +13,7 @@ const MTGCard = ({
     power,
     toughness,
     manaCost,
-    oracle_text,
+    oracleText,
     backCardData,
 }: CardDataType) => {
     const [isFlipped, setIsFlipped] = useState(false);
@@ -48,7 +48,7 @@ const MTGCard = ({
                     )}
 
                     <MTGCardFace
-                        imgSrc={imgSrc}
+                        imgUris={imgUris}
                         name={name}
                         cardSuperType={cardSuperType}
                         cardType={cardType}
@@ -56,7 +56,7 @@ const MTGCard = ({
                         power={power}
                         toughness={toughness}
                         manaCost={manaCost}
-                        oracle_text={oracle_text}
+                        oracleText={oracleText}
                         setBrokenImage={setBrokenImage}
                         brokenImage={brokenImage}
                     />
@@ -78,7 +78,7 @@ const MTGCard = ({
                             </button>
                         </div>
                         <MTGCardFace
-                            imgSrc={backCardData.imgSrc}
+                            imgUris={backCardData.imgUris}
                             name={backCardData.name}
                             cardSuperType={backCardData.cardSuperType}
                             cardType={backCardData.cardType}
@@ -86,7 +86,7 @@ const MTGCard = ({
                             power={backCardData.power}
                             toughness={backCardData.toughness}
                             manaCost={backCardData.manaCost}
-                            oracle_text={backCardData.oracle_text}
+                            oracleText={backCardData.oracleText}
                             setBrokenImage={setBrokenBackImage}
                             brokenImage={brokenBackImage}
                         />

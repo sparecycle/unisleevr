@@ -1,38 +1,43 @@
 import Modal from '@/Components/Modal';
 import MTGCard from '@/Components/MTGCard';
+import Searchbar from '@/Components/Searchbar';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
-import { CardDataType, rawCardDataType } from '../types/mtg';
+import { CardDataType } from '../types/mtg';
+import PageTitle from '@/Components/PageTitle';
 
-export default function Dashboard({
-    cards,
-}: {
-    cards: { data: rawCardDataType[] };
-}) {
+// TO DO: remove cards from props and replace with decks
+export default function Dashboard({ cards }: { cards: { data: any } }) {
+    console.log('10 straight raw cards from BE - ', cards);
     const [showModal, setShowModal] = useState(false);
-    let cardDataOuput: CardDataType[] = [];
+    const [searchResults, setSearchResults] = useState<CardDataType[]>([]);
 
-    if (cards.data.length > 0) {
-        cardDataOuput = cards.data.map(
-            (card: rawCardDataType): CardDataType => {
-                return parseCardData(card);
-            },
-        );
-    }
+    const handleSearchResults = (results: any) => {
+        if (results.length === 0) {
+            setSearchResults([]);
+            return;
+        }
+        if (results.length > 0) {
+            setSearchResults(results);
+        }
+    };
 
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <PageTitle>
                     Dashboard
-                </h2>
+                </PageTitle>
             }
         >
             <Head title="Dashboard" />
 
             <div className="container mx-auto px-3 py-4">
+                <Searchbar
+                    autofocus={true}
+                    parentSetter={handleSearchResults}
+                />
                 <div className="-mx-3 flex flex-wrap">
                     <div className="w-1/2 px-3 pb-3">
                         <button
@@ -53,29 +58,34 @@ export default function Dashboard({
                             View my shared cards
                         </button>
                     </div>
-                    {/* this is all dummy content for testing and should be deleted eventually */}
-                    <div className="flex w-full flex-wrap md:-mx-2">
-                        {cardDataOuput &&
-                            cardDataOuput.length > 0 &&
-                            cardDataOuput.map((card: CardDataType) => (
-                                <div
-                                    key={`card.id-${card.name}`}
-                                    className="mb-2 w-full px-2 md:w-1/2 lg:w-1/4"
-                                >
-                                    <MTGCard
-                                        id={card.id}
-                                        imgSrc={card.imgSrc}
-                                        name={card.name}
-                                        oracle_text={card.oracle_text}
-                                        cardSuperType={card.cardSuperType}
-                                        cardType={card.cardType}
-                                        manaCost={card.manaCost}
-                                        power={card.power}
-                                        toughness={card.toughness}
-                                    ></MTGCard>
-                                </div>
-                            ))}
-                    </div>
+                    {searchResults.length > 0 && (
+                        <div className="w-full px-3 pb-3">
+                            <h2 className="text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                                Search Query
+                            </h2>
+                            <div className="flex w-full flex-wrap">
+                                {searchResults.map((card: CardDataType) => (
+                                    <div
+                                        key={`${card.id}`}
+                                        className="mb-2 w-full px-2 md:w-1/2 lg:w-1/4"
+                                    >
+                                        <MTGCard
+                                            id={card.id}
+                                            imgUris={card.imgUris}
+                                            name={card.name}
+                                            oracleText={card.oracleText}
+                                            cardSuperType={card.cardSuperType}
+                                            cardType={card.cardType}
+                                            manaCost={card.manaCost}
+                                            power={card.power}
+                                            toughness={card.toughness}
+                                            backCardData={card.backCardData}
+                                        ></MTGCard>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
