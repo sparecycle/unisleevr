@@ -1,5 +1,6 @@
 import { scryfallAutoComplete, scryfallSearch } from '@/api/Scryfall';
 import { useEffect, useState } from 'react';
+import { ImSearch } from 'react-icons/im';
 
 type SearchbarProps = {
     autofocus: boolean;
@@ -55,6 +56,7 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
             setSearch(searchQuery);
             const data = await scryfallSearch(search);
             setResults(data);
+            setAutoCompleteResults([]);
             parentSetter(results);
         } catch (error) {
             console.error(error);
@@ -95,28 +97,40 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
 
     return (
         <form
-            className="relative mb-10 w-full"
+            className="relative mx-auto max-w-md"
             onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmitSearch(search);
             }}
         >
             {/* <label htmlFor="search" className="sr-only"> */}
-            <label htmlFor="cardSearch">card search</label>
+            <label htmlFor="cardSearch" className="sr-only">
+                card search
+            </label>
 
-            <input className={'btn btn-primary'} type="submit" value="Submit" />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
+                    <ImSearch />
+                </div>
+                <input
+                    type="search"
+                    id="default-search"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    placeholder="Search for a card"
+                    min={3}
+                    max={100}
+                    value={search}
+                    onChange={(e) => handleSearchOnChange(e.target.value)}
+                    autoFocus={autofocus}
+                />
+                <button
+                    type="submit"
+                    className="absolute bottom-2.5 end-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                    Search
+                </button>
+            </div>
 
-            <input
-                id="cardSearch"
-                type="text"
-                className="w-full rounded-lg border border-gray-300 p-2"
-                placeholder="Search for a card"
-                min={3}
-                max={100}
-                value={search}
-                onChange={(e) => handleSearchOnChange(e.target.value)}
-                autoFocus={autofocus}
-            />
             <div
                 className={`autocomplete-results ${autoCompleteResults.length > 0 ? 'block' : 'hidden'}`}
             >

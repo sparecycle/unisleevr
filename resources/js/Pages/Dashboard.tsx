@@ -12,26 +12,27 @@ export default function Dashboard({
 }: {
     cards: { data: rawCardDataType[] };
 }) {
+    console.log('10 straight raw cards from BE - ', cards);
     const [showModal, setShowModal] = useState(false);
     const [searchResults, setSearchResults] = useState<any>([]);
-    let cardDataOuput: CardDataType[] = [];
+    const [cardsToDisplay, setCardsToDisplay] = useState<any>([]);
 
     const handleSearchResults = (results: any) => {
-        console.log('handleSearchResults', results);
         if (results.length === 0) {
             setSearchResults([]);
             return;
         }
         if (results.length > 0) {
-            const parsedResults = results.map(
+            setSearchResults(results);
+
+            const parsedResults = searchResults.map(
                 (card: rawCardDataType): CardDataType => {
                     return parseCardData(card);
                 },
             );
-
-            console.log('parsedResults', parsedResults);
+            // we are using a different state to display the cards because we might apply filtering after the search results or paginate
+            setCardsToDisplay(parsedResults);
         }
-        setSearchResults(results);
     };
 
 
@@ -70,15 +71,15 @@ export default function Dashboard({
                             View my shared cards
                         </button>
                     </div>
-                    {searchResults.length > 0 && (
+                    {cardsToDisplay.length > 0 && (
                         <div className="w-full px-3 pb-3">
                             <h2 className="text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                                Search Results
+                                Search Query
                             </h2>
                             <div className="flex w-full flex-wrap">
-                                {searchResults.map((card: any) => (
+                                {cardsToDisplay.map((card: any) => (
                                     <div
-                                        key={`card.id-${card.name}`}
+                                        key={`${card.id}`}
                                         className="mb-2 w-full px-2 md:w-1/2 lg:w-1/4"
                                     >
                                         <MTGCard

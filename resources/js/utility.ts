@@ -1,4 +1,6 @@
 export const parseCardData = (cardData: any): any => {
+    // This currrently breaks on double faced cards
+    console.log('cardData', cardData);
     const typeLine = splitStringByHyphen(cardData.type_line);
     const parsedCardData = {
         ...cardData,
