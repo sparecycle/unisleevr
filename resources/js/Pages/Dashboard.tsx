@@ -5,6 +5,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 import { CardDataType } from '../types/mtg';
+import PageTitle from '@/Components/PageTitle';
 
 // TO DO: remove cards from props and replace with decks
 export default function Dashboard({ cards }: { cards: { data: any } }) {
@@ -25,9 +26,9 @@ export default function Dashboard({ cards }: { cards: { data: any } }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <PageTitle>
                     Dashboard
-                </h2>
+                </PageTitle>
             }
         >
             <Head title="Dashboard" />
