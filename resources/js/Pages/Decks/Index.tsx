@@ -3,6 +3,7 @@ import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useForm } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
+import Input from '@/Components/Input';
 
 type Deck = {
     id: number;
@@ -40,9 +41,16 @@ export default function Decks({decks}:DecksProps) {
                 {isCreating &&
 
                     <div>
-                        <form onSubmit={onSubmit}>
-                            <input type="text" value={data.name} placeholder="Name Your Deck" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" onChange={e => setData('name', e.target.value)} />
-                            <button>Create</button>
+                        <form onSubmit={onSubmit} className='flex flex-col justify-center items-end gap-4 my-4'>
+                            <Input type="text" value={data.name} placeholder="Name Your Deck" onChange={e => setData('name', e.target.value)} />
+                            <div className={'inline-flex gap-4'} onClick={()=> {
+                                setIsCreating(false)
+                            }}>
+
+                            <button className={'btn bg-lg border border-solid rounded-md px-3 py-2 border-slate-600'}>Cancel</button>
+                            <button className={'btn bg-lg border border-solid rounded-md px-3 py-2 border-slate-600'}
+>Create</button>
+                            </div>
                         </form>
                     </div>
                 }
