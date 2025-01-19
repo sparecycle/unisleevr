@@ -155,6 +155,12 @@ export default function Authenticated({
                         >
                             Cards
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('decks.index')}
+                            active={route().current('decks.index')}
+                        >
+                            Decks
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
