@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Deck;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use Inertia\Inertia;
 
 class DeckController extends Controller
 {
@@ -12,7 +15,13 @@ class DeckController extends Controller
      */
     public function index()
     {
-        //
+        $decks = Deck::query()
+            ->where('user_id', Auth::id())
+            ->paginate(12);
+
+        return Inertia::render('Decks/Index', [
+            'decks' => $decks
+        ]);
     }
 
     /**
@@ -28,7 +37,13 @@ class DeckController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $request->user()->decks()->create($validated);
+
+        return redirect(route('decks.index'));
     }
 
     /**

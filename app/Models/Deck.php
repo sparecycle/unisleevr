@@ -14,10 +14,10 @@ class Deck extends Model
     ];
 
     // define the many to many relationship with the Card model, also the method
-    public function cards(): BelongsToMany
-    {
-        return $this->belongsToMany(Card::class);
-    }
+    /*public function cards(): BelongsToMany*/
+    /*{*/
+    /*    return $this->belongsToMany(Card::class);*/
+    /*}*/
 
 }
 

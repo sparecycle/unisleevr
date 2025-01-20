@@ -39,6 +39,12 @@ export default function Authenticated({
                                 >
                                     Card Pool
                                 </NavLink>
+                                <NavLink
+                                    href={route('decks.index')}
+                                    active={route().current('decks.index')}
+                                >
+                                    Decks
+                                </NavLink>
                             </div>
                         </div>
 
@@ -149,6 +155,12 @@ export default function Authenticated({
                         >
                             Cards
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('decks.index')}
+                            active={route().current('decks.index')}
+                        >
+                            Decks
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
@@ -185,7 +197,7 @@ export default function Authenticated({
                 </header>
             )}
 
-            <main>{children}</main>
+            <main className='dark:text-white'>{children}</main>
         </div>
     );
 }
