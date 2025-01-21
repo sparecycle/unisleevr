@@ -9,10 +9,7 @@ const DeckTile = ({title}:DeckTileProps) => {
                     {title}
                 </h4>
             </div>
-            <div className="flex">
-                <button className="w-1/2 flex border-t border-solid border-slate-600 justify-center items-center p-4 border-r">details</button>
-                <button className="w-1/2 border-t border-solid border-slate-600 justify-center items-center flex p-4">edit</button>
-            </div>
+            <button className="flex border-t border-solid border-slate-600 justify-center items-center p-4">details</button>
         </div>
     )
 }
