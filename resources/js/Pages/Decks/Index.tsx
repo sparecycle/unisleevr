@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useForm } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
 import Input from '@/Components/Input';
+import Modal from '@/Components/Modal';
 
 type Deck = {
     id: number;
@@ -21,6 +22,7 @@ type DecksProps = {
 
 export default function Decks({decks}:DecksProps) {
     const [isCreating, setIsCreating] = useState(false);
+    const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
     const { data, setData, post, processing, reset, errors } = useForm({
         name: '',
     });
@@ -48,8 +50,7 @@ export default function Decks({decks}:DecksProps) {
                             }}>
 
                             <button className={'btn bg-lg border border-solid rounded-md px-3 py-2 border-slate-600'}>Cancel</button>
-                            <button className={'btn bg-lg border border-solid rounded-md px-3 py-2 border-slate-600'}
->Create</button>
+                            <button className={'btn bg-lg border border-solid rounded-md px-3 py-2 border-slate-600'}>Create</button>
                             </div>
                         </form>
                     </div>
@@ -58,12 +59,16 @@ export default function Decks({decks}:DecksProps) {
             <div className="container mx-auto px-3 py-4">
                 {decks.data.length > 0 ? (
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {decks.data.map((deck, idx) => <DeckTile key={idx} title={deck.name} /> )}
+                        {decks.data.map((deck, idx) => <DeckTile key={idx} deckId={deck.id} title={deck.name} activeSetter={setActiveDeck} /> )}
                     </div>
                 ) : (
                     <div>No decks found.</div>
                 )}
             </div>
+            <Modal show={activeDeck !== null} onClose={()=>setActiveDeck(null)}>
+                <div className='py-6 px-4'>
+                </div>
+            </Modal>
         </AuthenticatedLayout>
     );
 }
