@@ -9,7 +9,7 @@ import { CardDataType } from '../types/mtg';
 
 // TO DO: remove cards from props and replace with decks
 export default function Dashboard({ cards }: { cards: { data: any } }) {
-    console.log('10 straight raw cards from BE - ', cards);
+    console.log('cards from BE', cards);
     const [showModal, setShowModal] = useState(false);
     const [searchResults, setSearchResults] = useState<CardDataType[]>([]);
 

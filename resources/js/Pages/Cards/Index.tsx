@@ -9,18 +9,24 @@ export default function Cards({
     cards,
     decks,
 }: {
-    cards: { data: any };
+    cards: any;
     decks: { data: any };
 }) {
-    const parsedCards: CardDataType[] | [] = parseCardData(cards.data) || [];
-    // NOTE: this is rough scaffolding for the shard card pool page
-    console.log('decks', decks);
-    console.log('parsedCards', parsedCards);
+    const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
 
+    // find difference between cards and and parsedCards
+    const difference = cards.filter( (card: any) => { 
+        return !parsedCards.some((parsedCard: CardDataType) => {
+            return card.id === parsedCard.id;
+        });
+    });
+    console.log('difference', difference);
+
+    console.log('parsedCards', parsedCards);
+    console.log('decks', decks);
     return (
         <AuthenticatedLayout header={<PageTitle>Shared Card Pool</PageTitle>}>
             <Head title="Card Pool" />
-
             <div className="container mx-auto px-3 py-4">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCards.length > 1 &&
