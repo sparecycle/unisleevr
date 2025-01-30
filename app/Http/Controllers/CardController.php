@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\Deck;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,11 +19,16 @@ class CardController extends Controller
      */
     public function index(): Response 
     {
-        // Paginate the cards, 10 per page
+        // This will be replaced by assuming the cards based on the user's decks
         $cards = Card::paginate(10);
 
+        $decks = Deck::query()
+        ->where('user_id', Auth::id())
+        ->paginate(12);
+
         return Inertia::render('Cards/Index', [
-            'cards' => $cards
+            'cards' => $cards,
+            'decks' => $decks
         ]);
     }
 
