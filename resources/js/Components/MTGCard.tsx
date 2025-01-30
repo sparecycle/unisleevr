@@ -20,6 +20,19 @@ const MTGCard = ({
     const [brokenImage, setBrokenImage] = useState(false);
     const [brokenBackImage, setBrokenBackImage] = useState(false);
 
+    const renderButton = () => {
+        return (
+            <div className="card-actions absolute z-10 aspect-[2.5/3.5] w-full content-center">
+                <button
+                    className={`btn btn-primary transition-rotate absolute right-0 rounded-full border-none bg-slate-500/50 p-2 duration-200 ease-in-out hover:rotate-180`}
+                    onClick={() => setIsFlipped(!isFlipped)}
+                >
+                    <ImSpinner11 />
+                </button>
+            </div>
+        );
+    };
+
     return (
         <div
             className={`card relative aspect-[2.5/3.5] w-full overflow-hidden shadow-xl`}
@@ -36,16 +49,7 @@ const MTGCard = ({
                     className={`card_front absolute top-0 z-10 h-full w-full`}
                     style={{ backfaceVisibility: 'hidden' }}
                 >
-                    {backCardData && (
-                        <div className="card-actions absolute z-10 aspect-[2.5/3.5] w-full content-center justify-end">
-                            <button
-                                className="btn btn-primary rounded-full border-none bg-stone-50/50 hover:rotate-180 hover:bg-stone-50"
-                                onClick={() => setIsFlipped(!isFlipped)}
-                            >
-                                <ImSpinner11 />
-                            </button>
-                        </div>
-                    )}
+                    {backCardData && renderButton()}
 
                     <MTGCardFace
                         imgUris={imgUris}
@@ -69,14 +73,7 @@ const MTGCard = ({
                             transform: 'rotateY(.5turn)',
                         }}
                     >
-                        <div className="card-actions absolute z-10 aspect-[2.5/3.5] w-full content-center justify-end">
-                            <button
-                                className="btn btn-primary rounded-full border-none bg-stone-50/50 hover:rotate-180 hover:bg-stone-50"
-                                onClick={() => setIsFlipped(!isFlipped)}
-                            >
-                                <ImSpinner11 />
-                            </button>
-                        </div>
+                        {renderButton()}
                         <MTGCardFace
                             imgUris={backCardData.imgUris}
                             name={backCardData.name}
