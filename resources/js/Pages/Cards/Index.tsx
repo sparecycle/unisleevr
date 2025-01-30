@@ -1,9 +1,9 @@
 import MTGCard from '@/Components/MTGCard';
+import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType, rawCardDataType } from '@/types/mtg';
 import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
-import PageTitle from '@/Components/PageTitle';
 
 export default function Cards({
     cards,
@@ -22,13 +22,7 @@ export default function Cards({
         );
     }
     return (
-        <AuthenticatedLayout
-            header={
-                <PageTitle>
-                    Shared Card Pool
-                </PageTitle>
-            }
-        >
+        <AuthenticatedLayout header={<PageTitle>Shared Card Pool</PageTitle>}>
             <Head title="Card Pool" />
 
             <div className="container mx-auto px-3 py-4">
