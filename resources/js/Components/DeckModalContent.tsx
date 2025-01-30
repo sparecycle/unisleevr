@@ -1,6 +1,6 @@
 import { Deck } from "@/types/deck";
 import { usePage, useForm } from "@inertiajs/react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 
@@ -13,29 +13,37 @@ const DeckModalContent = ({deck}:DeckModalContentProps) => {
     const { data, setData, patch, clearErrors, reset, errors } = useForm({
         name: deck.name,
     });
-    return (
 
-            <div className='py-6 px-4'>
-                <div className="flex justify-between items-center">
-                    {!isEditingName &&
-                        <div>
-                            {deck.name}
+    const onSubmit = (e:FormEvent) => {
+        e.preventDefault();
+        patch(route('decks.update', deck.id), {onSuccess: () => setIsEditingName(false)})
+    }
+    return (
+        <>
+            {deck.user_id === auth.user.id &&
+                <div className='py-6 px-4'>
+                    <div className="flex justify-between items-center">
+                        {!isEditingName &&
+                            <div>
+                                {deck.name}
+                            </div>
+                        }
+                        {isEditingName &&
+                            <div className="grow pr-4">
+                                <form onSubmit={onSubmit} className="flex items-center gap-4">
+                                    <Input value={data.name} onChange={e=> setData('name', e.target.value)} />
+                                    <Button>Update</Button>
+                                </form>
+                            </div>
+                        }
+                        <div className="shrink-0">
+                            <Button onClick={()=> setIsEditingName(!isEditingName)}
+                            >{!isEditingName ? 'edit' : 'cancel'}</Button>
                         </div>
-                    }
-                    {isEditingName &&
-                        <div className="grow pr-4">
-                            <form className="flex items-center gap-4">
-                                <Input value={data.name} />
-                                <Button>Update</Button>
-                            </form>
-                        </div>
-                    }
-                    <div className="shrink-0">
-                        <Button onClick={()=> setIsEditingName(!isEditingName)}
-                        >{!isEditingName ? 'edit' : 'cancel'}</Button>
                     </div>
                 </div>
-            </div>
+            }
+        </>
     )
 };
 

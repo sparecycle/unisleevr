@@ -11,6 +11,9 @@ import DeckModalContent from '@/Components/DeckModalContent';
 type Deck = {
     id: number;
     name: string;
+    created_at: string;
+    updated_at: string;
+    user_id: string;
 };
 
 type DecksProps = {
@@ -42,12 +45,10 @@ export default function Decks({decks}:DecksProps) {
                     }}>Create a deck</Button>}
                 </div>
                 {isCreating &&
-
                     <div>
                         <form onSubmit={onSubmit} className='flex flex-col justify-center items-end gap-4 my-4'>
                             <Input type="text" value={data.name} placeholder="Name Your Deck" onChange={e => setData('name', e.target.value)} />
                             <div className={'inline-flex gap-4'} >
-
                                 <button type='button' className={'btn bg-lg border border-solid rounded-md px-3 py-2 border-slate-600'}>Cancel</button>
                                 <button type='submit' className={'btn bg-lg border border-solid rounded-md px-3 py-2 border-slate-600'}>Create</button>
                             </div>

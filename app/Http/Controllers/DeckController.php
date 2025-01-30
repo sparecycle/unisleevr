@@ -68,7 +68,15 @@ class DeckController extends Controller
      */
     public function update(Request $request, Deck $deck)
     {
-        //
+        Gate::authorize('update', $deck);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $deck->update($validated);
+
+        return redirect(route('decks.index'));
     }
 
     /**
