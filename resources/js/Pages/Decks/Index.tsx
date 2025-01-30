@@ -64,12 +64,9 @@ export default function Decks({decks}:DecksProps) {
                     <div>No decks found.</div>
                 )}
             </div>
-            {/*
-
             <Modal show={activeDeck !== null} onClose={()=>setActiveDeck(null)}>
                 {activeDeck && <DeckModalContent deck={activeDeck as Deck} />}
             </Modal>
-                */}
         </AuthenticatedLayout>
     );
 }
