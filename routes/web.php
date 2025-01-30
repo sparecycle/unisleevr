@@ -43,7 +43,7 @@ Route::resource('cards', CardController::class)
     ->middleware(['auth', 'verified']);
 
 Route::resource('decks', DeckController::class)
-    ->only(['index', 'store'])
+    ->only(['index', 'store', 'update'])
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

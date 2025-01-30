@@ -3,8 +3,10 @@ import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useForm } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
+import Button from '@/Components/Button';
 import Input from '@/Components/Input';
 import Modal from '@/Components/Modal';
+import DeckModalContent from '@/Components/DeckModalContent';
 
 type Deck = {
     id: number;
@@ -35,10 +37,9 @@ export default function Decks({decks}:DecksProps) {
         <AuthenticatedLayout header={<PageTitle>Decks</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
                 <div>
-                {!isCreating && <button onClick={()=> {
+                {!isCreating && <Button onClick={()=> {
                         setIsCreating(!isCreating)
-                    }} className={'btn bg-lg border border-solid rounded-md px-3 py-2 border-slate-600'}
-                    >Create a deck</button>}
+                    }}>Create a deck</Button>}
                 </div>
                 {isCreating &&
 
@@ -59,15 +60,14 @@ export default function Decks({decks}:DecksProps) {
             <div className="container mx-auto px-3 py-4">
                 {decks.data.length > 0 ? (
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {decks.data.map((deck, idx) => <DeckTile key={idx} deckId={deck.id} title={deck.name} activeSetter={setActiveDeck} /> )}
+                        {decks.data.map((deck, idx) => <DeckTile key={idx} deck={deck} title={deck.name} activeSetter={setActiveDeck} /> )}
                     </div>
                 ) : (
                     <div>No decks found.</div>
                 )}
             </div>
             <Modal show={activeDeck !== null} onClose={()=>setActiveDeck(null)}>
-                <div className='py-6 px-4'>
-                </div>
+                {activeDeck && <DeckModalContent deck={activeDeck as Deck} />}
             </Modal>
         </AuthenticatedLayout>
     );
