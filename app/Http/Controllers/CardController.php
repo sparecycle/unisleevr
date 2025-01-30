@@ -14,7 +14,7 @@ class CardController extends Controller
     public function index(): Response 
     {
         // Sample array
-        $cardList = array(
+        $cardList = [
                 "86bf43b1-8d4e-4759-bb2d-0b2e03ba7012",
                 "7050735c-b232-47a6-a342-01795bfd0d46",
                 "e718b21b-46d1-4844-985c-52745657b1ac",
@@ -116,7 +116,7 @@ class CardController extends Controller
                 "f7d6c117-0924-404a-9b06-5c28b830d316",
                 "b9af422c-f4f6-4497-afcb-b914cdd1e800"
             // Add more IDs as needed
-        );
+        ];
 
         // Transform cardList into identifiers array
         $identifiers = array_map(function($id) {
