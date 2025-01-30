@@ -1,7 +1,7 @@
 import { CardDataType } from './types/mtg';
 
 // currently an any because this takes the raw card data from scryfall.
-export const parseCardData = (cardData: any[]): CardDataType[] | void[] => {
+export const parseCardData = (cardData: any[]): CardDataType[] | [] => {
     // Filter out cards that are not paper i.e. Arena only
     const cardDataOnlyPaper = cardData.filter((card) =>
         card.games.includes('paper'),
