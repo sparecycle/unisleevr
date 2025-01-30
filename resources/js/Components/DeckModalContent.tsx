@@ -10,7 +10,7 @@ type DeckModalContentProps = {
 const DeckModalContent = ({deck}:DeckModalContentProps) => {
     const {auth} = usePage().props;
     const [isEditingName, setIsEditingName] = useState(false);
-    const [updatedName, setUpatedName] = useState(null);
+    const [updated, setUpdated] = useState<null | Deck>(null);
     const { data, setData, patch, clearErrors, reset, errors } = useForm({
         name: deck.name,
     });
@@ -19,7 +19,7 @@ const DeckModalContent = ({deck}:DeckModalContentProps) => {
         e.preventDefault();
         patch(route('decks.update', deck.id), {onSuccess: (e) => {
             setIsEditingName(false);
-            setUpatedName(e.props.decks.data.filter(d => d.id === deck.id)[0].name)
+            setUpdated(e.props.decks.data.filter(d => d.id === deck.id)[0])
         }});
     }
     return (
@@ -29,7 +29,7 @@ const DeckModalContent = ({deck}:DeckModalContentProps) => {
                     <div className="flex justify-between items-center">
                         {!isEditingName &&
                             <div>
-                                {updatedName ?? deck.name}
+                                {updated?.name ?? deck.name}
                             </div>
                         }
                         {isEditingName &&
