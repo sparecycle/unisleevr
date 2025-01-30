@@ -2,19 +2,12 @@ import DeckTile from '@/Components/DeckTile';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useForm } from '@inertiajs/react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import Button from '@/Components/Button';
 import Input from '@/Components/Input';
 import Modal from '@/Components/Modal';
 import DeckModalContent from '@/Components/DeckModalContent';
-
-type Deck = {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string;
-    user_id: string;
-};
+import { Deck } from '@/types/deck';
 
 type DecksProps = {
     decks: {
@@ -31,6 +24,9 @@ export default function Decks({decks}:DecksProps) {
     const { data, setData, post, processing, reset, errors } = useForm({
         name: '',
     });
+
+    useEffect(()=>{
+    }, [decks]);
 
     const onSubmit = (e:FormEvent) => {
         e.preventDefault();
