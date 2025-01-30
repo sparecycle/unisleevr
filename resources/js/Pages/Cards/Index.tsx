@@ -15,7 +15,7 @@ export default function Cards({
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
 
     // find difference between cards and and parsedCards
-    const difference = cards.filter( (card: any) => { 
+    const difference = cards.filter((card: any) => {
         return !parsedCards.some((parsedCard: CardDataType) => {
             return card.id === parsedCard.id;
         });
