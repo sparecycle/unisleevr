@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\DeckController;
 
 use App\Models\Card;
 
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -37,6 +39,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('cards', CardController::class)
+    ->only(['index', 'store'])
+    ->middleware(['auth', 'verified']);
+
+Route::resource('decks', DeckController::class)
     ->only(['index', 'store'])
     ->middleware(['auth', 'verified']);
 
