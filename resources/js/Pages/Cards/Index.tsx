@@ -13,15 +13,6 @@ export default function Cards({
     decks: { data: any };
 }) {
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
-
-    // find difference between cards and and parsedCards
-    const difference = cards.filter((card: any) => {
-        return !parsedCards.some((parsedCard: CardDataType) => {
-            return card.id === parsedCard.id;
-        });
-    });
-    console.log('difference', difference);
-
     console.log('parsedCards', parsedCards);
     console.log('decks', decks);
     return (
