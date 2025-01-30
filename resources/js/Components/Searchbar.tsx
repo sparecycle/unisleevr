@@ -19,9 +19,11 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
 
     const validateSearch = (search: string) => {
         if (search.length < 3) {
+            setAutoCompleteResults([]);
             setError('Search must be at least 3 characters');
             return false;
         } else if (search.length > 100) {
+            setAutoCompleteResults([]);
             setError('Search must be less than 100 characters');
             return false;
         }
@@ -115,12 +117,12 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
             <div
                 className={`autocomplete-results ${autoCompleteResults.length > 0 ? 'block' : 'hidden'}`}
             >
-                <ul className="absolute w-full rounded-lg border border-gray-300 bg-white">
+                <ul className="absolute z-10 w-full rounded-lg border border-gray-300 bg-gray-700/90 py-2 dark:border-gray-600">
                     {autoCompleteResults.map(
                         (result: string, index: number) => (
                             <li
                                 className={
-                                    'cursor-pointer hover:bg-gray-200 hover:text-gray-800'
+                                    'cursor-pointer px-2 hover:bg-gray-200 hover:text-gray-800'
                                 }
                                 key={`autoCompleteResults-${index}`}
                                 onClick={() =>
