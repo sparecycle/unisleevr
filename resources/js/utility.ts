@@ -3,6 +3,7 @@ import { CardDataType } from './types/mtg';
 // currently an any because this takes the raw card data from scryfall.
 export const parseCardData = (cardData: any[]): CardDataType[] | [] => {
     // Filter out cards that are not paper i.e. Arena only && tokens && art series
+    // note: this might not be necessary if the scryfall search query is more specific
     const preFilteredCardData = cardData.filter(
         (card) =>
             card.games.includes('paper') &&
@@ -92,7 +93,7 @@ export const turnManaCostIntoArray = (manaCost: string): string[] => {
     return [];
 };
 
-export const debounce = (func: Function, wait: number) => {
+export const debounce = (func: (...args: any[]) => void, wait: number) => {
     let timeout: NodeJS.Timeout;
     return (...args: any[]) => {
         clearTimeout(timeout);
