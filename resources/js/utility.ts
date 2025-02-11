@@ -2,11 +2,15 @@ import { CardDataType } from './types/mtg';
 
 // currently an any because this takes the raw card data from scryfall.
 export const parseCardData = (cardData: any[]): CardDataType[] | [] => {
-    // Filter out cards that are not paper i.e. Arena only
-    const cardDataOnlyPaper = cardData.filter((card) =>
-        card.games.includes('paper'),
+    // Filter out cards that are not paper i.e. Arena only && tokens && art series
+    const preFilteredCardData = cardData.filter(
+        (card) =>
+            card.games.includes('paper') &&
+            !card.layout.includes('token') &&
+            !card.layout.includes('art_series'),
     );
-    const output = cardDataOnlyPaper.map((card) => {
+
+    const output = preFilteredCardData.map((card) => {
         const isDoubleFaced = card.card_faces ? true : false;
 
         let parsedCardData;
