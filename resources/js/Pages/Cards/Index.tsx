@@ -6,7 +6,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType } from '@/types/mtg';
 import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
-import { useState } from 'react';
 
 export default function Cards({
     cards,
