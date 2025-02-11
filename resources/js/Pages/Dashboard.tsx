@@ -1,15 +1,15 @@
 import Modal from '@/Components/Modal';
 import MTGCard from '@/Components/MTGCard';
+import PageTitle from '@/Components/PageTitle';
 import Searchbar from '@/Components/Searchbar';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 import { CardDataType } from '../types/mtg';
-import PageTitle from '@/Components/PageTitle';
 
 // TO DO: remove cards from props and replace with decks
 export default function Dashboard({ cards }: { cards: { data: any } }) {
-    console.log('10 straight raw cards from BE - ', cards);
+    console.log('cards from BE', cards);
     const [showModal, setShowModal] = useState(false);
     const [searchResults, setSearchResults] = useState<CardDataType[]>([]);
 
@@ -22,15 +22,10 @@ export default function Dashboard({ cards }: { cards: { data: any } }) {
             setSearchResults(results);
         }
     };
+    console.log('searchResults', searchResults);
 
     return (
-        <AuthenticatedLayout
-            header={
-                <PageTitle>
-                    Dashboard
-                </PageTitle>
-            }
-        >
+        <AuthenticatedLayout header={<PageTitle>Dashboard</PageTitle>}>
             <Head title="Dashboard" />
 
             <div className="container mx-auto px-3 py-4">
