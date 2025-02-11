@@ -34,24 +34,28 @@ export default function Dashboard({ cards }: { cards: { data: any } }) {
                     parentSetter={handleSearchResults}
                 />
                 <div className="-mx-3 flex flex-wrap">
-                    <div className="w-1/2 px-3 pb-3">
-                        <button
-                            className="btn w-full"
-                            onClick={() => setShowModal(true)}
-                        >
-                            Import a list
-                        </button>
-                    </div>
-                    <div className="w-1/2 px-3 pb-3">
-                        <button className="btn w-full">Create a list</button>
-                    </div>
-                    <div className="w-1/2 px-3 pb-3">
-                        <button className="btn w-full">Edit a list</button>
-                    </div>
-                    <div className="w-1/2 px-3 pb-3">
-                        <button className="btn w-full">
-                            View my shared cards
-                        </button>
+                    <div className="button-shelf w-full px-3 pb-3">
+                        <div className="w-1/2 px-3 pb-3">
+                            <button
+                                className="btn w-full"
+                                onClick={() => setShowModal(true)}
+                            >
+                                Import a list
+                            </button>
+                        </div>
+                        <div className="w-1/2 px-3 pb-3">
+                            <button className="btn w-full">
+                                Create a list
+                            </button>
+                        </div>
+                        <div className="w-1/2 px-3 pb-3">
+                            <button className="btn w-full">Edit a list</button>
+                        </div>
+                        <div className="w-1/2 px-3 pb-3">
+                            <button className="btn w-full">
+                                View my shared cards
+                            </button>
+                        </div>
                     </div>
                     {searchResults.length > 0 && (
                         <div className="w-full px-3 pb-3">

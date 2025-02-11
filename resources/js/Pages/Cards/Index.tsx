@@ -1,9 +1,12 @@
+import ButtonShelf from '@/Components/ButtonShelf';
 import MTGCard from '@/Components/MTGCard';
 import PageTitle from '@/Components/PageTitle';
+
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType } from '@/types/mtg';
 import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
+import { useState } from 'react';
 
 export default function Cards({
     cards,
@@ -15,10 +18,21 @@ export default function Cards({
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
     console.log('parsedCards', parsedCards);
     console.log('decks', decks);
+
+    const addCard = () => {
+        console.log('add a card');
+    };
+
+    const buttons = [
+        { label: 'Create a deck', link: '/decks/' },
+        { label: 'Add a Card', action: addCard },
+    ];
+
     return (
         <AuthenticatedLayout header={<PageTitle>Shared Card Pool</PageTitle>}>
             <Head title="Card Pool" />
             <div className="container mx-auto px-3 py-4">
+                <ButtonShelf buttons={buttons} />
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCards.length > 1 &&
                         parsedCards.map((card: CardDataType) => (
