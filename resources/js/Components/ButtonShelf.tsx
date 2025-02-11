@@ -82,30 +82,6 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
                         </>
                     ))}
                 </div>
-                {/* <div className="container flex flex-wrap gap-1">
-                    {buttons.map((button, index) => (
-                        <button
-                            key={`${index}-${button.label}`}
-                            className="max-w-[25%] flex-grow basis-1/4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                            aria-label={button.label}
-                            onClick={button.action}
-                        >
-                            {button.label}
-                        </button>
-                    ))}
-                </div> */}
-                {/* <div className="container flex flex-wrap gap-1">
-                    {buttons.map((button, index) => (
-                        <button
-                            key={`${index}-${button.label}`}
-                            className="max-w-[calc(25%-0.25rem)] flex-grow basis-[calc(25%-0.25rem)] rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                            aria-label={button.label}
-                            onClick={button.action}
-                        >
-                            {button.label}
-                        </button>
-                    ))}
-                </div> */}
             </div>
         </>
     );
