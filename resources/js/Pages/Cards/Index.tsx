@@ -31,7 +31,9 @@ export default function Cards({
         <AuthenticatedLayout header={<PageTitle>Shared Card Pool</PageTitle>}>
             <Head title="Card Pool" />
             <div className="container mx-auto px-3 py-4">
+                <div className="my-4">
                 <ButtonShelf buttons={buttons} />
+                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCards.length > 1 &&
                         parsedCards.map((card: CardDataType) => (

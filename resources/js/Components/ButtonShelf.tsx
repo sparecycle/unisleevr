@@ -55,7 +55,7 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
         <>
             <div ref={buttonShelfRef} className="bookmark h-[1px] w-full"></div>
             <div
-                className={`buttonShelfWrapper duration-350 flex w-full justify-center transition-transform ${fixShelf ? 'fixed -top-[100px] left-0 translate-y-[100px] bg-black py-4' : 'relative'} z-50 my-4`}
+                className={`buttonShelfWrapper duration-350 flex w-full justify-center transition-transform ${fixShelf ? 'fixed -top-[100px] left-0 translate-y-[100px] bg-black py-4' : 'relative'} z-50`}
             >
                 <div className={`container grid ${gridColsClass} gap-1`}>
                     {buttons.map((button, index) => (
