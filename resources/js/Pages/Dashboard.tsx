@@ -1,3 +1,4 @@
+import ButtonShelf from '@/Components/ButtonShelf';
 import Modal from '@/Components/Modal';
 import MTGCard from '@/Components/MTGCard';
 import PageTitle from '@/Components/PageTitle';
@@ -8,8 +9,8 @@ import { useState } from 'react';
 import { CardDataType } from '../types/mtg';
 
 // TO DO: remove cards from props and replace with decks
-export default function Dashboard({ cards }: { cards: { data: any } }) {
-    console.log('cards from BE', cards);
+export default function Dashboard({ decks }: { decks: { data: any } }) {
+    console.log('decks from BE', decks);
     const [showModal, setShowModal] = useState(false);
     const [searchResults, setSearchResults] = useState<CardDataType[]>([]);
 
@@ -33,26 +34,24 @@ export default function Dashboard({ cards }: { cards: { data: any } }) {
                     autofocus={true}
                     parentSetter={handleSearchResults}
                 />
+                <ButtonShelf
+                    buttons={[
+                        {
+                            label: 'Import a list',
+                            action: () => setShowModal(true),
+                        },
+                        {
+                            label: 'Create a list',
+                            action: () => console.log('create a list'),
+                        },
+                        {
+                            label: 'Edit a list',
+                            action: () => console.log('edit a list'),
+                        },
+                        { label: 'View my shared cards', link: '/cards' },
+                    ]}
+                />
                 <div className="-mx-3 flex flex-wrap">
-                    <div className="w-1/2 px-3 pb-3">
-                        <button
-                            className="btn w-full"
-                            onClick={() => setShowModal(true)}
-                        >
-                            Import a list
-                        </button>
-                    </div>
-                    <div className="w-1/2 px-3 pb-3">
-                        <button className="btn w-full">Create a list</button>
-                    </div>
-                    <div className="w-1/2 px-3 pb-3">
-                        <button className="btn w-full">Edit a list</button>
-                    </div>
-                    <div className="w-1/2 px-3 pb-3">
-                        <button className="btn w-full">
-                            View my shared cards
-                        </button>
-                    </div>
                     {searchResults.length > 0 && (
                         <div className="w-full px-3 pb-3">
                             <h2 className="text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
