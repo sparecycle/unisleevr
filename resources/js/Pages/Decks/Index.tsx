@@ -95,7 +95,7 @@ export default function Decks({ decks }: DecksProps) {
                 ) : (
                     <div>No decks found.</div>
                 )} */}
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
                     <DeckTile title={'Test Deck Alpha'} />
                     <DeckTile title={"Gishath Sun's Avatar"} />
                     <DeckTile title={'Animar Soul of Elements'} />
