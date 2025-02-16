@@ -74,7 +74,6 @@ export default function Dashboard({ decks }: { decks: { data: any } }) {
                                             power={card.power}
                                             toughness={card.toughness}
                                             backCardData={card.backCardData}
-                                            onDelete={()=>{console.log('delete')}}
                                         ></MTGCard>
                                     </div>
                                 ))}

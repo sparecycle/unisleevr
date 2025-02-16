@@ -1,6 +1,6 @@
 import { scryfallAutoComplete, scryfallSearch } from '@/api/Scryfall';
-import { parseCardData } from '@/utility';
-import { useState } from 'react';
+import { parseCardData, useOutsideAlerter } from '@/utility';
+import { useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 import { CardDataType } from '../types/mtg';
 
@@ -16,6 +16,9 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
     );
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
+
+    const searchWrapperRef = useRef(null);
+    useOutsideAlerter(searchWrapperRef, () => setAutoCompleteResults([]));
 
     const validateSearch = (search: string) => {
         if (search.length < 3) {
@@ -85,6 +88,12 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
             onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmitSearch(search);
+            }}
+            ref={searchWrapperRef}
+            onClick={() => {
+                if (search.length > 0) {
+                    handleSearchOnChange(search);
+                }
             }}
         >
             <label htmlFor="cardSearch" className="sr-only">
