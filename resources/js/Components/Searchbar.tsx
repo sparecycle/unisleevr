@@ -18,7 +18,11 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
     const [error, setError] = useState<string | undefined>(undefined);
 
     const searchWrapperRef = useRef(null);
-    useOutsideAlerter(searchWrapperRef, () => setAutoCompleteResults([]));
+    const handleOutsideClick = ()=>{
+        setAutoCompleteResults([]);
+        setError(undefined);
+    }
+    useOutsideAlerter(searchWrapperRef, () => handleOutsideClick());
 
     const validateSearch = (search: string) => {
         if (search.length < 3) {
@@ -114,6 +118,7 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
                     value={search}
                     onChange={(e) => handleSearchOnChange(e.target.value)}
                     autoFocus={autofocus}
+                    autoComplete="off"
                 />
                 <button
                     type="submit"
