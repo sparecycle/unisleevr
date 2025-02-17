@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { debounce } from '../utility';
+import PrimaryButton from './PrimaryButton';
 
 type Button = {
     label: string;
@@ -55,30 +56,21 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
         <>
             <div ref={buttonShelfRef} className="bookmark h-[1px] w-full"></div>
             <div
-                className={`buttonShelfWrapper duration-350 flex w-full justify-center transition-transform ${fixShelf ? 'fixed -top-[100px] left-0 translate-y-[100px] bg-black py-4' : 'relative'} z-50`}
+                className={`buttonShelfWrapper duration-350 flex w-full justify-center transition-transform ${fixShelf ? 'fixed -top-[100px] left-0 z-50 translate-y-[100px] bg-black py-4' : 'relative'}`}
             >
                 <div className={`container grid ${gridColsClass} gap-1`}>
                     {buttons.map((button, index) => (
                         <>
-                            {button.link ? (
-                                <a
-                                    key={`${index}-${button.label}`}
-                                    href={button.link}
-                                    className={`col-span-2 rounded bg-blue-500 px-4 py-2 text-center font-bold text-white hover:bg-blue-700 md:col-span-1`}
-                                    aria-label={button.label}
-                                >
-                                    {button.label}
-                                </a>
-                            ) : (
-                                <button
-                                    key={`${index}-${button.label}`}
-                                    className={`col-span-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 md:col-span-1`}
-                                    aria-label={button.label}
-                                    onClick={button.action}
-                                >
-                                    {button.label}
-                                </button>
-                            )}
+                            <PrimaryButton
+                                key={`${index}-${button.label}`}
+                                className={`btn col-span-2 md:col-span-1`}
+                                aria-label={button.label}
+                                onClick={button.action ?? button.action}
+                                format={button.link ? 'link' : 'button'}
+                                href={button.link ?? button.link}
+                            >
+                                {button.label}
+                            </PrimaryButton>
                         </>
                     ))}
                 </div>

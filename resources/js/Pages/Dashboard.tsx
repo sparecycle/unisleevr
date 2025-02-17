@@ -54,7 +54,7 @@ export default function Dashboard({ decks }: { decks: { data: any } }) {
                 <div className="-mx-3 flex flex-wrap">
                     {searchResults.length > 0 && (
                         <div className="w-full px-3 pb-3">
-                            <h2 className="text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                            <h2 className="text-lg font-semibold leading-tight text-zinc-800 dark:text-zinc-200">
                                 Search Query
                             </h2>
                             <div className="flex w-full flex-wrap">
@@ -84,7 +84,7 @@ export default function Dashboard({ decks }: { decks: { data: any } }) {
             </div>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
                 <div className="w-full p-4">
-                    <h2 className="text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                    <h2 className="text-lg font-semibold leading-tight text-zinc-800 dark:text-zinc-200">
                         Import a list
                     </h2>
                     <input type="file" className="mt-4" name="importFile" />
