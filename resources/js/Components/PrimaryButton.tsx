@@ -4,7 +4,7 @@ type ExtendedButton = (
     | ButtonHTMLAttributes<HTMLButtonElement>
     | AnchorHTMLAttributes<HTMLAnchorElement>
 ) & {
-    format: 'button' | 'link';
+    format?: 'button' | 'link';
     disabled?: boolean;
     href?: string;
 };
@@ -21,17 +21,7 @@ export default function PrimaryButton({
             disabled ? 'opacity-25' : ''
         } ` + className;
 
-    if (format === 'button') {
-        return (
-            <button
-                {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
-                className={buttonClasses}
-                disabled={disabled}
-            >
-                {children}
-            </button>
-        );
-    } else {
+    if (format === 'link') {
         return (
             <a
                 {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}
@@ -41,6 +31,16 @@ export default function PrimaryButton({
             >
                 {children}
             </a>
+        );
+    } else {
+        return (
+            <button
+                {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
+                className={buttonClasses}
+                disabled={disabled}
+            >
+                {children}
+            </button>
         );
     }
 }
