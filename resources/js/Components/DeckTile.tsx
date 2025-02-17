@@ -15,7 +15,7 @@ const DeckTile = ({ title, onDelete, id }: DeckTileProps) => {
     return (
         <div className="deck-tile group relative aspect-[2.5/3]">
             <button
-                className={`btn btn-primary transition-rotate absolute right-1 top-1 z-10 rounded-full border-none bg-black/50 p-1 opacity-0 duration-200 ease-in-out group-hover:opacity-100`}
+                className={`btn transition-rotate absolute right-1 top-1 z-10 rounded-full border-none bg-black/50 p-1 opacity-0 duration-200 ease-in-out group-hover:opacity-100`}
                 onClick={handleOnDeleteClick}
                 aria-label={`Delete ${title}`}
             >
