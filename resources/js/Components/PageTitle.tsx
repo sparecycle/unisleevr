@@ -1,11 +1,15 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 type PageTitleProps = {
- children: ReactNode
+    children: ReactNode;
 };
 
-const PageTitle = ({children}:PageTitleProps) => {
-    return <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{children}</h2>
+const PageTitle = ({ children }: PageTitleProps) => {
+    return (
+        <h2 className="text-xl font-semibold leading-tight text-zinc-800 dark:text-zinc-200">
+            {children}
+        </h2>
+    );
 };
 
 export default PageTitle;

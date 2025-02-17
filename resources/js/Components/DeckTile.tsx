@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Deck } from "@/types/deck";
+import { TbCardsFilled } from 'react-icons/tb';
 
 type DeckTileProps = {
  title: string;
@@ -8,15 +9,17 @@ type DeckTileProps = {
 };
 const DeckTile = ({title, deck, activeSetter}:DeckTileProps) => {
     return (
-        <div className="border flex flex-col rounded-md border-solid border-slate-600">
-            <div className="p-4  gap-4">
-                <h4 className="text-md">
+        <button className="card btn bg-lg flex aspect-[2.5/3] flex-col rounded-md border border-solid border-zinc-600 bg-zinc-200 hover:bg-zinc-300 focus:bg-zinc-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-zinc-400 dark:bg-zinc-950 dark:hover:bg-zinc-900 dark:focus:bg-zinc-900 dark:active:bg-zinc-800" onClick={()=>activeSetter(deck)}>
+            <div className="card-header flex h-2/3 w-full items-center justify-center rounded-md">
+                <TbCardsFilled size={'auto'} />
+            </div>
+            <div className="card-body flex h-1/3 w-full items-center justify-center">
+                <h4 className="card-title hyphen-manual w-full text-wrap px-2 text-center font-bold">
                     {title}
                 </h4>
             </div>
-            <button className="flex border-t border-solid hover:bg-slate-800 border-slate-600 justify-center duration-150 transition-bg items-center p-4" onClick={()=>activeSetter(deck)}>details</button>
-        </div>
-    )
-}
+        </button>
+    );
+};
 
 export default DeckTile;

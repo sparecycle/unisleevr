@@ -1,12 +1,18 @@
+import { useEffect } from 'react';
 import { CardDataType } from './types/mtg';
 
 // currently an any because this takes the raw card data from scryfall.
 export const parseCardData = (cardData: any[]): CardDataType[] | [] => {
-    // Filter out cards that are not paper i.e. Arena only
-    const cardDataOnlyPaper = cardData.filter((card) =>
-        card.games.includes('paper'),
+    // Filter out cards that are not paper i.e. Arena only && tokens && art series
+    // note: this might not be necessary if the scryfall search query is more specific
+    const preFilteredCardData = cardData.filter(
+        (card) =>
+            card.games.includes('paper') &&
+            !card.layout.includes('token') &&
+            !card.layout.includes('art_series'),
     );
-    const output = cardDataOnlyPaper.map((card) => {
+
+    const output = preFilteredCardData.map((card) => {
         const isDoubleFaced = card.card_faces ? true : false;
 
         let parsedCardData;
@@ -86,4 +92,34 @@ export const turnManaCostIntoArray = (manaCost: string): string[] => {
     }
 
     return [];
+};
+
+export const debounce = (func: (...args: any[]) => void, wait: number) => {
+    let timeout: NodeJS.Timeout;
+    return (...args: any[]) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), wait);
+    };
+};
+
+export const useOutsideAlerter = (
+    ref: React.RefObject<HTMLElement>,
+    callback: () => void,
+) => {
+    useEffect(() => {
+        /**
+         * Alert if clicked on outside of element
+         */
+        const handleClickOutside = (event: MouseEvent) => {
+            if (ref.current && !ref.current.contains(event.target as Node)) {
+                callback();
+            }
+        };
+        // Bind the event listener
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [ref, callback]);
 };

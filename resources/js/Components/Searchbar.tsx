@@ -1,6 +1,6 @@
 import { scryfallAutoComplete, scryfallSearch } from '@/api/Scryfall';
-import { parseCardData } from '@/utility';
-import { useState } from 'react';
+import { parseCardData, useOutsideAlerter } from '@/utility';
+import { useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 import { CardDataType } from '../types/mtg';
 
@@ -16,6 +16,13 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
     );
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
+
+    const searchWrapperRef = useRef(null);
+    const handleOutsideClick = ()=>{
+        setAutoCompleteResults([]);
+        setError(undefined);
+    }
+    useOutsideAlerter(searchWrapperRef, () => handleOutsideClick());
 
     const validateSearch = (search: string) => {
         if (search.length < 3) {
@@ -86,6 +93,12 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
                 e.preventDefault();
                 handleSubmitSearch(search);
             }}
+            ref={searchWrapperRef}
+            onClick={() => {
+                if (search.length > 0) {
+                    handleSearchOnChange(search);
+                }
+            }}
         >
             <label htmlFor="cardSearch" className="sr-only">
                 card search
@@ -98,13 +111,14 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
                 <input
                     type="search"
                     id="default-search"
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    className="block w-full rounded-lg border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-blue-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     placeholder="Search for a card"
                     min={3}
                     max={100}
                     value={search}
                     onChange={(e) => handleSearchOnChange(e.target.value)}
                     autoFocus={autofocus}
+                    autoComplete="off"
                 />
                 <button
                     type="submit"
@@ -117,12 +131,12 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
             <div
                 className={`autocomplete-results ${autoCompleteResults.length > 0 ? 'block' : 'hidden'}`}
             >
-                <ul className="absolute z-10 w-full rounded-lg border border-gray-300 bg-gray-700/90 py-2 dark:border-gray-600">
+                <ul className="absolute z-10 w-full rounded-lg border border-zinc-300 bg-zinc-700/90 py-2 dark:border-zinc-600">
                     {autoCompleteResults.map(
                         (result: string, index: number) => (
                             <li
                                 className={
-                                    'cursor-pointer px-2 hover:bg-gray-200 hover:text-gray-800'
+                                    'cursor-pointer px-2 hover:bg-zinc-200 hover:text-zinc-800'
                                 }
                                 key={`autoCompleteResults-${index}`}
                                 onClick={() =>

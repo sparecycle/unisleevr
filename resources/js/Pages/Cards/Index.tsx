@@ -1,5 +1,7 @@
+import ButtonShelf from '@/Components/ButtonShelf';
 import MTGCard from '@/Components/MTGCard';
 import PageTitle from '@/Components/PageTitle';
+
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType } from '@/types/mtg';
 import { parseCardData } from '@/utility';
@@ -15,10 +17,27 @@ export default function Cards({
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
     console.log('parsedCards', parsedCards);
     console.log('decks', decks);
+
+    const addCard = () => {
+        console.log('add a card');
+    };
+
+    const buttons = [
+        { label: 'Create a deck', link: '/decks/' },
+        { label: 'Add a Card', action: addCard },
+    ];
+
+    const handleDelete = (id: string) => {
+        alert(`delete card ${id}`);
+    };
+
     return (
         <AuthenticatedLayout header={<PageTitle>Shared Card Pool</PageTitle>}>
             <Head title="Card Pool" />
             <div className="container mx-auto px-3 py-4">
+                <div className="my-4">
+                    <ButtonShelf buttons={buttons} />
+                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCards.length > 1 &&
                         parsedCards.map((card: CardDataType) => (
@@ -34,6 +53,7 @@ export default function Cards({
                                     power={card.power}
                                     toughness={card.toughness}
                                     backCardData={card.backCardData}
+                                    onDelete={() => handleDelete(card.id)}
                                 ></MTGCard>
                             </div>
                         ))}
