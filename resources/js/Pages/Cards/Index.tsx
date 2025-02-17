@@ -27,12 +27,16 @@ export default function Cards({
         { label: 'Add a Card', action: addCard },
     ];
 
+    const handleDelete = (id: string) => {
+        alert(`delete card ${id}`);
+    };
+
     return (
         <AuthenticatedLayout header={<PageTitle>Shared Card Pool</PageTitle>}>
             <Head title="Card Pool" />
             <div className="container mx-auto px-3 py-4">
                 <div className="my-4">
-                <ButtonShelf buttons={buttons} />
+                    <ButtonShelf buttons={buttons} />
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCards.length > 1 &&
@@ -49,6 +53,7 @@ export default function Cards({
                                     power={card.power}
                                     toughness={card.toughness}
                                     backCardData={card.backCardData}
+                                    onDelete={() => handleDelete(card.id)}
                                 ></MTGCard>
                             </div>
                         ))}
