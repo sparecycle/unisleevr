@@ -45,7 +45,7 @@ class DeckPolicy
      */
     public function delete(User $user, Deck $deck): bool
     {
-        return false;
+        return $this->update($user, $deck);
     }
 
     /**
