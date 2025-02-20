@@ -92,7 +92,7 @@ export default function Decks({ decks }: DecksProps) {
             <div className="container mx-auto px-3 py-4 md:grid-cols-3 lg:grid-cols-5">
                 {decks.data.length > 0 ? (
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {decks.data.map((deck, idx) => <DeckTile key={idx} title={deck.name} deck={deck} activeSetter={setActiveDeck} /> )})
+                    {decks.data.map((deck, idx) => <DeckTile key={idx} title={deck.name} deck={deck} activeSetter={setActiveDeck} /> )}
                     </div>
     ) : (
     <div>No decks found.</div>
