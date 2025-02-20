@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Deck;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -82,8 +83,13 @@ class DeckController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Deck $deck)
+    public function destroy(Deck $deck):RedirectResponse
     {
         //
+        Gate::authorize('delete', $deck);
+
+        $deck->delete();
+
+        return redirect(route('decks.index'));
     }
 }
