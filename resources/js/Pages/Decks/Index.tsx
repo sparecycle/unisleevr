@@ -19,6 +19,7 @@ type DecksProps = {
     };
 };
 
+
 export default function Decks({ decks }: DecksProps) {
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
