@@ -29,6 +29,10 @@ export default function Decks({ decks }: DecksProps) {
         e.preventDefault();
         post(route('decks.store'), { onSuccess: () => reset() });
     };
+    const handleOnDelete = (id: number) => {
+        // Add delete logic here
+        alert(`Delete deck with id: ${id}`);
+    };
     return (
         <AuthenticatedLayout header={<PageTitle>Decks</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
@@ -96,12 +100,36 @@ export default function Decks({ decks }: DecksProps) {
                     <div>No decks found.</div>
                 )} */}
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                    <DeckTile title={'Test Deck Alpha'} />
-                    <DeckTile title={"Gishath Sun's Avatar"} />
-                    <DeckTile title={'Animar Soul of Elements'} />
-                    <DeckTile title={'Torbrand'} />
-                    <DeckTile title={'Burn'} />
-                    <DeckTile title={"Chandra's Pyrohelix"} />
+                    <DeckTile
+                        title={'Test Deck Alpha'}
+                        onDelete={() => handleOnDelete(1)}
+                        id={'1'}
+                    />
+                    <DeckTile
+                        title={"Gishath Sun's Avatar"}
+                        onDelete={() => handleOnDelete(2)}
+                        id={'2'}
+                    />
+                    <DeckTile
+                        title={'Animar Soul of Elements'}
+                        onDelete={() => handleOnDelete(3)}
+                        id={'3'}
+                    />
+                    <DeckTile
+                        title={'Torbrand'}
+                        onDelete={() => handleOnDelete(4)}
+                        id={'4'}
+                    />
+                    <DeckTile
+                        title={'Burn'}
+                        onDelete={() => handleOnDelete(5)}
+                        id={'5'}
+                    />
+                    <DeckTile
+                        title={"Chandra's Pyrohelix"}
+                        onDelete={() => handleOnDelete(6)}
+                        id={'6'}
+                    />
                 </div>
             </div>
         </AuthenticatedLayout>
