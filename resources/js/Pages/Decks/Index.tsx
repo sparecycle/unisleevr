@@ -33,6 +33,10 @@ export default function Decks({ decks }: DecksProps) {
         e.preventDefault();
         post(route('decks.store'), { onSuccess: () => reset() });
     };
+    const handleOnDelete = (id: number) => {
+        // Add delete logic here
+        alert(`Delete deck with id: ${id}`);
+    };
     return (
         <AuthenticatedLayout header={<PageTitle>Decks</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
@@ -89,10 +93,10 @@ export default function Decks({ decks }: DecksProps) {
                     </div>
                 )}
             </div>
-            <div className="container mx-auto px-3 py-4 md:grid-cols-3 lg:grid-cols-5">
+            <div className="container mx-auto px-3 py-4">
                 {decks.data.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {decks.data.map((deck, idx) => <DeckTile key={idx} title={deck.name} deck={deck} activeSetter={setActiveDeck} /> )}
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+                    {decks.data.map((deck, idx) => <DeckTile key={idx} title={deck.name} deck={deck} activeSetter={setActiveDeck} onDelete={()=> handleOnDelete(deck.id)} /> )}
                     </div>
     ) : (
     <div>No decks found.</div>
