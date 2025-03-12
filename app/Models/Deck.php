@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Card;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Deck extends Model
 {
@@ -18,6 +19,10 @@ class Deck extends Model
     /*{*/
     /*    return $this->belongsToMany(Card::class);*/
     /*}*/
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }
 

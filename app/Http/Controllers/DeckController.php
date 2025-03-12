@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Deck;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 use Inertia\Inertia;
 
@@ -67,14 +69,27 @@ class DeckController extends Controller
      */
     public function update(Request $request, Deck $deck)
     {
-        //
+        Gate::authorize('update', $deck);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $deck->update($validated);
+
+        return redirect(route('decks.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Deck $deck)
+    public function destroy(Deck $deck):RedirectResponse
     {
         //
+        Gate::authorize('delete', $deck);
+
+        $deck->delete();
+
+        return redirect(route('decks.index'));
     }
 }

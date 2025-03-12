@@ -1,14 +1,14 @@
 import DeckTile from '@/Components/DeckTile';
-import Input from '@/Components/Input';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useForm } from '@inertiajs/react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import Input from '@/Components/Input';
+import Button from '@/Components/Button';
+import Modal from '@/Components/Modal';
+import DeckModalContent from '@/Components/DeckModalContent';
+import { Deck } from '@/types/deck';
 
-type Deck = {
-    id: number;
-    name: string;
-};
 
 type DecksProps = {
     decks: {
@@ -19,13 +19,18 @@ type DecksProps = {
     };
 };
 
+
 export default function Decks({ decks }: DecksProps) {
     const [isCreating, setIsCreating] = useState(false);
+    const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
     const { data, setData, post, processing, reset, errors } = useForm({
         name: '',
     });
 
-    const onSubmit = (e: FormEvent) => {
+    useEffect(()=>{
+    }, [decks]);
+
+    const onSubmit = (e:FormEvent) => {
         e.preventDefault();
         post(route('decks.store'), { onSuccess: () => reset() });
     };
@@ -90,48 +95,17 @@ export default function Decks({ decks }: DecksProps) {
                 )}
             </div>
             <div className="container mx-auto px-3 py-4">
-                {/* {decks.data.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                        {decks.data.map((deck, idx) => (
-                            <DeckTile key={idx} title={deck.name} />
-                        ))}
+                {decks.data.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+                    {decks.data.map((deck, idx) => <DeckTile key={idx} title={deck.name} deck={deck} activeSetter={setActiveDeck} onDelete={()=> handleOnDelete(deck.id)} /> )}
                     </div>
-                ) : (
-                    <div>No decks found.</div>
-                )} */}
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                    <DeckTile
-                        title={'Test Deck Alpha'}
-                        onDelete={() => handleOnDelete(1)}
-                        id={'1'}
-                    />
-                    <DeckTile
-                        title={"Gishath Sun's Avatar"}
-                        onDelete={() => handleOnDelete(2)}
-                        id={'2'}
-                    />
-                    <DeckTile
-                        title={'Animar Soul of Elements'}
-                        onDelete={() => handleOnDelete(3)}
-                        id={'3'}
-                    />
-                    <DeckTile
-                        title={'Torbrand'}
-                        onDelete={() => handleOnDelete(4)}
-                        id={'4'}
-                    />
-                    <DeckTile
-                        title={'Burn'}
-                        onDelete={() => handleOnDelete(5)}
-                        id={'5'}
-                    />
-                    <DeckTile
-                        title={"Chandra's Pyrohelix"}
-                        onDelete={() => handleOnDelete(6)}
-                        id={'6'}
-                    />
-                </div>
-            </div>
+    ) : (
+    <div>No decks found.</div>
+    )}
+    </div>
+            <Modal show={activeDeck !== null} onClose={()=>setActiveDeck(null)}>
+                {activeDeck && <DeckModalContent deck={activeDeck as Deck} />}
+            </Modal>
         </AuthenticatedLayout>
     );
 }
