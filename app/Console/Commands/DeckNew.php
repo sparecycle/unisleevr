@@ -27,12 +27,14 @@ class DeckNew extends Command
      */
     public function handle()
     {
-        // $this->info('hello world');
+        // Ask for the deck name and user ID
         $deckName = $this->ask('Deck Name:');
         $deckUserID = $this->ask('User ID:');
         $this->info($deckName);
 
+        // Confirm the information before creating the deck
         if ($this->confirm('Is this information correct?')) {
+            // Create and save the new deck
             $deck = new Deck();
             $deck->name = $deckName;
             $deck->user_id = $deckUserID;
