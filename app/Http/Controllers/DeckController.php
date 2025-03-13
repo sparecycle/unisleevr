@@ -29,9 +29,22 @@ class DeckController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        // Validate the request data
+        $validated = $request->validate([
+            'name' => 'required|string|max:255', // Validate the name field
+            'user_id' => 'required|integer|exists:users,id', // Validate the user_id field
+        ]);
+
+        // Create a new deck with the validated data
+        Deck::create([
+            'name' => $validated['name'], // Set the name of the deck
+            'user_id' => $validated['user_id'], // Set the user_id of the deck
+        ]);
+
+        // Redirect to the decks index page
+        return redirect(route('decks.index'));
     }
 
     /**
@@ -40,12 +53,13 @@ class DeckController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255', // Validate the name field
+            'user_id' => 'required|integer|exists:users,id', // Validate the user_id field
         ]);
 
-        $request->user()->decks()->create($validated);
+        Deck::create($validated); // Create a new deck with the validated data
 
-        return redirect(route('decks.index'));
+        return redirect(route('decks.index')); // Redirect to the decks index page
     }
 
     /**
@@ -83,13 +97,12 @@ class DeckController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Deck $deck):RedirectResponse
+    public function destroy(Deck $deck): RedirectResponse
     {
-        //
-        Gate::authorize('delete', $deck);
+        Gate::authorize('delete', $deck); // Authorize the delete action
 
-        $deck->delete();
+        $deck->delete(); // Delete the deck
 
-        return redirect(route('decks.index'));
+        return redirect(route('decks.index')); // Redirect to the decks index page
     }
 }

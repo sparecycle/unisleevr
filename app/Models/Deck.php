@@ -11,7 +11,8 @@ class Deck extends Model
 {
     protected $fillable = [
         'name',
-        'cards'
+        'cards',
+        'user_id' // Add user_id to fillable properties
     ];
 
     // define the many to many relationship with the Card model, also the method

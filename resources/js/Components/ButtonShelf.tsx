@@ -48,6 +48,11 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
         return null;
     }
 
+    const keyedButtons = buttons.map((button) => ({
+        ...button,
+        key: `${crypto.randomUUID()}`,
+    }));
+
     // Determine the number of columns based on the number of buttons
     const gridColsClass =
         buttons.length <= 4 ? `grid-cols-${buttons.length}` : 'grid-cols-4';
@@ -59,10 +64,10 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
                 className={`buttonShelfWrapper duration-350 flex w-full justify-center transition-transform ${fixShelf ? 'fixed -top-[100px] left-0 z-50 translate-y-[100px] bg-black py-4' : 'relative'}`}
             >
                 <div className={`container grid ${gridColsClass} gap-1`}>
-                    {buttons.map((button, index) => (
+                    {keyedButtons.map((button) => (
                         <>
                             <PrimaryButton
-                                key={`${index}-${button.label}`}
+                                key={`${button.key}`}
                                 className={`btn col-span-2 md:col-span-1`}
                                 aria-label={button.label}
                                 onClick={button.action ?? button.action}
