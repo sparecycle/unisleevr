@@ -39,8 +39,8 @@ class DeckController extends Controller
 
         // Create a new deck with the validated data
         Deck::create([
-            'name' => $validated['name'], // Set the name of the deck
-            'user_id' => $validated['user_id'], // Set the user_id of the deck
+            'name' => $validated['name'], 
+            'user_id' => $validated['user_id'], 
         ]);
 
         // Redirect to the decks index page
@@ -52,9 +52,10 @@ class DeckController extends Controller
      */
     public function store(Request $request)
     {
+        // TO DO: Implement the store method as store and not create
         $validated = $request->validate([
-            'name' => 'required|string|max:255', // Validate the name field
-            'user_id' => 'required|integer|exists:users,id', // Validate the user_id field
+            'name' => 'required|string|max:255',
+            'user_id' => 'required|integer|exists:users,id',
         ]);
 
         Deck::create($validated); // Create a new deck with the validated data
@@ -103,6 +104,6 @@ class DeckController extends Controller
 
         $deck->delete(); // Delete the deck
 
-        return redirect(route('decks.index')); // Redirect to the decks index page
+        return redirect(route('decks.index'));
     }
 }

@@ -5,7 +5,7 @@ import Modal from '@/Components/Modal';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck } from '@/types/deck';
-import { useForm, usePage, router } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
 
 type DecksProps = {
@@ -23,7 +23,7 @@ export default function Decks({ decks }: DecksProps) {
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
     const { data, setData, post, processing, reset, errors } = useForm({
         name: '',
-        user_id: auth.user.id, // Add user_id to form data
+        user_id: auth.user.id,
     });
 
     useEffect(() => {}, [decks]);
@@ -32,23 +32,22 @@ export default function Decks({ decks }: DecksProps) {
         e.preventDefault();
         post(route('decks.store'), {
             onSuccess: () => {
-                reset(); // Reset the form data
-                setIsCreating(false); // Close the form on success
+                reset();
+                setIsCreating(false);
             },
             onError: (errors) => {
-                console.error(errors); // Log errors to the console
+                console.error(errors);
             },
         });
     };
 
     const handleOnDelete = (id: number) => {
-        // Send a DELETE request to the decks.destroy route
         router.delete(route('decks.destroy', id), {
             onSuccess: () => {
-                console.log(`Deck ${id} deleted successfully`); // Log success message
+                console.log(`Deck ${id} deleted successfully`);
             },
             onError: (errors) => {
-                console.error(errors); // Log errors to the console
+                console.error(errors);
             },
         });
     };
