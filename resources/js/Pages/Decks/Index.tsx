@@ -1,14 +1,12 @@
+import DeckModalContent from '@/Components/DeckModalContent';
 import DeckTile from '@/Components/DeckTile';
+import Input from '@/Components/Input';
+import Modal from '@/Components/Modal';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { useForm } from '@inertiajs/react';
-import { FormEvent, useEffect, useState } from 'react';
-import Input from '@/Components/Input';
-import Button from '@/Components/Button';
-import Modal from '@/Components/Modal';
-import DeckModalContent from '@/Components/DeckModalContent';
 import { Deck } from '@/types/deck';
-
+import { router, useForm, usePage } from '@inertiajs/react';
+import { FormEvent, useEffect, useState } from 'react';
 
 type DecksProps = {
     decks: {
@@ -19,25 +17,41 @@ type DecksProps = {
     };
 };
 
-
 export default function Decks({ decks }: DecksProps) {
+    const { auth } = usePage().props;
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
     const { data, setData, post, processing, reset, errors } = useForm({
         name: '',
+        user_id: auth.user.id,
     });
 
-    useEffect(()=>{
-    }, [decks]);
+    useEffect(() => {}, [decks]);
 
-    const onSubmit = (e:FormEvent) => {
+    const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        post(route('decks.store'), { onSuccess: () => reset() });
+        post(route('decks.store'), {
+            onSuccess: () => {
+                reset();
+                setIsCreating(false);
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
     };
+
     const handleOnDelete = (id: number) => {
-        // Add delete logic here
-        alert(`Delete deck with id: ${id}`);
+        router.delete(route('decks.destroy', id), {
+            onSuccess: () => {
+                console.log(`Deck ${id} deleted successfully`);
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
     };
+
     return (
         <AuthenticatedLayout header={<PageTitle>Decks</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
@@ -69,13 +83,10 @@ export default function Decks({ decks }: DecksProps) {
                                     setData('name', e.target.value)
                                 }
                             />
-                            <div
-                                className={'inline-flex gap-4'}
-                                onClick={() => {
-                                    setIsCreating(false);
-                                }}
-                            >
+                            <div className={'inline-flex gap-4'}>
                                 <button
+                                    type="button"
+                                    onClick={() => setIsCreating(false)}
                                     className={
                                         'btn bg-lg rounded-md border border-solid border-slate-600 px-3 py-2'
                                     }
@@ -83,9 +94,11 @@ export default function Decks({ decks }: DecksProps) {
                                     Cancel
                                 </button>
                                 <button
+                                    type="submit"
                                     className={
                                         'btn bg-lg rounded-md border border-solid border-slate-600 px-3 py-2'
                                     }
+                                    disabled={processing}
                                 >
                                     Create
                                 </button>
@@ -97,13 +110,24 @@ export default function Decks({ decks }: DecksProps) {
             <div className="container mx-auto px-3 py-4">
                 {decks.data.length > 0 ? (
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-                    {decks.data.map((deck, idx) => <DeckTile key={idx} title={deck.name} deck={deck} activeSetter={setActiveDeck} onDelete={()=> handleOnDelete(deck.id)} /> )}
+                        {decks.data.map((deck, idx) => (
+                            <DeckTile
+                                key={idx}
+                                title={deck.name}
+                                deck={deck}
+                                activeSetter={setActiveDeck}
+                                onDelete={() => handleOnDelete(deck.id)}
+                            />
+                        ))}
                     </div>
-    ) : (
-    <div>No decks found.</div>
-    )}
-    </div>
-            <Modal show={activeDeck !== null} onClose={()=>setActiveDeck(null)}>
+                ) : (
+                    <div>No decks found.</div>
+                )}
+            </div>
+            <Modal
+                show={activeDeck !== null}
+                onClose={() => setActiveDeck(null)}
+            >
                 {activeDeck && <DeckModalContent deck={activeDeck as Deck} />}
             </Modal>
         </AuthenticatedLayout>
