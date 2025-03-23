@@ -132,8 +132,15 @@ export default function Decks({ decks }: DecksProps) {
                 show={activeDeck !== null || isCreating}
                 onClose={() => handleCloseModal()}
             >
-                {isCreating && <DeckModalContent creating onClose={handleCloseModal}/>}
-                {activeDeck && <DeckModalContent deck={activeDeck as Deck} onClose={handleCloseModal} />}
+                {isCreating && (
+                    <DeckModalContent creating onClose={handleCloseModal} />
+                )}
+                {activeDeck && (
+                    <DeckModalContent
+                        deck={activeDeck as Deck}
+                        onClose={handleCloseModal}
+                    />
+                )}
             </Modal>
         </AuthenticatedLayout>
     );
