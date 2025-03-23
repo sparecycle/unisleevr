@@ -1,12 +1,11 @@
 import DeckModalContent from '@/Components/DeckModalContent';
 import DeckTile from '@/Components/DeckTile';
-import Input from '@/Components/Input';
 import Modal from '@/Components/Modal';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck } from '@/types/deck';
-import { router, useForm, usePage } from '@inertiajs/react';
-import { FormEvent, useEffect, useState } from 'react';
+import { router } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
 type DecksProps = {
     decks: {
@@ -18,28 +17,10 @@ type DecksProps = {
 };
 
 export default function Decks({ decks }: DecksProps) {
-    const { auth } = usePage().props;
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
-    const { data, setData, post, processing, reset, errors } = useForm({
-        name: '',
-        user_id: auth.user.id,
-    });
 
     useEffect(() => {}, [decks]);
-
-    const onSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        post(route('decks.store'), {
-            onSuccess: () => {
-                reset();
-                setIsCreating(false);
-            },
-            onError: (errors) => {
-                console.error(errors);
-            },
-        });
-    };
 
     const handleOnDelete = (id: number) => {
         router.delete(route('decks.destroy', id), {
@@ -60,7 +41,7 @@ export default function Decks({ decks }: DecksProps) {
         <AuthenticatedLayout header={<PageTitle>Decks</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
                 <div>
-                    {!isCreating && (
+                    {decks.data.length > 0 && (
                         <button
                             onClick={() => {
                                 setIsCreating(!isCreating);
@@ -73,60 +54,28 @@ export default function Decks({ decks }: DecksProps) {
                         </button>
                     )}
                 </div>
-                {isCreating && (
-                    <div>
-                        <form
-                            onSubmit={onSubmit}
-                            className="my-4 flex flex-col items-end justify-center gap-4"
-                        >
-                            <Input
-                                type="text"
-                                value={data.name}
-                                placeholder="Name Your Deck"
-                                onChange={(e) =>
-                                    setData('name', e.target.value)
-                                }
-                            />
-                            <div className={'inline-flex gap-4'}>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsCreating(false)}
-                                    className={
-                                        'btn bg-lg rounded-md border border-solid border-slate-600 px-3 py-2'
-                                    }
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className={
-                                        'btn bg-lg rounded-md border border-solid border-slate-600 px-3 py-2'
-                                    }
-                                    disabled={processing}
-                                >
-                                    Create
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                )}
             </div>
             <div className="container mx-auto px-3 py-4">
-                {decks.data.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-                        {decks.data.map((deck, idx) => (
-                            <DeckTile
-                                key={idx}
-                                title={deck.name}
-                                deck={deck}
-                                activeSetter={setActiveDeck}
-                                onDelete={() => handleOnDelete(deck.id)}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <div>No decks found.</div>
-                )}
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+                    {decks.data.length > 0 && (
+                        <>
+                            {decks.data.map((deck, idx) => (
+                                <DeckTile
+                                    key={idx}
+                                    title={deck.name}
+                                    deck={deck}
+                                    activeSetter={setActiveDeck}
+                                    onDelete={() => handleOnDelete(deck.id)}
+                                />
+                            ))}
+                        </>
+                    )}
+                    <DeckTile
+                        isButton
+                        buttonAction={() => setIsCreating(true)}
+                        title="Create a new deck"
+                    />
+                </div>
             </div>
             <Modal
                 show={activeDeck !== null || isCreating}
