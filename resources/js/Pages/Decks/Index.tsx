@@ -51,6 +51,10 @@ export default function Decks({ decks }: DecksProps) {
             },
         });
     };
+    const handleCloseModal = () => {
+        setActiveDeck(null);
+        setIsCreating(false);
+    };
 
     return (
         <AuthenticatedLayout header={<PageTitle>Decks</PageTitle>}>
@@ -125,10 +129,11 @@ export default function Decks({ decks }: DecksProps) {
                 )}
             </div>
             <Modal
-                show={activeDeck !== null}
-                onClose={() => setActiveDeck(null)}
+                show={activeDeck !== null || isCreating}
+                onClose={() => handleCloseModal()}
             >
-                {activeDeck && <DeckModalContent deck={activeDeck as Deck} />}
+                {isCreating && <DeckModalContent creating onClose={handleCloseModal}/>}
+                {activeDeck && <DeckModalContent deck={activeDeck as Deck} onClose={handleCloseModal} />}
             </Modal>
         </AuthenticatedLayout>
     );
