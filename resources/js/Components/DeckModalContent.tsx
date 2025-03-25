@@ -119,7 +119,7 @@ const DeckModalContent = ({
                                             }
                                             disabled={processing}
                                         >
-                                            Name Deck
+                                            Create Deck
                                         </button>
                                     </div>
                                 </div>
