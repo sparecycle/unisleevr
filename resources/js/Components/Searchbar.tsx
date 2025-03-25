@@ -6,11 +6,20 @@ import { CardDataType } from '../types/mtg';
 
 type SearchbarProps = {
     autofocus: boolean;
-    parentSetter: (value: CardDataType[] | void[]) => void;
+    parentSetter: (value: CardDataType[] | []) => void;
+    specificCard?: boolean | undefined;
+    placeholderText?: string;
+    CTAText?: string;
 };
 
-const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
-    const [search, setSearch] = useState('');
+const Searchbar = ({
+    autofocus,
+    parentSetter,
+    specificCard,
+    placeholderText,
+    CTAText,
+}: SearchbarProps) => {
+    const [userSearchInput, setUserSearchInput] = useState('');
     const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
         [],
     );
@@ -18,18 +27,18 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
     const [error, setError] = useState<string | undefined>(undefined);
 
     const searchWrapperRef = useRef(null);
-    const handleOutsideClick = ()=>{
+    const handleOutsideClick = () => {
         setAutoCompleteResults([]);
         setError(undefined);
-    }
+    };
     useOutsideAlerter(searchWrapperRef, () => handleOutsideClick());
 
-    const validateSearch = (search: string) => {
-        if (search.length < 3) {
+    const validateSearch = (userSearchInput: string) => {
+        if (userSearchInput.length < 3) {
             setAutoCompleteResults([]);
             setError('Search must be at least 3 characters');
             return false;
-        } else if (search.length > 100) {
+        } else if (userSearchInput.length > 100) {
             setAutoCompleteResults([]);
             setError('Search must be less than 100 characters');
             return false;
@@ -41,13 +50,13 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
 
     const handleSearchOnChange = async (searchQuery: string) => {
         setLoading(true);
-        setSearch(searchQuery);
+        setUserSearchInput(searchQuery);
         if (!validateSearch(searchQuery)) {
             setLoading(false);
             throw new Error(error);
         }
         try {
-            const data = await scryfallAutoComplete(search);
+            const data = await scryfallAutoComplete(userSearchInput);
             setLoading(false);
             setAutoCompleteResults(data);
         } catch (error) {
@@ -60,13 +69,23 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
     const handleSubmitSearch = async (searchQuery: string) => {
         setLoading(true);
         try {
-            setSearch(searchQuery);
-            const data = await scryfallSearch(search);
+            setUserSearchInput(searchQuery);
+            const data = await scryfallSearch(userSearchInput);
+            const theSpecificCard = data.find(
+                (card: CardDataType) => card.name === searchQuery,
+            );
+            const foundSpecificCard = theSpecificCard ? theSpecificCard : false;
             const output = await parseCardData(data);
             setAutoCompleteResults([]);
-            parentSetter(output);
+            if (specificCard && foundSpecificCard) {
+                console.log('Specific card found:', searchQuery);
+                parentSetter([foundSpecificCard]);
+            } else {
+                parentSetter(output);
+            }
         } catch (error) {
             console.error(error);
+            setError('An error occurred while searching. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -88,15 +107,15 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
 
     return (
         <form
-            className="relative mx-auto max-w-md"
+            className="w-full"
             onSubmit={(e) => {
                 e.preventDefault();
-                handleSubmitSearch(search);
+                handleSubmitSearch(userSearchInput);
             }}
             ref={searchWrapperRef}
             onClick={() => {
-                if (search.length > 0) {
-                    handleSearchOnChange(search);
+                if (userSearchInput.length > 0) {
+                    handleSearchOnChange(userSearchInput);
                 }
             }}
         >
@@ -111,27 +130,30 @@ const Searchbar = ({ autofocus, parentSetter }: SearchbarProps) => {
                 <input
                     type="search"
                     id="default-search"
-                    className="block w-full rounded-lg border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-blue-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                    placeholder="Search for a card"
+                    className="block w-full rounded-lg border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    placeholder={placeholderText ?? `Search for a card`}
                     min={3}
                     max={100}
-                    value={search}
+                    value={userSearchInput}
                     onChange={(e) => handleSearchOnChange(e.target.value)}
                     autoFocus={autofocus}
                     autoComplete="off"
                 />
                 <button
                     type="submit"
-                    className="absolute bottom-2.5 end-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="absolute bottom-2.5 end-2.5 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-white text-zinc-900 hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:bg-blue-600 dark:bg-zinc-300 dark:hover:bg-zinc-400 dark:focus:ring-zinc-500"
                 >
-                    Search
+                    {CTAText ?? `Search`}
                 </button>
             </div>
 
             <div
                 className={`autocomplete-results ${autoCompleteResults.length > 0 ? 'block' : 'hidden'}`}
             >
-                <ul className="absolute z-10 w-full rounded-lg border border-zinc-300 bg-zinc-700/90 py-2 dark:border-zinc-600">
+                <ul
+                    className="z-99 absolute max-h-[20vh] w-auto overflow-y-auto rounded-lg border border-zinc-300 bg-zinc-700/90 py-2 dark:border-zinc-600"
+                    tabIndex={0}
+                >
                     {autoCompleteResults.map(
                         (result: string, index: number) => (
                             <li
