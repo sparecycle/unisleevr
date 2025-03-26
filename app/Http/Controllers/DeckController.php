@@ -35,12 +35,14 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255', // Validate the name field
             'user_id' => 'required|integer|exists:users,id', // Validate the user_id field
+            'cards' => 'array', // Validate the cards field
         ]);
 
         // Create a new deck with the validated data
         Deck::create([
             'name' => $validated['name'], 
             'user_id' => $validated['user_id'], 
+            'cards' => $validated['cards'], // No need to encode cards
         ]);
 
         // Redirect to the decks index page
@@ -52,15 +54,19 @@ class DeckController extends Controller
      */
     public function store(Request $request)
     {
-        // TO DO: Implement the store method as store and not create
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'user_id' => 'required|integer|exists:users,id',
+            'cards' => 'array', // Validate the cards field
         ]);
 
-        Deck::create($validated); // Create a new deck with the validated data
+        Deck::create([
+            'name' => $validated['name'],
+            'user_id' => $validated['user_id'],
+            'cards' => $validated['cards'], // No need to encode cards
+        ]);
 
-        return redirect(route('decks.index')); // Redirect to the decks index page
+        return redirect(route('decks.index'));
     }
 
     /**
