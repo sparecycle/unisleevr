@@ -27,9 +27,10 @@ class DeckNew extends Command
      */
     public function handle()
     {
-        // Ask for the deck name and user ID
+        // Ask for the deck name, user ID, and cards
         $deckName = $this->ask('Deck Name:');
         $deckUserID = $this->ask('User ID:');
+        $deckCards = $this->ask('Cards (JSON format):');
         $this->info($deckName);
 
         // Confirm the information before creating the deck
@@ -38,6 +39,7 @@ class DeckNew extends Command
             $deck = new Deck();
             $deck->name = $deckName;
             $deck->user_id = $deckUserID;
+            $deck->cards = $deckCards; // Save cards as JSON string
             $deck->save();
 
             $this->info("Saved.");
