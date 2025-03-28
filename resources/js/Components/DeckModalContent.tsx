@@ -34,6 +34,7 @@ const DeckModalContent = ({
     } = useForm({
         name: deck?.name || undefined,
         user_id: auth.user.id,
+        cards: deck?.cards || selectedCards,
     });
 
     const handleCardSelect = (results: CardDataType[] | []) => {
@@ -50,14 +51,24 @@ const DeckModalContent = ({
             uniqueOutput = [...results];
         }
         // uniqueOutput.sort((a, b) => a.id - b.id);
-        console.log('uniqueOutput', uniqueOutput);
         setSelectedCards(uniqueOutput);
+        setData('cards', uniqueOutput); // Update cards in the form state
     };
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
+
         if (creating) {
+            if (selectedCards.length === 0) {
+                console.error('You must select at least one card to create a deck.');
+                return; // Prevent submission if no cards are selected
+            }
+
+            // Log the payload to verify its structure
+            console.log('Payload being sent:', data);
+
             post(route('decks.store'), {
+                data, // Use the form state managed by useForm
                 onSuccess: () => {
                     reset();
                     onClose();
@@ -69,6 +80,7 @@ const DeckModalContent = ({
         }
         if (!creating) {
             patch(route('decks.update', deck?.id), {
+                data, // Use the form state managed by useForm
                 onSuccess: (e) => {
                     setIsEditingName(false); // Close the editing form on success
                     if (e.props.decks) {
@@ -85,6 +97,7 @@ const DeckModalContent = ({
             });
         }
     };
+
     if (creating) {
         return (
             <>
@@ -104,7 +117,7 @@ const DeckModalContent = ({
                                 <div className="relative flex w-full flex-wrap">
                                     <Input
                                         type="text"
-                                        value={data.name}
+                                        value={data.name || ''} // Ensure the input is always controlled
                                         placeholder="Name Your Deck"
                                         className="block w-full rounded-lg border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                         onChange={(e) =>
@@ -142,7 +155,7 @@ const DeckModalContent = ({
                                                 >
                                                     <button
                                                         type="button"
-                                                        aria-braillelabel={`remove ${card.name} from deck`}
+                                                        aria-label={`remove ${card.name} from deck`}
                                                         className="flex items-center"
                                                         onClick={() =>
                                                             setSelectedCards(
@@ -184,7 +197,7 @@ const DeckModalContent = ({
                                     className="flex items-center gap-4"
                                 >
                                     <Input
-                                        value={data.name}
+                                        value={data.name || ''} // Ensure the input is always controlled
                                         onChange={(e) =>
                                             setData('name', e.target.value)
                                         }
