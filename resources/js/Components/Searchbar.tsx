@@ -149,9 +149,10 @@ const Searchbar = ({
 
             <div
                 className={`autocomplete-results ${autoCompleteResults.length > 0 ? 'block' : 'hidden'}`}
+                style={{ position: 'relative', zIndex: 10 }}
             >
                 <ul
-                    className="z-99 absolute max-h-[20vh] w-auto overflow-y-auto rounded-lg border border-zinc-300 bg-zinc-700/90 py-2 dark:border-zinc-600"
+                    className="z-99 max-h-[20vh] w-auto overflow-y-auto rounded-lg border border-zinc-300 bg-zinc-700/90 py-2 dark:border-zinc-600"
                     tabIndex={0}
                 >
                     {autoCompleteResults.map(
