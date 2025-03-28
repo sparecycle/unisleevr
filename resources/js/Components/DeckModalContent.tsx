@@ -18,9 +18,11 @@ const DeckModalContent = ({
     onClose,
 }: DeckModalContentProps) => {
     const { auth } = usePage().props;
-    const [isEditingName, setIsEditingName] = useState(creating ?? false);
+    const [isEditing, setIsEditing] = useState(creating ?? false);
     const [updated, setUpdated] = useState<null | Deck>(null);
-    const [selectedCards, setSelectedCards] = useState<CardDataType[]>([]);
+    const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
+        deck?.cards || [],
+    );
 
     const {
         data,
@@ -60,7 +62,9 @@ const DeckModalContent = ({
 
         if (creating) {
             if (selectedCards.length === 0) {
-                console.error('You must select at least one card to create a deck.');
+                console.error(
+                    'You must select at least one card to create a deck.',
+                );
                 return; // Prevent submission if no cards are selected
             }
 
@@ -82,7 +86,7 @@ const DeckModalContent = ({
             patch(route('decks.update', deck?.id), {
                 data, // Use the form state managed by useForm
                 onSuccess: (e) => {
-                    setIsEditingName(false); // Close the editing form on success
+                    setIsEditing(false); // Close the editing form on success
                     if (e.props.decks) {
                         setUpdated(
                             e.props.decks.data.filter(
@@ -98,6 +102,51 @@ const DeckModalContent = ({
         }
     };
 
+    const renderCardSearch = () => {
+        return (
+            <>
+                {(isEditing || creating) && (<Searchbar
+                    autofocus={false}
+                    parentSetter={handleCardSelect}
+                    specificCard
+                    CTAText="Add Card"
+                    placeholderText="Add cards to your deck"
+                ></Searchbar>)}
+                
+                {selectedCards.length > 0 && (
+                    <>
+                        <ul className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
+                            {selectedCards.map((card: CardDataType) => (
+                                <li
+                                    key={`selectedcard-${card.id}`}
+                                    className="group/nametag m-1 rounded-md bg-zinc-800 px-2 py-1 group-hover/nametag:bg-zinc-700"
+                                >
+                                    <button
+                                        type="button"
+                                        aria-label={`remove ${card.name} from deck`}
+                                        className="flex items-center"
+                                        disabled={processing || (!creating && !isEditing)}
+                                        onClick={() =>
+                                            setSelectedCards(
+                                                selectedCards.filter(
+                                                    (c) => c.id !== card.id,
+                                                ),
+                                            )
+                                        }
+                                    >
+                                        {card.name}
+                                        {processing || (creating || isEditing) && (
+                                            <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
+                                        )}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </>
+        );
+    };
     if (creating) {
         return (
             <>
@@ -137,45 +186,7 @@ const DeckModalContent = ({
                                     </div>
                                 </div>
                             </form>
-                            <Searchbar
-                                autofocus={false}
-                                parentSetter={handleCardSelect}
-                                specificCard
-                                CTAText="Add Card"
-                                placeholderText="Add cards to your deck"
-                            ></Searchbar>
-                            {selectedCards.length > 0 && (
-                                <>
-                                    <ul className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
-                                        {selectedCards.map(
-                                            (card: CardDataType) => (
-                                                <li
-                                                    key={`selectedcard-${card.id}`}
-                                                    className="group/nametag m-1 rounded-md bg-zinc-800 px-2 py-1 group-hover/nametag:bg-zinc-700"
-                                                >
-                                                    <button
-                                                        type="button"
-                                                        aria-label={`remove ${card.name} from deck`}
-                                                        className="flex items-center"
-                                                        onClick={() =>
-                                                            setSelectedCards(
-                                                                selectedCards.filter(
-                                                                    (c) =>
-                                                                        c.id !==
-                                                                        card.id,
-                                                                ),
-                                                            )
-                                                        }
-                                                    >
-                                                        {card.name}
-                                                        <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
-                                                    </button>
-                                                </li>
-                                            ),
-                                        )}
-                                    </ul>
-                                </>
-                            )}
+                            {renderCardSearch()}
                         </div>
                     </div>
                 </div>
@@ -186,11 +197,11 @@ const DeckModalContent = ({
         <>
             {deck && deck.user_id === auth.user.id && (
                 <div className="px-4 py-6">
-                    <div className="flex items-center justify-between">
-                        {!isEditingName && (
+                    <div className="flex items-center justify-between flex-col gap-4">
+                        {!isEditing && (
                             <div>{updated?.name ?? deck.name}</div> // Display the deck name
                         )}
-                        {isEditingName && (
+                        {isEditing && (
                             <div className="grow pr-4">
                                 <form
                                     onSubmit={onSubmit}
@@ -209,12 +220,14 @@ const DeckModalContent = ({
                                 </form>
                             </div>
                         )}
+                        {renderCardSearch()}
+
                         <div className="shrink-0">
                             <Button
-                                onClick={() => setIsEditingName(!isEditingName)}
+                                onClick={() => setIsEditing(!isEditing)}
                                 className="border border-solid border-black bg-black px-3 py-2"
                             >
-                                {!isEditingName ? 'edit' : 'cancel'}
+                                {!isEditing ? 'edit' : 'cancel'}
                             </Button>
                         </div>
                     </div>
