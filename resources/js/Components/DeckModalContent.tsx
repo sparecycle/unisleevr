@@ -33,6 +33,9 @@ const DeckModalContent = ({
         clearErrors,
         reset,
         errors,
+        setError,
+        wasSuccessful,
+        recentlySuccessful,
     } = useForm({
         name: deck?.name || undefined,
         user_id: auth.user.id,
@@ -57,17 +60,38 @@ const DeckModalContent = ({
         setData('cards', uniqueOutput); // Update cards in the form state
     };
 
+    const validate = () => {
+        if (!data.name) {
+            setError('name', 'Name is required');
+            return false;
+        }
+        if (data.cards.length === 0) {
+            setError('cards', 'At least one card is required');
+            return false;
+        }
+        clearErrors(); // Clear previous errors
+
+        return true;
+    };
+
+    const renderErrors = () => {
+        if (!recentlySuccessful) {
+            return (
+                <>
+                    {errors.name && <p className="text-red-500">{errors.name}</p>}
+                    {errors.cards && <p className="text-red-500">{errors.cards}</p>}
+                </>
+            );
+        }
+        return null;
+    };
+
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
 
         if (creating) {
-            if (selectedCards.length === 0) {
-                console.error(
-                    'You must select at least one card to create a deck.',
-                );
-                return; // Prevent submission if no cards are selected
-            }
-
+            validate();
+            console.log('errors', errors);
             // Log the payload to verify its structure
             console.log('Payload being sent:', data);
 
@@ -105,14 +129,16 @@ const DeckModalContent = ({
     const renderCardSearch = () => {
         return (
             <>
-                {(isEditing || creating) && (<Searchbar
-                    autofocus={false}
-                    parentSetter={handleCardSelect}
-                    specificCard
-                    CTAText="Add Card"
-                    placeholderText="Add cards to your deck"
-                ></Searchbar>)}
-                
+                {(isEditing || creating) && (
+                    <Searchbar
+                        autofocus={false}
+                        parentSetter={handleCardSelect}
+                        specificCard
+                        CTAText="Add Card"
+                        placeholderText="Add cards to your deck"
+                    ></Searchbar>
+                )}
+
                 {selectedCards.length > 0 && (
                     <>
                         <ul className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
@@ -125,7 +151,10 @@ const DeckModalContent = ({
                                         type="button"
                                         aria-label={`remove ${card.name} from deck`}
                                         className="flex items-center"
-                                        disabled={processing || (!creating && !isEditing)}
+                                        disabled={
+                                            processing ||
+                                            (!creating && !isEditing)
+                                        }
                                         onClick={() =>
                                             setSelectedCards(
                                                 selectedCards.filter(
@@ -135,9 +164,10 @@ const DeckModalContent = ({
                                         }
                                     >
                                         {card.name}
-                                        {processing || (creating || isEditing) && (
-                                            <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
-                                        )}
+                                        {processing ||
+                                            ((creating || isEditing) && (
+                                                <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
+                                            ))}
                                     </button>
                                 </li>
                             ))}
@@ -147,6 +177,7 @@ const DeckModalContent = ({
             </>
         );
     };
+
     if (creating) {
         return (
             <>
@@ -159,6 +190,7 @@ const DeckModalContent = ({
                     </button>
                     <div className="flex items-center justify-between pt-2">
                         <div className="flex w-full grow flex-col items-center gap-4 py-4">
+                            {renderErrors()}
                             <form
                                 onSubmit={onSubmit}
                                 className="flex w-full flex-col items-center gap-4"
@@ -194,10 +226,17 @@ const DeckModalContent = ({
         );
     }
     return (
-        <>
+        <div className="bg-zinc-900 px-4 py-6">
+            <button
+                onClick={onClose}
+                className="absolute right-0 top-0 p-2 text-2xl text-zinc-900 hover:text-zinc-100 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:text-zinc-200 dark:hover:text-zinc-500"
+            >
+                <IoIosClose />
+            </button>
             {deck && deck.user_id === auth.user.id && (
                 <div className="px-4 py-6">
-                    <div className="flex items-center justify-between flex-col gap-4">
+                    <div className="flex flex-col items-center justify-between gap-4">
+                        {renderErrors()}
                         {!isEditing && (
                             <div>{updated?.name ?? deck.name}</div> // Display the deck name
                         )}
@@ -233,7 +272,7 @@ const DeckModalContent = ({
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
