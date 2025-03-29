@@ -113,7 +113,7 @@ const DeckModalContent = ({
                     setIsEditing(false); // Close the editing form on success
                     if (e.props.decks) {
                         setUpdated(
-                            e.props.decks.data.filter(
+                            (e.props.decks as { data: Deck[] }).data.filter(
                                 (d) => d.id === deck?.id,
                             )[0], // Update the deck data
                         );
