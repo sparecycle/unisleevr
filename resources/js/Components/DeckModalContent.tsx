@@ -78,8 +78,12 @@ const DeckModalContent = ({
         if (!recentlySuccessful) {
             return (
                 <>
-                    {errors.name && <p className="text-red-500">{errors.name}</p>}
-                    {errors.cards && <p className="text-red-500">{errors.cards}</p>}
+                    {errors.name && (
+                        <p className="text-red-500">{errors.name}</p>
+                    )}
+                    {errors.cards && (
+                        <p className="text-red-500">{errors.cards}</p>
+                    )}
                 </>
             );
         }
