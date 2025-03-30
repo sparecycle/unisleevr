@@ -1,4 +1,8 @@
-import { scryfallAutoComplete, scryfallSearch } from '@/api/Scryfall';
+import {
+    scryfallAutoComplete,
+    scryfallNamedSearch,
+    scryfallSearch,
+} from '@/api/Scryfall';
 import { parseCardData, useOutsideAlerter } from '@/utility';
 import { useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
@@ -70,19 +74,12 @@ const Searchbar = ({
         setLoading(true);
         try {
             setUserSearchInput(searchQuery);
-            const data = await scryfallSearch(userSearchInput);
-            const theSpecificCard = data.find(
-                (card: CardDataType) => card.name === searchQuery,
-            );
-            const foundSpecificCard = theSpecificCard ? theSpecificCard : false;
-            const output = await parseCardData(data);
+            const data = specificCard
+                ? await scryfallNamedSearch(searchQuery)
+                : await scryfallSearch(searchQuery);
+            const output = await parseCardData([data]);
             setAutoCompleteResults([]);
-            if (specificCard && foundSpecificCard) {
-                console.log('Specific card found:', searchQuery);
-                parentSetter([foundSpecificCard]);
-            } else {
-                parentSetter(output);
-            }
+            parentSetter(output);
         } catch (error) {
             console.error(error);
             setError('An error occurred while searching. Please try again.');
