@@ -87,6 +87,7 @@ export default function Decks({ decks }: DecksProps) {
                 {activeDeck && (
                     <DeckModalContent
                         deck={activeDeck as Deck}
+                        creating={false}
                         onClose={handleCloseModal}
                     />
                 )}

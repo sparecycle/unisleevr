@@ -4,4 +4,5 @@ export interface Deck {
     created_at: string;
     updated_at: string;
     user_id: number;
+    cards: CardDataType[];
 };
