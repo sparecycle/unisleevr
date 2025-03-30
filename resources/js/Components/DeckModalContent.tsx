@@ -18,7 +18,7 @@ const DeckModalContent = ({
     onClose,
 }: DeckModalContentProps) => {
     const { auth } = usePage().props;
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(creating ?? false);
     const [updated, setUpdated] = useState<null | Deck>(null);
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
@@ -131,7 +131,7 @@ const DeckModalContent = ({
     const renderCardSearch = () => {
         return (
             <>
-                {(isEditing || creating) && (
+                {(isEditing ) && (
                     <Searchbar
                         autofocus={false}
                         parentSetter={handleCardSelect}
@@ -155,7 +155,7 @@ const DeckModalContent = ({
                                         className="flex items-center"
                                         disabled={
                                             processing ||
-                                            (!creating && !isEditing)
+                                            (!isEditing)
                                         }
                                         onClick={() =>
                                             setSelectedCards(
@@ -167,7 +167,7 @@ const DeckModalContent = ({
                                     >
                                         {card.name}
                                         {processing ||
-                                            ((creating || isEditing) && (
+                                            ( isEditing && (
                                                 <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
                                             ))}
                                     </button>
@@ -192,7 +192,7 @@ const DeckModalContent = ({
                 <div className="flex w-full grow flex-col items-center gap-4 py-4">
                     {renderErrors()}
 
-                    {isEditing || creating ? (
+                    {isEditing ? (
                         <form
                             onSubmit={onSubmit}
                             className="flex w-full flex-col items-center gap-4"
