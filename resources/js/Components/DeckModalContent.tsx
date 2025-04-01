@@ -205,7 +205,7 @@ const DeckModalContent = ({
                                         <button
                                             type="submit"
                                             className={
-                                                'absolute bottom-2.5 end-2.5 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-white text-zinc-900 hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:bg-blue-600 dark:bg-zinc-300 dark:hover:bg-zinc-400 dark:focus:ring-zinc-500'
+                                                'absolute bottom-2.5 end-2.5 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:bg-zinc-300 dark:hover:bg-zinc-400 dark:focus:ring-zinc-500'
                                             }
                                             disabled={processing}
                                         >
