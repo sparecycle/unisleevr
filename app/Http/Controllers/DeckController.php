@@ -35,14 +35,14 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255', // Validate the name field
             'user_id' => 'required|integer|exists:users,id', // Validate the user_id field
-            'cards' => 'array', // Validate the cards field
+            'cards' => 'required|array|min:1', // Require cards to be a non-empty array
         ]);
 
         // Create a new deck with the validated data
         Deck::create([
             'name' => $validated['name'], 
             'user_id' => $validated['user_id'], 
-            'cards' => $validated['cards'], // No need to encode cards
+            'cards' => $validated['cards'], // Include cards in the creation
         ]);
 
         // Redirect to the decks index page
@@ -57,13 +57,13 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'user_id' => 'required|integer|exists:users,id',
-            'cards' => 'array', // Validate the cards field
+            'cards' => 'required|array|min:1', // Require cards to be a non-empty array
         ]);
 
         Deck::create([
             'name' => $validated['name'],
             'user_id' => $validated['user_id'],
-            'cards' => $validated['cards'], // No need to encode cards
+            'cards' => $validated['cards'], // Ensure cards is always populated
         ]);
 
         return redirect(route('decks.index'));
