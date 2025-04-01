@@ -8,6 +8,7 @@ import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
 import Modal from '@/Components/Modal';
 import { useState } from 'react';
+import AddCardModalContent from '@/Components/AddCardModalContent';
 
 export default function Cards({
     cards,
@@ -63,7 +64,7 @@ export default function Cards({
                 </div>
             </div>
             {isAdding &&
-                <Modal show={true} onClose={()=>setIsAdding(false)}><div>this is a modal</div></Modal>
+                <Modal show={true} onClose={()=>setIsAdding(false)}><AddCardModalContent /></Modal>
             }
         </AuthenticatedLayout>
     );
