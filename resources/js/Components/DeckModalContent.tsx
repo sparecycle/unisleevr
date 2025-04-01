@@ -181,13 +181,6 @@ const DeckModalContent = ({
     };
 
     return (
-        <div className="bg-zinc-900 px-4 py-6">
-            <button
-                onClick={onClose}
-                className="absolute right-0 top-0 p-2 text-2xl text-zinc-900 hover:text-zinc-100 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:text-zinc-200 dark:hover:text-zinc-500"
-            >
-                <IoIosClose />
-            </button>
             <div className="flex items-center justify-between pt-2">
                 <div className="flex w-full grow flex-col items-center gap-4 py-4">
                     {renderErrors()}
@@ -260,7 +253,6 @@ const DeckModalContent = ({
                     </div>
                 </div>
             </div>
-        </div>
     );
 };
 
