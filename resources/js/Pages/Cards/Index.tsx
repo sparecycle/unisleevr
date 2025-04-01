@@ -3,9 +3,10 @@ import MTGCard from '@/Components/MTGCard';
 import PageTitle from '@/Components/PageTitle';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { CardDataType } from '@/types/mtg';
+import { CardDataType } from '@/typs/mtg';
 import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
+import Modal from '@/Components/Modal';
 
 export default function Cards({
     cards,
@@ -59,6 +60,7 @@ export default function Cards({
                         ))}
                 </div>
             </div>
+            <Modal show={true} onClose={()=>console.log('close')}><div>this is a modal</div></Modal>
         </AuthenticatedLayout>
     );
 }
