@@ -1,5 +1,4 @@
 import { CardDataType } from '@/types/mtg';
-import { parseCardData } from '@/utility';
 import { Dispatch, SetStateAction } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import Searchbar from './Searchbar';

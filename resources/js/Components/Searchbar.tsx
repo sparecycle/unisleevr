@@ -10,7 +10,7 @@ import { ImSearch } from 'react-icons/im';
 
 type SearchbarProps = {
     autofocus: boolean;
-    parentSetter: (value: unknown[]) => void;
+    parentSetter: (value: CardDataType[]) => void;
     specificCard?: boolean | undefined;
     placeholderText?: string;
     CTAText?: string;
