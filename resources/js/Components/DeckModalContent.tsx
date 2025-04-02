@@ -6,7 +6,7 @@ import { IoIosClose } from 'react-icons/io';
 import { CardDataType } from '../types/mtg';
 import Button from './Button';
 import Input from './Input';
-import CardSearch from './CardSearch';
+import DeckCardSearch from './DeckCardSearch';
 
 type DeckModalContentProps = {
     deck?: Deck;
@@ -175,7 +175,7 @@ const DeckModalContent = ({
                             )}
                         </div>
                     )}
-                    <CardSearch isSearching={isEditing} parentSetter={handleCardSelect} cards={selectedCards} processing={processing} removeAction={setSelectedCards} />
+                    <DeckCardSearch isSearching={isEditing} parentSetter={handleCardSelect} cards={selectedCards} processing={processing} removeAction={setSelectedCards} />
                     <div className="shrink-0">
                         {creating ? (
                             <Button

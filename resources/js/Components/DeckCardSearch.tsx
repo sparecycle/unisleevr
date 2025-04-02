@@ -11,7 +11,7 @@ type Props = {
     removeAction: Dispatch<SetStateAction<CardDataType[]>>;
 }
 
-const CardSearch = ({isSearching, parentSetter, cards, processing, removeAction}:Props) => {
+const DeckCardSearch = ({isSearching, parentSetter, cards, processing, removeAction}:Props) => {
     return (
         <>
             {(isSearching ) && (
@@ -61,4 +61,4 @@ const CardSearch = ({isSearching, parentSetter, cards, processing, removeAction}
     );
 };
 
-export default CardSearch;
+export default DeckCardSearch;
