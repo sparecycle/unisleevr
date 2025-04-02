@@ -19,33 +19,12 @@ class CardController extends Controller
             ->get();
 
         $cardList = $decks->flatMap(function ($deck) {
-            return collect($deck->cards)->pluck('id'); 
+            return $deck->cards;
         })->unique()->values()->all();
 
 
-        $identifiers = array_map(function($id) {
-            return ['id' => $id];
-        }, $cardList);
-
-        $allCards = [];
-
-        $chunks = array_chunk($identifiers, 75);
-
-        foreach ($chunks as $chunk) {
-            $scryfallResponse = Http::post('https://api.scryfall.com/cards/collection', [
-                'identifiers' => $chunk
-            ]);
-
-            if ($scryfallResponse->successful()) {
-                $cards = $scryfallResponse->json('data');
-                $allCards = array_merge($allCards, $cards);
-            } else {
-                \Log::error('Failed to fetch cards from Scryfall API. Status: ' . $scryfallResponse->status());
-            }
-        }
-
         return Inertia::render('Cards/Index', [
-            'cards' => $allCards
+            'cards' => $cardList
         ]);
     }
 
