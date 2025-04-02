@@ -22,9 +22,8 @@ export default function Cards({
     cards: any;
     decks: Deck[] | undefined; // Update type from Deck[] | null to Deck[] | undefined
 }) {
-    console.log('cards', cards);
     const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
-    console.log('cards', parsedCards);
+    console.log('cards', { raw: cards, parsed: parsedCards });
     console.log('decks', decks);
     const [isAdding, setIsAdding] = useState(false);
 
