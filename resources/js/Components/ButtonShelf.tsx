@@ -65,18 +65,16 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
             >
                 <div className={`container grid ${gridColsClass} gap-1`}>
                     {keyedButtons.map((button) => (
-                        <>
-                            <PrimaryButton
-                                key={`${button.key}`}
-                                className={`btn col-span-2 md:col-span-1`}
-                                aria-label={button.label}
-                                onClick={button.action ?? button.action}
-                                format={button.link ? 'link' : 'button'}
-                                href={button.link ?? button.link}
-                            >
-                                {button.label}
-                            </PrimaryButton>
-                        </>
+                        <PrimaryButton
+                            key={`${button.key}`}
+                            className={`btn col-span-2 md:col-span-1`}
+                            aria-label={button.label}
+                            onClick={button.action ?? button.action}
+                            format={button.link ? 'link' : 'button'}
+                            href={button.link ?? button.link}
+                        >
+                            {button.label}
+                        </PrimaryButton>
                     ))}
                 </div>
             </div>
