@@ -23,8 +23,10 @@ class CardController extends Controller
         })->unique()->values()->all();
 
 
+
         return Inertia::render('Cards/Index', [
-            'cards' => $cardList
+            'cards' => $cardList,
+            'decks' => $decks
         ]);
     }
 

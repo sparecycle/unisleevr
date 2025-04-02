@@ -3,6 +3,7 @@ import MTGCard from '@/Components/MTGCard';
 import PageTitle from '@/Components/PageTitle';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
 import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
@@ -12,11 +13,10 @@ export default function Cards({
     decks,
 }: {
     cards: any;
-    decks: { data: any };
+    decks: Deck[] | null;
 }) {
-    console.log('cards', cards);
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
-    console.log('parsedCards', parsedCards);
+    console.log('cards', parsedCards)
     console.log('decks', decks);
 
     const addCard = () => {
