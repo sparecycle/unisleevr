@@ -54,7 +54,7 @@ const MTGCard = ({
                 {onDelete && deleteButton()}
                 {decks && decks.length > 0 && (
                     <button
-                        className={`btn btn-primary transition-rotate absolute bottom-0 right-0 rounded-full border-none bg-black/50 p-1 opacity-0 opacity-100 duration-200 ease-in-out hover:bg-black group-hover:opacity-100 md:bottom-auto md:top-14 lg:top-10 lg:opacity-0`}
+                        className={`btn btn-primary transition-rotate absolute bottom-0 right-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black group-hover:opacity-100 md:bottom-auto md:top-14 lg:top-10 lg:opacity-0`}
                         onClick={() => setDisplayDecks(true)}
                     >
                         <TbCardsFilled className="h-12 w-12 md:h-10 md:w-10 lg:h-6 lg:w-6" />
