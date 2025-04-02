@@ -17,7 +17,6 @@ export const scryfallNamedSearch = async (searchQuery: string) => {
             `https://api.scryfall.com/cards/named?fuzzy=${searchQuery}`,
         );
         const data = await response.json();
-        console.log('Named search data:', data);
         return data;
     } catch (error) {
         console.error(error);
