@@ -132,8 +132,6 @@ const DeckModalContent = ({
     return (
             <div className="flex items-center justify-between pt-2">
                 <div className="flex w-full grow flex-col items-center gap-4 py-4">
-                    <CardSearch isSearching={isEditing} parentSetter={handleCardSelect} cards={selectedCards} processing={processing} removeAction={setSelectedCards} />
-
                     {isEditing ? (
                         <form
                             onSubmit={onSubmit}
@@ -177,7 +175,7 @@ const DeckModalContent = ({
                             )}
                         </div>
                     )}
-
+                    <CardSearch isSearching={isEditing} parentSetter={handleCardSelect} cards={selectedCards} processing={processing} removeAction={setSelectedCards} />
                     <div className="shrink-0">
                         {creating ? (
                             <Button
