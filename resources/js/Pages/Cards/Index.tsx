@@ -19,7 +19,7 @@ export default function Cards({
     decks: Deck[] | null;
 }) {
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
-    console.log('cards', parsedCards)
+    console.log('cards', parsedCards);
     console.log('decks', decks);
     const [isAdding, setIsAdding] = useState(false);
 
