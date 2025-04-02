@@ -14,6 +14,7 @@ export default function Cards({
     cards: any;
     decks: { data: any };
 }) {
+    console.log('cards', cards);
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
     console.log('parsedCards', parsedCards);
     console.log('decks', decks);
