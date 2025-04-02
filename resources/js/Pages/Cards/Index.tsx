@@ -7,7 +7,7 @@ import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
-import { parseCardData } from '@/utility';
+import { prepCardDataForRender } from '@/utility';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -23,7 +23,7 @@ export default function Cards({
     decks: Deck[] | undefined; // Update type from Deck[] | null to Deck[] | undefined
 }) {
     console.log('cards', cards);
-    const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
+    const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
     console.log('cards', parsedCards);
     console.log('decks', decks);
     const [isAdding, setIsAdding] = useState(false);

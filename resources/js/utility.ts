@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { CardDataType } from './types/mtg';
 
 // currently an any because this takes the raw card data from scryfall.
-export const parseCardData = (cardData: any[]): CardDataType[] | [] => {
+export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
     // Filter out cards that are not paper i.e. Arena only && tokens && art series
     // note: this might not be necessary if the scryfall search query is more specific
     const preFilteredCardData = filterNonCommanderCards(cardData);
