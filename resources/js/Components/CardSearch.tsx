@@ -1,6 +1,6 @@
 import Searchbar from "./Searchbar";
 import { CardDataType } from "@/types/mtg";
-import { SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { IoIosClose } from "react-icons/io";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
     parentSetter:(value: CardDataType[] | []) => void;
     cards:CardDataType[];
     processing:boolean;
-    removeAction: SetStateAction<CardDataType[]>;
+    removeAction: Dispatch<SetStateAction<CardDataType[]>>;
 }
 
 const CardSearch = ({isSearching, parentSetter, cards, processing, removeAction}:Props) => {
@@ -40,7 +40,11 @@ const CardSearch = ({isSearching, parentSetter, cards, processing, removeAction}
                                         processing ||
                                         (!isSearching)
                                     }
-                                    onClick={() => removeAction }
+                                    onClick={() => removeAction(
+                                        cards.filter(
+                                            (c) => c.id !== card.id,
+                                        )
+                                    ) }
                                 >
                                     {card.name}
                                     {processing ||
