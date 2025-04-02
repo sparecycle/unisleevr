@@ -2,24 +2,24 @@ import ButtonShelf from '@/Components/ButtonShelf';
 import MTGCard from '@/Components/MTGCard';
 import PageTitle from '@/Components/PageTitle';
 
+import AddCardModalContent from '@/Components/AddCardModalContent';
+import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { CardDataType } from '@/typs/mtg';
+import { Deck } from '@/types/deck';
+import { CardDataType } from '@/types/mtg';
 import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
-import Modal from '@/Components/Modal';
 import { useState } from 'react';
-import AddCardModalContent from '@/Components/AddCardModalContent';
 
 export default function Cards({
     cards,
     decks,
 }: {
     cards: any;
-    decks: { data: any };
+    decks: Deck[] | null;
 }) {
-    console.log('cards', cards);
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
-    console.log('parsedCards', parsedCards);
+    console.log('cards', parsedCards)
     console.log('decks', decks);
     const [isAdding, setIsAdding] = useState(false);
 
