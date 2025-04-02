@@ -6,6 +6,7 @@ import { IoIosClose } from 'react-icons/io';
 import { CardDataType } from '../types/mtg';
 import Button from './Button';
 import Input from './Input';
+import DeckCardSearch from './DeckCardSearch';
 
 type DeckModalContentProps = {
     deck?: Deck;
@@ -128,70 +129,9 @@ const DeckModalContent = ({
         }
     };
 
-    const renderCardSearch = () => {
-        return (
-            <>
-                {(isEditing ) && (
-                    <Searchbar
-                        autofocus={false}
-                        parentSetter={handleCardSelect}
-                        specificCard
-                        CTAText="Add Card"
-                        placeholderText="Add cards to your deck"
-                    ></Searchbar>
-                )}
-
-                {selectedCards.length > 0 && (
-                    <>
-                        <ul className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
-                            {selectedCards.map((card: CardDataType) => (
-                                <li
-                                    key={`selectedcard-${card.id}`}
-                                    className="group/nametag m-1 rounded-md bg-zinc-800 px-2 py-1 group-hover/nametag:bg-zinc-700"
-                                >
-                                    <button
-                                        type="button"
-                                        aria-label={`remove ${card.name} from deck`}
-                                        className="flex items-center"
-                                        disabled={
-                                            processing ||
-                                            (!isEditing)
-                                        }
-                                        onClick={() =>
-                                            setSelectedCards(
-                                                selectedCards.filter(
-                                                    (c) => c.id !== card.id,
-                                                ),
-                                            )
-                                        }
-                                    >
-                                        {card.name}
-                                        {processing ||
-                                            ( isEditing && (
-                                                <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
-                                            ))}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                )}
-            </>
-        );
-    };
-
     return (
-        <div className="bg-zinc-900 px-4 py-6">
-            <button
-                onClick={onClose}
-                className="absolute right-0 top-0 p-2 text-2xl text-zinc-900 hover:text-zinc-100 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:text-zinc-200 dark:hover:text-zinc-500"
-            >
-                <IoIosClose />
-            </button>
             <div className="flex items-center justify-between pt-2">
                 <div className="flex w-full grow flex-col items-center gap-4 py-4">
-                    {renderErrors()}
-
                     {isEditing ? (
                         <form
                             onSubmit={onSubmit}
@@ -212,7 +152,7 @@ const DeckModalContent = ({
                                         <button
                                             type="submit"
                                             className={
-                                                'absolute bottom-2.5 end-2.5 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-white text-zinc-900 hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:bg-blue-600 dark:bg-zinc-300 dark:hover:bg-zinc-400 dark:focus:ring-zinc-500'
+                                                'absolute bottom-2.5 end-2.5 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:bg-zinc-300 dark:hover:bg-zinc-400 dark:focus:ring-zinc-500'
                                             }
                                             disabled={processing}
                                         >
@@ -235,9 +175,7 @@ const DeckModalContent = ({
                             )}
                         </div>
                     )}
-
-                    {renderCardSearch()}
-
+                    <DeckCardSearch isSearching={isEditing} parentSetter={handleCardSelect} cards={selectedCards} processing={processing} removeAction={setSelectedCards} />
                     <div className="shrink-0">
                         {creating ? (
                             <Button
@@ -260,7 +198,6 @@ const DeckModalContent = ({
                     </div>
                 </div>
             </div>
-        </div>
     );
 };
 

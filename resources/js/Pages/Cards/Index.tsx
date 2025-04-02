@@ -3,9 +3,12 @@ import MTGCard from '@/Components/MTGCard';
 import PageTitle from '@/Components/PageTitle';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { CardDataType } from '@/types/mtg';
+import { CardDataType } from '@/typs/mtg';
 import { parseCardData } from '@/utility';
 import { Head } from '@inertiajs/react';
+import Modal from '@/Components/Modal';
+import { useState } from 'react';
+import AddCardModalContent from '@/Components/AddCardModalContent';
 
 export default function Cards({
     cards,
@@ -17,9 +20,10 @@ export default function Cards({
     const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
     console.log('parsedCards', parsedCards);
     console.log('decks', decks);
+    const [isAdding, setIsAdding] = useState(false);
 
     const addCard = () => {
-        console.log('add a card');
+        setIsAdding(true);
     };
 
     const buttons = [
@@ -59,6 +63,9 @@ export default function Cards({
                         ))}
                 </div>
             </div>
+            {isAdding &&
+                <Modal show={true} onClose={()=>setIsAdding(false)}><AddCardModalContent /></Modal>
+            }
         </AuthenticatedLayout>
     );
 }
