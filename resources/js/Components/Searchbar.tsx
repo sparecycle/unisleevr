@@ -6,11 +6,10 @@ import {
 import { parseCardData, useOutsideAlerter } from '@/utility';
 import { useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
-import { CardDataType } from '../types/mtg';
 
 type SearchbarProps = {
     autofocus: boolean;
-    parentSetter: (value: CardDataType[] | []) => void;
+    parentSetter: (value: unknown[]) => void;
     specificCard?: boolean | undefined;
     placeholderText?: string;
     CTAText?: string;
