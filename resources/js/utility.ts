@@ -5,7 +5,7 @@ import { CardDataType } from './types/mtg';
 export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
     // Filter out cards that are not paper i.e. Arena only && tokens && art series
     // note: this might not be necessary if the scryfall search query is more specific
-    const preFilteredCardData = filterNonCommanderCards(cardData);
+    const preFilteredCardData = filterNonPlayableCards(cardData);
 
     const output = preFilteredCardData.map((card: any) => {
         const isDoubleFaced = card.card_faces ? true : false;
@@ -61,8 +61,8 @@ export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
     return output;
 };
 
-export const filterNonCommanderCards = (cards: unknown[]): unknown[] => {
-    // Filter out cards that are not legal in commander
+export const filterNonPlayableCards = (cards: unknown[]): unknown[] => {
+    // Filter out cards that are not legal in any paper format
     const filteredCards = cards.filter(
         (card: any) =>
             card.games.includes('paper') &&
