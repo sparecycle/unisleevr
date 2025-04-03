@@ -2,6 +2,7 @@ import { CardDataType } from '@/types/mtg';
 import { Dispatch, SetStateAction } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import Searchbar from './Searchbar';
+import NametagButton from './NametagButton';
 
 type Props = {
     isSearching: boolean;
@@ -38,10 +39,8 @@ const DeckCardSearch = ({
                                 key={`selectedcard-${card.id}`}
                                 className="m-1"
                             >
-                                <button
-                                    type="button"
+                                <NametagButton
                                     aria-label={`remove ${card.name} from deck`}
-                                    className="group/nametag flex items-center rounded-md bg-zinc-800 px-2 py-1 group-hover/nametag:bg-zinc-700"
                                     disabled={processing || !isSearching}
                                     onClick={() =>
                                         removeAction(
@@ -50,13 +49,10 @@ const DeckCardSearch = ({
                                             ),
                                         )
                                     }
+                                    showClose={processing || isSearching}
                                 >
                                     {card.name}
-                                    {processing ||
-                                        (isSearching && (
-                                            <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
-                                        ))}
-                                </button>
+                                </NametagButton>
                             </li>
                         ))}
                     </ul>
