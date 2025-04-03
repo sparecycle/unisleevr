@@ -3,14 +3,14 @@ import {
     scryfallNamedSearch,
     scryfallSearch,
 } from '@/api/Scryfall';
-import { parseCardData, useOutsideAlerter } from '@/utility';
+import { CardDataType } from '@/types/mtg';
+import { prepCardDataForRender, useOutsideAlerter } from '@/utility';
 import { useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
-import { CardDataType } from '../types/mtg';
 
 type SearchbarProps = {
     autofocus: boolean;
-    parentSetter: (value: CardDataType[] | []) => void;
+    parentSetter: (value: CardDataType[]) => void;
     specificCard?: boolean | undefined;
     placeholderText?: string;
     CTAText?: string;
@@ -77,7 +77,7 @@ const Searchbar = ({
             const data = specificCard
                 ? await scryfallNamedSearch(searchQuery)
                 : await scryfallSearch(searchQuery);
-            const output = await parseCardData([data]);
+            const output: CardDataType[] = await prepCardDataForRender([data]);
             setAutoCompleteResults([]);
             parentSetter(output);
         } catch (error) {

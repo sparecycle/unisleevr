@@ -6,6 +6,7 @@ use App\Models\Deck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -18,14 +19,33 @@ class CardController extends Controller
             ->where('user_id', $userId)
             ->get();
 
-        $cardList = $decks->flatMap(function ($deck) {
-            return $deck->cards;
-        })->unique()->values()->all();
+        $cardIdList = $decks->flatMap(function ($deck) {
+            return collect($deck->cards)->pluck('id');
+        })->unique()->values()->toArray();
 
 
+        // Split the identifiers array into chunks of 75
+        $chunks = array_chunk($cardIdList, 75);
+
+        // Iterate over each chunk and make an HTTP request
+        foreach ($chunks as $chunk) {
+            // Transform the chunk into the correct format
+            $identifiers = array_map(fn($id) => ['id' => $id], $chunk);
+
+            $scryfallResponse = Http::post('https://api.scryfall.com/cards/collection', [
+                'identifiers' => $identifiers // Correctly formatted array
+            ]);
+
+            if ($scryfallResponse->successful()) {
+                $cards = $scryfallResponse->json('data');
+                $allCards = array_merge($allCards, $cards);
+            } else {
+                error_log('Failed to fetch cards from Scryfall API. Status: ' . $scryfallResponse->status());
+            }
+        }
 
         return Inertia::render('Cards/Index', [
-            'cards' => $cardList,
+            'cards' => $allCards,
             'decks' => $decks
         ]);
     }

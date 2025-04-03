@@ -15,3 +15,5 @@ export type PageProps<
     };
     ziggy: Config & { location: string };
 };
+
+export type NonEmptyArray<T> = [T, ...T[]];

@@ -7,21 +7,35 @@ import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
-import { parseCardData } from '@/utility';
+import { prepCardDataForRender } from '@/utility';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
+
+type CardsWithDecks = CardDataType & {
+    decks: Deck[] | undefined;
+};
 
 export default function Cards({
     cards,
     decks,
 }: {
     cards: any;
-    decks: Deck[] | null;
+    decks: Deck[] | undefined; // Update type from Deck[] | null to Deck[] | undefined
 }) {
-    const parsedCards: CardDataType[] | [] = parseCardData(cards) || [];
-    console.log('cards', parsedCards);
+    const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
+    console.log('cards', { raw: cards, parsed: parsedCards });
     console.log('decks', decks);
     const [isAdding, setIsAdding] = useState(false);
+
+    const parsedCardsWithDeckRefs = parsedCards.map((card) => {
+        const deckRefs = decks?.filter((deck) => {
+            return deck.cards.some((deckCard) => deckCard.id === card.id);
+        });
+        return {
+            ...card,
+            decks: deckRefs,
+        };
+    });
 
     const addCard = () => {
         setIsAdding(true);
@@ -44,8 +58,8 @@ export default function Cards({
                     <ButtonShelf buttons={buttons} />
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {parsedCards.length > 1 &&
-                        parsedCards.map((card: CardDataType) => (
+                    {parsedCardsWithDeckRefs.length > 0 &&
+                        parsedCardsWithDeckRefs.map((card: CardsWithDecks) => (
                             <div key={`${card.id}`}>
                                 <MTGCard
                                     id={card.id}
@@ -59,14 +73,17 @@ export default function Cards({
                                     toughness={card.toughness}
                                     backCardData={card.backCardData}
                                     onDelete={() => handleDelete(card.id)}
+                                    decks={card.decks}
                                 ></MTGCard>
                             </div>
                         ))}
                 </div>
             </div>
-            {isAdding &&
-                <Modal show={true} onClose={()=>setIsAdding(false)}><AddCardModalContent /></Modal>
-            }
+            {isAdding && (
+                <Modal show={true} onClose={() => setIsAdding(false)}>
+                    <AddCardModalContent />
+                </Modal>
+            )}
         </AuthenticatedLayout>
     );
 }
