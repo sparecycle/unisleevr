@@ -23,7 +23,8 @@ class CardController extends Controller
             return collect($deck->cards)->pluck('id');
         })->unique()->values()->toArray();
 
-
+        $allCards = [];
+        
         // Split the identifiers array into chunks of 75
         $chunks = array_chunk($cardIdList, 75);
 
