@@ -11,7 +11,7 @@ type Props = {
 
 const AddCardModalContent = ({decks}:Props) => {
     const { auth } = usePage().props;
-    const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
+    const [selectedCard, setSelectedCard] = useState<CardDataType>(
         [],
     );
     console.log(decks);
@@ -30,22 +30,11 @@ const AddCardModalContent = ({decks}:Props) => {
     } = useForm({
         name:  undefined,
         user_id: auth.user.id,
-        cards:  selectedCards,
+        //card:  selectedCard,
     });
     const handleCardSelect = (results: CardDataType[] | []) => {
         if (results === undefined || results.length == 0) return;
-
-        let uniqueOutput: CardDataType[] = [];
-
-        if (selectedCards.length > 0) {
-            uniqueOutput = [...selectedCards, ...results].filter(
-                (item, index, self) =>
-                    index === self.findIndex((t) => t.id === item.id),
-            );
-        } else {
-            uniqueOutput = [...results];
-        }
-        setSelectedCards(uniqueOutput);
+        setSelectedCard(results[0]);
     };
     //const validate = () => {
     //    if (!data.name) {
@@ -85,7 +74,7 @@ const AddCardModalContent = ({decks}:Props) => {
     return (
         <div className="flex flex-col gap-2">
             <Searchbar autofocus={true} parentSetter={handleCardSelect} specificCard={true}  />
-            <div className="flex">
+            <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
 
             </div>
             <form
