@@ -3,12 +3,18 @@ import { useForm, usePage } from "@inertiajs/react";
 import Searchbar from "./Searchbar";
 import { CardDataType } from "@/types/mtg";
 import { FormEvent } from "react";
+import { Deck } from "@/types/deck";
 
-const AddCardModalContent = () => {
+type Props = {
+    decks: Deck[];
+}
+
+const AddCardModalContent = ({decks}:Props) => {
     const { auth } = usePage().props;
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         [],
     );
+    console.log(decks);
     const {
         data,
         setData,
@@ -42,48 +48,49 @@ const AddCardModalContent = () => {
         setSelectedCards(uniqueOutput);
         setData('cards', uniqueOutput);
     };
-    const validate = () => {
-        if (!data.name) {
-            setError('name', 'Name is required');
-            return false;
-        }
-        if (data.cards.length === 0) {
-            setError('cards', 'At least one card is required');
-            return false;
-        }
-        clearErrors(); // Clear previous errors
-
-        return true;
-    };
-    const onSubmit = (e: FormEvent) => {
-        e.preventDefault();
-
-        validate();
-
-        patch(route('decks.update', deck?.id), {
-            data, // Use the form state managed by useForm
-            onSuccess: (e) => {
-                setIsEditing(false); // Close the editing form on success
-                if (e.props.decks) {
-                    setUpdated(
-                        (e.props.decks as { data: Deck[] }).data.filter(
-                            (d) => d.id === deck?.id,
-                        )[0], // Update the deck data
-                    );
-                }
-            },
-            onError: (errors) => {
-                console.error(errors); // Log errors to the console
-            },
-        });
-    };
+    //const validate = () => {
+    //    if (!data.name) {
+    //        setError('name', 'Name is required');
+    //        return false;
+    //    }
+    //    if (data.cards.length === 0) {
+    //        setError('cards', 'At least one card is required');
+    //        return false;
+    //    }
+    //    clearErrors(); // Clear previous errors
+    //
+    //    return true;
+    //};
+    //const onSubmit = (e: FormEvent) => {
+    //    e.preventDefault();
+    //
+    //    validate();
+    //
+    //    patch(route('decks.update', deck?.id), {
+    //        data, // Use the form state managed by useForm
+    //        onSuccess: (e) => {
+    //            setIsEditing(false); // Close the editing form on success
+    //            if (e.props.decks) {
+    //                setUpdated(
+    //                    (e.props.decks as { data: Deck[] }).data.filter(
+    //                        (d) => d.id === deck?.id,
+    //                    )[0], // Update the deck data
+    //                );
+    //            }
+    //        },
+    //        onError: (errors) => {
+    //            console.error(errors); // Log errors to the console
+    //        },
+    //    });
+    //};
     return (
-        <div>
+        <div className="flex flex-col gap-2">
+            <Searchbar autofocus={true} parentSetter={handleCardSelect}  />
+            <div className="flex"></div>
             <form
-                onSubmit={onSubmit}
+                //onSubmit={onSubmit}
                 className="flex w-full flex-col items-center gap-4"
             >
-                <Searchbar autofocus={true} parentSetter={handleCardSelect}  />
             </form>
         </div>
     )
