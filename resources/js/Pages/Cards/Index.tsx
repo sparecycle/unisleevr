@@ -11,9 +11,9 @@ import { prepCardDataForRender } from '@/utility';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 
-interface CardsWithDecks extends CardDataType {
+type CardsWithDecks = CardDataType & {
     decks: Deck[] | undefined;
-}
+};
 
 export default function Cards({
     cards,
