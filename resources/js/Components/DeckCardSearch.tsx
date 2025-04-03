@@ -36,12 +36,12 @@ const DeckCardSearch = ({
                         {cards.map((card) => (
                             <li
                                 key={`selectedcard-${card.id}`}
-                                className="group/nametag m-1 rounded-md bg-zinc-800 px-2 py-1 group-hover/nametag:bg-zinc-700"
+                                className="m-1"
                             >
                                 <button
                                     type="button"
                                     aria-label={`remove ${card.name} from deck`}
-                                    className="flex items-center"
+                                    className="group/nametag flex items-center rounded-md bg-zinc-800 px-2 py-1 group-hover/nametag:bg-zinc-700"
                                     disabled={processing || !isSearching}
                                     onClick={() =>
                                         removeAction(
