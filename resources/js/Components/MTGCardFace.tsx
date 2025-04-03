@@ -31,7 +31,7 @@ const MTGCardFace = ({
             {!brokenImage && (
                 <figure className="relative">
                     <img
-                        className="w-full rounded-[6%]"
+                        className="rounded-mtg w-full mix-blend-multiply"
                         src={imgUris.png}
                         alt={name}
                         onError={() => {
@@ -41,7 +41,7 @@ const MTGCardFace = ({
                 </figure>
             )}
 
-            <div className="card-body absolute top-0 w-full p-0">
+            <div className="card-body rounded-mtg absolute top-0 w-full p-0">
                 <div
                     className={`card-body-text w-full ${!brokenImage && 'opacity-0'} flex aspect-[2.5/3.5] flex-col justify-between bg-slate-800 p-4`}
                 >
