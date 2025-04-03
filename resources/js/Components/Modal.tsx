@@ -61,7 +61,7 @@ export default function Modal({
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                     <DialogPanel
-                        className={`mb-6 transform overflow-visible rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full dark:text-white dark:bg-gray-800 ${maxWidthClass}`}
+                        className={`mb-6 transform overflow-visible rounded-lg bg-white shadow-xl transition-all w-full sm:mx-auto sm:w-full dark:text-white dark:bg-gray-800 ${maxWidthClass}`}
                     >
                         <div className="bg-zinc-900 px-4 pt-11 pb-6">
                             <button
