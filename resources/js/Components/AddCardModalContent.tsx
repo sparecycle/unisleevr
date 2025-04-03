@@ -79,11 +79,16 @@ const AddCardModalContent = ({ decks }: Props) => {
                 specificCard={true}
             />
             {selectedCard && (
-                <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
-                    <NametagButton aria-label={`tempo`} showClose={false}>
-                        {selectedCard.name}
-                    </NametagButton>
-                </div>
+                <>
+                    <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
+                        <NametagButton aria-label={`tempo`} showClose={false}>
+                            {selectedCard.name}
+                        </NametagButton>
+                    </div>
+                    <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
+                        Please a select a deck to add this card to:
+                    </div>
+                </>
             )}
             <form
                 //onSubmit={onSubmit}
