@@ -1,8 +1,7 @@
 import { CardDataType } from '@/types/mtg';
 import { Dispatch, SetStateAction } from 'react';
-import { IoIosClose } from 'react-icons/io';
-import Searchbar from './Searchbar';
 import NametagButton from './NametagButton';
+import Searchbar from './Searchbar';
 
 type Props = {
     isSearching: boolean;
@@ -35,10 +34,7 @@ const DeckCardSearch = ({
                 <>
                     <ul className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
                         {cards.map((card) => (
-                            <li
-                                key={`selectedcard-${card.id}`}
-                                className="m-1"
-                            >
+                            <li key={`selectedcard-${card.id}`} className="m-1">
                                 <NametagButton
                                     aria-label={`remove ${card.name} from deck`}
                                     disabled={processing || !isSearching}

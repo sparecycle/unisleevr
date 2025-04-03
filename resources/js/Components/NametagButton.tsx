@@ -1,9 +1,15 @@
-import { ComponentProps } from "react";
-import { IoIosClose } from "react-icons/io";
+import { ComponentProps } from 'react';
+import { IoIosClose } from 'react-icons/io';
 
-type Props = ComponentProps<'button'> & {showClose: boolean};
+type Props = ComponentProps<'button'> & { showClose: boolean };
 
-const NametagButton = ({'aria-label':ariaLabel, disabled, onClick, children, showClose = false}:Props) => {
+const NametagButton = ({
+    'aria-label': ariaLabel,
+    disabled,
+    onClick,
+    children,
+    showClose = false,
+}: Props) => {
     return (
         <button
             type="button"
@@ -13,11 +19,11 @@ const NametagButton = ({'aria-label':ariaLabel, disabled, onClick, children, sho
             onClick={onClick}
         >
             {children}
-                {showClose  && (
-                    <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
-                )}
+            {showClose && (
+                <IoIosClose className="opacity-0 transition-opacity duration-200 ease-in-out group-hover/nametag:opacity-100" />
+            )}
         </button>
-    )
+    );
 };
 
 export default NametagButton;

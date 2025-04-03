@@ -5,4 +5,4 @@ export interface Deck {
     updated_at: string;
     user_id: number;
     cards: CardDataType[];
-};
+}
