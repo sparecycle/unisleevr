@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, usePage } from "@inertiajs/react";
 import Searchbar from "./Searchbar";
 import { CardDataType } from "@/types/mtg";
@@ -46,7 +46,6 @@ const AddCardModalContent = ({decks}:Props) => {
             uniqueOutput = [...results];
         }
         setSelectedCards(uniqueOutput);
-        setData('cards', uniqueOutput);
     };
     //const validate = () => {
     //    if (!data.name) {
@@ -85,8 +84,10 @@ const AddCardModalContent = ({decks}:Props) => {
     //};
     return (
         <div className="flex flex-col gap-2">
-            <Searchbar autofocus={true} parentSetter={handleCardSelect}  />
-            <div className="flex"></div>
+            <Searchbar autofocus={true} parentSetter={handleCardSelect} specificCard={true}  />
+            <div className="flex">
+
+            </div>
             <form
                 //onSubmit={onSubmit}
                 className="flex w-full flex-col items-center gap-4"
