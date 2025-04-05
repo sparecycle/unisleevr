@@ -31,6 +31,10 @@ const MTGCard = ({
     const [displayDecks, setDisplayDecks] = useState(false);
     const [brokenImage, setBrokenImage] = useState(false);
     const [brokenBackImage, setBrokenBackImage] = useState(false);
+    console.log('MTGCard', {
+        name,
+        colorIdentity,
+    });
 
     const renderButtons = () => {
         const deleteButton = () => (

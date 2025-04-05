@@ -1,11 +1,12 @@
-import { Deck } from '@/types/deck';
+import { mtgColors } from '@/constants';
+import { Deck, DeckWithCommanders } from '@/types/deck';
 import { Dispatch, SetStateAction } from 'react';
 import { MdDeleteForever } from 'react-icons/md';
 import { TbCardsFilled } from 'react-icons/tb';
 
 type DeckTileDeckFaceProps = {
     title: string;
-    deck: Deck;
+    deck: DeckWithCommanders;
     activeSetter?: Dispatch<SetStateAction<null | Deck>>;
     onDelete: () => void;
 };
@@ -44,6 +45,17 @@ const DeckTileDeckFace = ({
                     {title}
                 </h4>
             </button>
+            {deck.color_identity && (
+                <div className="flex h-4 w-full">
+                    {deck.color_identity.map((color) => (
+                        <div
+                            key={`deck-color-${color}`}
+                            className={`h-full w-full rounded-b-md bg-[${mtgColors.hex['G']}]`}
+                            // className={`h-full w-full rounded-b-md bg-[${mtgColors.hex[color as keyof typeof mtgColors.hex]}]`}
+                        ></div>
+                    ))}
+                </div>
+            )}
         </>
     );
 };

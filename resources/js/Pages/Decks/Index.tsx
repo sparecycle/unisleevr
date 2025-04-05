@@ -2,10 +2,13 @@ import DeckModalContent from '@/Components/DeckModalContent';
 import DeckTile from '@/Components/DeckTile';
 import Modal from '@/Components/Modal';
 import PageTitle from '@/Components/PageTitle';
+import { dummyData } from '@/constants';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck } from '@/types/deck';
+import { CardDataType } from '@/types/mtg';
+import { generateCommanderSubarrays, randFromRange } from '@/utility';
 import { router } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type DecksProps = {
     decks: {
@@ -20,7 +23,32 @@ export default function Decks({ decks }: DecksProps) {
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
 
-    useEffect(() => {}, [decks]);
+    const addExampleCommandersToDecks = () => {
+        const exampleCommanders = generateCommanderSubarrays(dummyData);
+        const augmentedDecks = decks.data.map((deck) => {
+            const commanders =
+                exampleCommanders[
+                    randFromRange(0, exampleCommanders.length - 1) ?? 0
+                ];
+            const combinedColorIdentity = commanders
+                ? [
+                      ...new Set(
+                          commanders.flatMap(
+                              (card: CardDataType) => card.colorIdentity,
+                          ),
+                      ),
+                  ]
+                : [];
+            return {
+                ...deck,
+                commanders: commanders,
+                color_identity: combinedColorIdentity,
+            };
+        });
+
+        console.log('Augmented Decks:', augmentedDecks);
+    };
+    addExampleCommandersToDecks();
 
     const handleOnDelete = (id: number) => {
         router.delete(route('decks.destroy', id), {

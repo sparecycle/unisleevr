@@ -1,11 +1,11 @@
-import { Deck } from '@/types/deck';
+import { Deck, DeckWithCommanders } from '@/types/deck';
 import { Dispatch, SetStateAction } from 'react';
 import DeckTileButtonContent from './DeckTileButtonFace';
 import DeckTileDeckContent from './DeckTileDeckFace';
 
 type DeckTileProps = {
     title: string;
-    deck?: Deck;
+    deck?: Deck | DeckWithCommanders;
     isButton?: boolean;
     buttonAction?: () => void;
     activeSetter?: Dispatch<SetStateAction<null | Deck>>;
