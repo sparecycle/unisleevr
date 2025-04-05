@@ -104,7 +104,13 @@ class DeckControllerTest extends TestCase
 
         $deck = Deck::factory()->create(['user_id' => $user->id]);
 
-        $payload = ['name' => 'Updated Deck Name'];
+        $payload = [
+            'name' => 'Updated Deck Name',
+            'cards' => [
+                ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
+                ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
+            ]
+        ];
 
         $response = $this->put(route('decks.update', $deck), $payload);
 
