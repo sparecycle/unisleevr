@@ -187,13 +187,24 @@ const DeckModalContent = ({
                                 Create Deck
                             </Button>
                         ) : (
-                            <Button
-                                onClick={() => setIsEditing(!isEditing)}
-                                disabled={processing}
-                                className="border border-solid border-black bg-black px-3 py-2"
-                            >
-                                {!isEditing ? 'edit' : 'cancel'}
-                            </Button>
+                            <div className="flex justify-center items-center gap-2">
+                                <Button
+                                    onClick={() => setIsEditing(!isEditing)}
+                                    disabled={processing}
+                                    className="border border-solid border-black bg-black px-3 py-2"
+                                >
+                                    {!isEditing ? 'edit' : 'cancel'}
+                                </Button>
+                                {isEditing &&
+                                    <Button
+                                        type='submit'
+                                        disabled={processing}
+                                        className="border border-solid border-black bg-black px-3 py-2"
+                                    >
+                                        Save
+                                    </Button>
+                                }
+                            </div>
                         )}
                     </div>
                 </div>
