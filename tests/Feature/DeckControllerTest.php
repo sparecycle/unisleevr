@@ -98,6 +98,10 @@ class DeckControllerTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
+        // Assert that the decks relationship exists and is initially empty
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
+        $this->assertTrue($user->decks->isEmpty());
+
         $deck = Deck::factory()->create(['user_id' => $user->id]);
 
         $payload = ['name' => 'Updated Deck Name'];
