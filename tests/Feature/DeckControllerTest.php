@@ -22,6 +22,7 @@ class DeckControllerTest extends TestCase
         // Simulate a logged-in user
         $this->actingAs($user);
 
+        // Assert that the decks relationship exists and is initially empty
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
         $this->assertTrue($user->decks->isEmpty());
 
@@ -50,6 +51,15 @@ class DeckControllerTest extends TestCase
 
         // Assert that the cards were stored correctly as an array
         $this->assertEquals($payload['cards'], $deck->cards); // Use the model's casted value
+
+        // Refresh the user to load the new relationship data
+        $user->refresh();
+
+        // Now check that the user has one deck
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
+        $this->assertFalse($user->decks->isEmpty());
+        $this->assertEquals(1, $user->decks->count());
+        $this->assertEquals('Test Deck', $user->decks->first()->name);
 
         // Assert that the response redirects to the decks index page
         $response->assertRedirect(route('decks.index'));
