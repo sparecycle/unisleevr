@@ -115,8 +115,12 @@ class DeckControllerTest extends TestCase
         $response = $this->put(route('decks.update', $deck), $payload);
 
         $user->refresh();
+        $deck->refresh();
 
         $this->assertFalse($user->decks->isEmpty());
+
+        $this->assertNotEmpty($deck->cards);
+        $this->assertEquals($payload['cards'], $deck->cards);
 
         $response->assertRedirect(route('decks.index'));
         $this->assertDatabaseHas('decks', ['id' => $deck->id, 'name' => 'Updated Deck Name']);
