@@ -22,6 +22,9 @@ class DeckControllerTest extends TestCase
         // Simulate a logged-in user
         $this->actingAs($user);
 
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
+        $this->assertTrue($user->decks->isEmpty());
+
         // Define the payload for the request
         $payload = [
             'name' => 'Test Deck',
@@ -35,14 +38,15 @@ class DeckControllerTest extends TestCase
         // Send a POST request to the create route
         $response = $this->post(route('decks.store'), $payload);
 
+        // Retrieve the deck from the database
+        $deck = Deck::where('name', 'Test Deck')->first();
+
+        $this->assertNotEmpty($deck->cards);
         // Assert that the deck was created in the database
         $this->assertDatabaseHas('decks', [
             'name' => 'Test Deck',
             'user_id' => $user->id,
         ]);
-
-        // Retrieve the deck from the database
-        $deck = Deck::where('name', 'Test Deck')->first();
 
         // Assert that the cards were stored correctly as an array
         $this->assertEquals($payload['cards'], $deck->cards); // Use the model's casted value
