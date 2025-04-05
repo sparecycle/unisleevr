@@ -123,7 +123,15 @@ class DeckControllerTest extends TestCase
         $this->assertEquals($payload['cards'], $deck->cards);
 
         $response->assertRedirect(route('decks.index'));
-        $this->assertDatabaseHas('decks', ['id' => $deck->id, 'name' => 'Updated Deck Name']);
+        $this->assertDatabaseHas('decks', [
+            'id' => $deck->id,
+            'name' => 'Updated Deck Name',
+            //todo: fix later, probably need a japson parse or something
+            /*'cards' => [*/
+            /*    ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],*/
+            /*    ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],*/
+            /*]*/
+        ]);
     }
 
     /**
