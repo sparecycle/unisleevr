@@ -104,6 +104,8 @@ class DeckControllerTest extends TestCase
 
         $deck = Deck::factory()->create(['user_id' => $user->id]);
 
+        $this->assertNotEmpty($user->decks->isEmpty());
+
         $payload = ['name' => 'Updated Deck Name'];
 
         $response = $this->put(route('decks.update', $deck), $payload);
