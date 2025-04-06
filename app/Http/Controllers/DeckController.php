@@ -40,8 +40,8 @@ class DeckController extends Controller
 
         // Create a new deck with the validated data
         Deck::create([
-            'name' => $validated['name'], 
-            'user_id' => $validated['user_id'], 
+            'name' => $validated['name'],
+            'user_id' => $validated['user_id'],
             'cards' => $validated['cards'], // Include cards in the creation
         ]);
 
@@ -94,6 +94,7 @@ class DeckController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'cards' => 'required|array|min:0'
         ]);
 
         $deck->update($validated);
