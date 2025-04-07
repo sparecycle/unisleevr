@@ -14,6 +14,6 @@ export interface DeckWithCommanders {
     updated_at: string;
     user_id: number;
     cards: CardDataType[];
-    comanders: CardDataType[];
+    commanders: CardDataType[];
     color_identity: string[];
 };

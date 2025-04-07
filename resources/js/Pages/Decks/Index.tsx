@@ -8,7 +8,7 @@ import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
 import { generateCommanderSubarrays, randFromRange } from '@/utility';
 import { router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 type DecksProps = {
     decks: {
@@ -37,19 +37,19 @@ export default function Decks({ decks }: DecksProps) {
                               (card: CardDataType) => card.colorIdentity,
                           ),
                       ),
-                  ]
+                  ].sort((a, b) => 'WUBRG'.indexOf(a) - 'WUBRG'.indexOf(b)) // Reorder to WUBRG
                 : [];
+
             return {
                 ...deck,
                 commanders: commanders,
                 color_identity: combinedColorIdentity,
             };
         });
-
-        console.log('Augmented Decks:', augmentedDecks);
+        return augmentedDecks;
     };
-    addExampleCommandersToDecks();
-
+    const decksToShow = useMemo(() => addExampleCommandersToDecks(), [decks]);
+    console.log('decksToShow', decksToShow);
     const handleOnDelete = (id: number) => {
         router.delete(route('decks.destroy', id), {
             onSuccess: () => {
@@ -69,7 +69,7 @@ export default function Decks({ decks }: DecksProps) {
         <AuthenticatedLayout header={<PageTitle>Decks</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
                 <div>
-                    {decks.data.length > 0 && (
+                    {decksToShow.length > 0 && (
                         <button
                             onClick={() => {
                                 setIsCreating(!isCreating);
@@ -85,9 +85,9 @@ export default function Decks({ decks }: DecksProps) {
             </div>
             <div className="container mx-auto px-3 py-4">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-                    {decks.data.length > 0 && (
+                    {decksToShow.length > 0 && (
                         <>
-                            {decks.data.map((deck, idx) => (
+                            {decksToShow.map((deck, idx) => (
                                 <DeckTile
                                     key={idx}
                                     title={deck.name}

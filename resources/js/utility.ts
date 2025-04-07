@@ -160,7 +160,7 @@ export const generateCommanderSubarrays = (dummyData: any) => {
         dummyData.vanillaCommanders.find((card: any) => card.backCardData);
 
     const getCardWithColorIdentity = (count: number) =>
-        dummyData.vanillaCommanders.find(
+        dummyData.vanillaCommanders.filter(
             (card: any) => card.colorIdentity.length === count,
         );
 
@@ -177,26 +177,41 @@ export const generateCommanderSubarrays = (dummyData: any) => {
         );
 
     const getPartnerPair = () => {
-        const [partner1, partner2] = dummyData.partenerCommanders.slice(0, 2);
-        return [partner1, partner2];
+        const shuffledPartners = [...dummyData.partenerCommanders].sort(
+            () => Math.random() - 0.5,
+        );
+        return shuffledPartners.slice(0, 2);
     };
 
     const getBackgroundPair = () => {
-        const commander = dummyData.backgroundCompatibleCommanders[0];
-        const background = dummyData.backgrounds[0];
+        const commander =
+            dummyData.backgroundCompatibleCommanders[
+                Math.floor(
+                    Math.random() *
+                        dummyData.backgroundCompatibleCommanders.length,
+                )
+            ];
+        const background =
+            dummyData.backgrounds[
+                Math.floor(Math.random() * dummyData.backgrounds.length)
+            ];
         return [commander, background];
     };
 
     // Add one of each type of subarray
     result.push([getCardWithBackData()]);
-    result.push([getCardWithColorIdentity(1)]);
-    result.push([getCardWithColorIdentity(2)]);
-    result.push([getCardWithColorIdentity(3)]);
-    result.push([getCardWithColorIdentity(4)]);
-    result.push([getCardWithColorIdentity(5)]);
+    for (let i = 1; i <= 5; i++) {
+        const cards = getCardWithColorIdentity(i);
+        if (cards.length > 0) {
+            result.push([cards[Math.floor(Math.random() * cards.length)]]);
+        }
+    }
     result.push([getCardWithNoColorIdentity()]);
 
-    const cardWithMatchingCompanion = getCardWithColorIdentity(3);
+    const cardWithMatchingCompanion =
+        dummyData.vanillaCommanders[
+            Math.floor(Math.random() * dummyData.vanillaCommanders.length)
+        ];
     result.push([
         cardWithMatchingCompanion,
         getCompanionWithMatchingColorIdentity(cardWithMatchingCompanion),
@@ -207,8 +222,13 @@ export const generateCommanderSubarrays = (dummyData: any) => {
 
     // Fill the rest of the array with random subarrays to reach 24
     while (result.length < 24) {
-        result.push([dummyData.vanillaCommanders[0]]);
+        const randomCommander =
+            dummyData.vanillaCommanders[
+                Math.floor(Math.random() * dummyData.vanillaCommanders.length)
+            ];
+        result.push([randomCommander]);
     }
 
-    return result;
+    // Shuffle the result for more randomness
+    return result.sort(() => Math.random() - 0.5);
 };
