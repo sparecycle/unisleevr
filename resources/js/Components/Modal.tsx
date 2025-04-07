@@ -4,8 +4,8 @@ import {
     Transition,
     TransitionChild,
 } from '@headlessui/react';
-import { IoIosClose } from 'react-icons/io';
 import { PropsWithChildren } from 'react';
+import { IoIosClose } from 'react-icons/io';
 
 export default function Modal({
     children,
@@ -61,7 +61,7 @@ export default function Modal({
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                     <DialogPanel
-                        className={`mb-6 transform overflow-visible rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full dark:text-white dark:bg-gray-800 ${maxWidthClass}`}
+                        className={`mb-6 transform overflow-visible rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 dark:text-white ${maxWidthClass}`}
                     >
                         <div className="bg-zinc-900 px-4 py-6">
                             <button
@@ -70,9 +70,7 @@ export default function Modal({
                             >
                                 <IoIosClose />
                             </button>
-                            <>
-                                {children}
-                            </>
+                            <>{children}</>
                         </div>
                     </DialogPanel>
                 </TransitionChild>
