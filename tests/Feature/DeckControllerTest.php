@@ -22,6 +22,10 @@ class DeckControllerTest extends TestCase
         // Simulate a logged-in user
         $this->actingAs($user);
 
+        // Assert that the decks relationship exists and is initially empty
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
+        $this->assertTrue($user->decks->isEmpty());
+
         // Define the payload for the request
         $payload = [
             'name' => 'Test Deck',
@@ -35,17 +39,27 @@ class DeckControllerTest extends TestCase
         // Send a POST request to the create route
         $response = $this->post(route('decks.store'), $payload);
 
+        // Retrieve the deck from the database
+        $deck = Deck::where('name', 'Test Deck')->first();
+
+        $this->assertNotEmpty($deck->cards);
         // Assert that the deck was created in the database
         $this->assertDatabaseHas('decks', [
             'name' => 'Test Deck',
             'user_id' => $user->id,
         ]);
 
-        // Retrieve the deck from the database
-        $deck = Deck::where('name', 'Test Deck')->first();
-
         // Assert that the cards were stored correctly as an array
         $this->assertEquals($payload['cards'], $deck->cards); // Use the model's casted value
+
+        // Refresh the user to load the new relationship data
+        $user->refresh();
+
+        // Now check that the user has one deck
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
+        $this->assertFalse($user->decks->isEmpty());
+        $this->assertEquals(1, $user->decks->count());
+        $this->assertEquals('Test Deck', $user->decks->first()->name);
 
         // Assert that the response redirects to the decks index page
         $response->assertRedirect(route('decks.index'));
@@ -84,14 +98,36 @@ class DeckControllerTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
+        // Assert that the decks relationship exists and is initially empty
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
+        $this->assertTrue($user->decks->isEmpty());
+
         $deck = Deck::factory()->create(['user_id' => $user->id]);
 
-        $payload = ['name' => 'Updated Deck Name'];
+        $payload = [
+            'name' => 'Updated Deck Name',
+            'cards' => [
+                ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
+                ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
+            ]
+        ];
 
         $response = $this->put(route('decks.update', $deck), $payload);
 
+        $user->refresh();
+        $deck->refresh();
+
+        $this->assertFalse($user->decks->isEmpty());
+
+        $this->assertNotEmpty($deck->cards);
+        $this->assertEquals($payload['cards'], $deck->cards);
+
         $response->assertRedirect(route('decks.index'));
-        $this->assertDatabaseHas('decks', ['id' => $deck->id, 'name' => 'Updated Deck Name']);
+        $this->assertDatabaseHas('decks', [
+            'id' => $deck->id,
+            'name' => 'Updated Deck Name',
+            'cards' => json_encode($payload['cards'])
+        ]);
     }
 
     /**

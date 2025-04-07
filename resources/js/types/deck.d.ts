@@ -6,7 +6,6 @@ export interface Deck {
     user_id: number;
     cards: CardDataType[];
 };
-
 export interface DeckWithCommanders {
     id: number;
     name: string;
