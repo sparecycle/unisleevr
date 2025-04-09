@@ -3,7 +3,7 @@ import DeckTile from '@/Components/DeckTile';
 import Modal from '@/Components/Modal';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Deck } from '@/types/deck';
+import { Deck } from '@/types/mtg';
 import { router } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 

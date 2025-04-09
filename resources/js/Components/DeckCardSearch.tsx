@@ -8,7 +8,7 @@ type Props = {
     parentSetter: (value: CardDataType[] | []) => void;
     cards: CardDataType[];
     processing: boolean;
-    removeAction: Dispatch<SetStateAction<CardDataType[]>>;
+    removeAction: (card: CardDataType) => void;
 };
 
 const DeckCardSearch = ({
@@ -39,11 +39,7 @@ const DeckCardSearch = ({
                                     aria-label={`remove ${card.name} from deck`}
                                     disabled={processing || !isSearching}
                                     onClick={() =>
-                                        removeAction(
-                                            cards.filter(
-                                                (c) => c.id !== card.id,
-                                            ),
-                                        )
+                                        removeAction(card)
                                     }
                                     showClose={processing || isSearching}
                                 >

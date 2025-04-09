@@ -38,7 +38,7 @@ const DeckModalContent = ({
     } = useForm({
         name: deck?.name || undefined,
         user_id: auth.user.id,
-        cards: deck?.cards || selectedCards,
+        cards: selectedCards,
     });
 
     const handleCardSelect = (results: CardDataType[] | []) => {
@@ -57,6 +57,12 @@ const DeckModalContent = ({
         // uniqueOutput.sort((a, b) => a.id - b.id);
         setSelectedCards(uniqueOutput);
         setData('cards', uniqueOutput); // Update cards in the form state
+    };
+
+    const removeCard = (card: CardDataType) => {
+        const updatedCards = selectedCards.filter((c) => c.id !== card.id);
+        setSelectedCards(updatedCards);
+        setData('cards', updatedCards);
     };
 
     const validate = () => {
@@ -145,19 +151,6 @@ const DeckModalContent = ({
                                     setData('name', e.target.value)
                                 }
                             />
-                            {!creating && (
-                                <div className={'inline-flex gap-4'}>
-                                    <button
-                                        type="submit"
-                                        className={
-                                            'absolute bottom-2.5 end-2.5 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:bg-zinc-300 dark:hover:bg-zinc-400 dark:focus:ring-zinc-500'
-                                        }
-                                        disabled={processing}
-                                    >
-                                        Rename Deck
-                                    </button>
-                                </div>
-                            )}
                         </div>
                     </form>
                 ) : (
@@ -176,7 +169,7 @@ const DeckModalContent = ({
                     parentSetter={handleCardSelect}
                     cards={selectedCards}
                     processing={processing}
-                    removeAction={setSelectedCards}
+                    removeAction={removeCard}
                 />
                 <div className="shrink-0">
                     {creating ? (
@@ -189,13 +182,29 @@ const DeckModalContent = ({
                             Create Deck
                         </Button>
                     ) : (
-                        <Button
-                            onClick={() => setIsEditing(!isEditing)}
-                            disabled={processing}
-                            className="border border-solid border-black bg-black px-3 py-2"
-                        >
-                            {!isEditing ? 'edit' : 'cancel'}
-                        </Button>
+                        <div className="flex items-center justify-center gap-2">
+                            <Button
+                                onClick={() => setIsEditing(!isEditing)}
+                                disabled={processing}
+                                className="border border-solid border-black bg-black px-3 py-2"
+                            >
+                                {!isEditing ? 'edit' : 'cancel'}
+                            </Button>
+                            {isEditing && (
+                                <Button
+                                    onClick={(e) => {
+                                        console.log('from action');
+                                        console.log(data);
+                                        e.preventDefault(); // Prevent default button behavior
+                                        onSubmit(e); // Trigger the form submission
+                                    }}
+                                    disabled={processing}
+                                    className="border border-solid border-black bg-black px-3 py-2"
+                                >
+                                    Save
+                                </Button>
+                            )}
+                        </div>
                     )}
                 </div>
             </div>
