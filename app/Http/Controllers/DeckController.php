@@ -19,7 +19,7 @@ class DeckController extends Controller
     {
         $decks = Deck::query()
             ->where('user_id', Auth::id())
-            ->paginate(12);
+            ->paginate(24);
 
         return Inertia::render('Decks/Index', [
             'decks' => $decks

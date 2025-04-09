@@ -20,3 +20,16 @@ export interface CardDataType {
     toughness?: string;
     backCardData?: CardDataType;
 }
+
+export type CardsWithDecks = CardDataType & {
+    decks: Deck[] | undefined;
+};
+
+export interface Deck {
+    id: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
+    user_id: number;
+    cards: CardDataType[];
+}
