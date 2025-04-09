@@ -62,6 +62,11 @@ export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
 };
 
 export const filterNonPlayableCards = (cards: unknown[]): unknown[] => {
+    if (!Array.isArray(cards)) {
+        console.error('Expected an array but received:', cards);
+        return [];
+    }
+
     // Filter out cards that are not legal in any paper format
     const filteredCards = cards.filter(
         (card: any) =>
@@ -129,4 +134,101 @@ export const useOutsideAlerter = (
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [ref, callback]);
+};
+
+export const randFromRange = (min: number | undefined, max: number) => {
+    if (min === undefined) {
+        min = 0;
+    }
+    if (min > max) {
+        console.error('Minimum value cannot be greater than maximum value');
+        return null;
+    }
+    if (min === max) {
+        return min;
+    }
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+// DELETE THIS LATER
+// This is a temporary function to generate dummy data for testing purposes
+// and should be replaced with actual data fetching logic.
+export const generateCommanderSubarrays = (dummyData: any) => {
+    const result: any[] = [];
+
+    const getCardWithBackData = () =>
+        dummyData.vanillaCommanders.find((card: any) => card.backCardData);
+
+    const getCardWithColorIdentity = (count: number) =>
+        dummyData.vanillaCommanders.filter(
+            (card: any) => card.colorIdentity.length === count,
+        );
+
+    const getCardWithNoColorIdentity = () =>
+        dummyData.vanillaCommanders.find(
+            (card: any) => card.colorIdentity.length === 0,
+        );
+
+    const getCompanionWithMatchingColorIdentity = (card: any) =>
+        dummyData.companions.find((companion: any) =>
+            companion.colorIdentity.every((color: string) =>
+                card.colorIdentity.includes(color),
+            ),
+        );
+
+    const getPartnerPair = () => {
+        const shuffledPartners = [...dummyData.partenerCommanders].sort(
+            () => Math.random() - 0.5,
+        );
+        return shuffledPartners.slice(0, 2);
+    };
+
+    const getBackgroundPair = () => {
+        const commander =
+            dummyData.backgroundCompatibleCommanders[
+                Math.floor(
+                    Math.random() *
+                        dummyData.backgroundCompatibleCommanders.length,
+                )
+            ];
+        const background =
+            dummyData.backgrounds[
+                Math.floor(Math.random() * dummyData.backgrounds.length)
+            ];
+        return [commander, background];
+    };
+
+    // Add one of each type of subarray
+    result.push([getCardWithBackData()]);
+    for (let i = 1; i <= 5; i++) {
+        const cards = getCardWithColorIdentity(i);
+        if (cards.length > 0) {
+            result.push([cards[Math.floor(Math.random() * cards.length)]]);
+        }
+    }
+    result.push([getCardWithNoColorIdentity()]);
+
+    const cardWithMatchingCompanion =
+        dummyData.vanillaCommanders[
+            Math.floor(Math.random() * dummyData.vanillaCommanders.length)
+        ];
+    result.push([
+        cardWithMatchingCompanion,
+        getCompanionWithMatchingColorIdentity(cardWithMatchingCompanion),
+    ]);
+
+    result.push(getPartnerPair());
+    result.push(getBackgroundPair());
+
+    // Fill the rest of the array with random subarrays to reach 24
+    while (result.length < 24) {
+        const randomCommander =
+            dummyData.vanillaCommanders[
+                Math.floor(Math.random() * dummyData.vanillaCommanders.length)
+            ];
+        result.push([randomCommander]);
+    }
+
+    // Shuffle the result for more randomness
+    return result.sort(() => Math.random() - 0.5);
 };
