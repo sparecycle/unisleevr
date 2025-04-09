@@ -82,7 +82,8 @@ export const filterNonPlayableCards = (cards: unknown[]): unknown[] => {
         (card: any) =>
             card.games.includes('paper') &&
             !card.layout.includes('token') &&
-            !card.layout.includes('art_series'),
+            !card.layout.includes('art_series') &&
+            card.set_type !== 'memorabilia',
     );
 
     return filteredCards;
