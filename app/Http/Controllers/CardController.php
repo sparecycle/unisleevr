@@ -15,35 +15,8 @@ class CardController extends Controller
     public function index(): Response 
     {
         $userId = Auth::id();
-        $decks = Deck::query()
-            ->where('user_id', $userId)
-            ->get();
-
-        $cardIdList = $decks->flatMap(function ($deck) {
-            return collect($deck->cards)->pluck('id');
-        })->unique()->values()->toArray();
-
-        $allCards = [];
         
-        // Split the identifiers array into chunks of 75
-        $chunks = array_chunk($cardIdList, 75);
-
-        // Iterate over each chunk and make an HTTP request
-        foreach ($chunks as $chunk) {
-            // Transform the chunk into the correct format
-            $identifiers = array_map(fn($id) => ['id' => $id], $chunk);
-
-            $scryfallResponse = Http::post('https://api.scryfall.com/cards/collection', [
-                'identifiers' => $identifiers // Correctly formatted array
-            ]);
-
-            if ($scryfallResponse->successful()) {
-                $cards = $scryfallResponse->json('data');
-                $allCards = array_merge($allCards, $cards);
-            } else {
-                error_log('Failed to fetch cards from Scryfall API. Status: ' . $scryfallResponse->status());
-            }
-        }
+        list($allCards, $decks) = getCardPoolAndDecksFromUserID($userId);
 
         return Inertia::render('Cards/Index', [
             'cards' => $allCards,

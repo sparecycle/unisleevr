@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { CardDataType } from './types/mtg';
+import { CardDataType, CardsWithDecks, Deck } from './types/mtg';
 
 // currently an any because this takes the raw card data from scryfall.
 export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
@@ -59,6 +59,21 @@ export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
     });
 
     return output;
+};
+
+export const attachDeckRefsToParsedCards = (
+    parsedCards: CardDataType[],
+    decks: Deck[],
+): CardsWithDecks[] => {
+    return parsedCards.map((card) => {
+        const deckRefs = decks?.filter((deck) => {
+            return deck.cards.some((deckCard) => deckCard.id === card.id);
+        });
+        return {
+            ...card,
+            decks: deckRefs,
+        };
+    });
 };
 
 export const filterNonPlayableCards = (cards: unknown[]): unknown[] => {
