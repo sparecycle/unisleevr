@@ -80,6 +80,7 @@ export const filterNonPlayableCards = (cards: unknown[]): unknown[] => {
     // Filter out cards that are not legal in any paper format
     const filteredCards = cards.filter(
         (card: any) =>
+        // This is why we don't assume a data schema when we're working with 3rd party data. @nickzou wants to make content about this
             card.games.includes('paper') &&
             !card.layout.includes('token') &&
             !card.layout.includes('art_series') &&
