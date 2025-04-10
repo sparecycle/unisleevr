@@ -21,11 +21,22 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $cards = Card::paginate(10);
+    
+    $userId = Auth::id();
+        
+    list($allCards, $decks) = getCardPoolAndDecksFromUserID($userId);
+
+    // Ensure $allCards and $decks are arrays before slicing
+    $decks = $decks->toArray();
+
+    $allCards = array_slice($allCards, 0, 5);
+    $decks = array_slice($decks, 0, 4);
 
     return Inertia::render('Dashboard', [
-        'cards' => $cards
+        'cards' => $allCards,
+        'decks' => $decks
     ]);
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/founders', function() {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { CardDataType } from './types/mtg';
+import { CardDataType, CardsWithDecks, Deck } from './types/mtg';
 
 // currently an any because this takes the raw card data from scryfall.
 export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
@@ -61,13 +61,30 @@ export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
     return output;
 };
 
+export const attachDeckRefsToParsedCards = (
+    parsedCards: CardDataType[],
+    decks: Deck[],
+): CardsWithDecks[] => {
+    return parsedCards.map((card) => {
+        const deckRefs = decks?.filter((deck) => {
+            return deck.cards.some((deckCard) => deckCard.id === card.id);
+        });
+        return {
+            ...card,
+            decks: deckRefs,
+        };
+    });
+};
+
 export const filterNonPlayableCards = (cards: unknown[]): unknown[] => {
     // Filter out cards that are not legal in any paper format
     const filteredCards = cards.filter(
         (card: any) =>
+        // This is why we don't assume a data schema when we're working with 3rd party data. @nickzou wants to make content about this
             card.games.includes('paper') &&
             !card.layout.includes('token') &&
-            !card.layout.includes('art_series'),
+            !card.layout.includes('art_series') &&
+            card.set_type !== 'memorabilia',
     );
 
     return filteredCards;

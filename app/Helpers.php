@@ -1,4 +1,6 @@
 <?php    
+use App\Models\Deck;
+use Illuminate\Support\Facades\Http;
 
 function splitStringByHyphen($input) {
     // Match words before and after the hyphen
@@ -26,4 +28,38 @@ function turnManaCostIntoArray($manaCost) {
     }
     
     return [];
+}
+
+function getCardPoolAndDecksFromUserID ($userID) {
+    $decks = Deck::query()
+        ->where('user_id', $userID)
+        ->get();
+
+    $cardIdList = $decks->flatMap(function ($deck) {
+        return collect($deck->cards)->pluck('id');
+    })->unique()->values()->toArray();
+
+    $allCards = [];
+    
+    // Split the identifiers array into chunks of 75
+    $chunks = array_chunk($cardIdList, 75);
+
+    // Iterate over each chunk and make an HTTP request
+    foreach ($chunks as $chunk) {
+        // Transform the chunk into the correct format
+        $identifiers = array_map(fn($id) => ['id' => $id], $chunk);
+
+        $scryfallResponse = Http::post('https://api.scryfall.com/cards/collection', [
+            'identifiers' => $identifiers // Correctly formatted array
+        ]);
+
+        if ($scryfallResponse->successful()) {
+            $cards = $scryfallResponse->json('data');
+            $allCards = array_merge($allCards, $cards);
+        } else {
+            error_log('Failed to fetch cards from Scryfall API. Status: ' . $scryfallResponse->status());
+        }
+    }
+
+    return [$allCards, $decks];
 }
