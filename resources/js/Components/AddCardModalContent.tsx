@@ -2,10 +2,9 @@ import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
 import { useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { IoIosCheckmark } from 'react-icons/io';
+import LabeledCheckbox from './LabeledCheckbox';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
-import LabeledCheckbox from './LabeledCheckbox';
 
 type Props = {
     decks: Deck[];
@@ -81,7 +80,6 @@ const AddCardModalContent = ({ decks }: Props) => {
                 parentSetter={handleCardSelect}
                 specificCard={true}
             />
-            <LabeledCheckbox label='whamwham'/>
             {selectedCard && (
                 <>
                     <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
@@ -95,13 +93,15 @@ const AddCardModalContent = ({ decks }: Props) => {
                     <div className="flex flex-col flex-wrap">
                         {decks &&
                             decks.map((deck) => (
-                                <div
-                                    className={
-                                        'my-2 max-h-[30vh] w-full overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2'
-                                    }
-                                >
-                                    {deck.name}
-                                </div>
+                                <LabeledCheckbox
+                                    label={deck.name}
+                                    initialState={Boolean(
+                                        selectedDecks !== null &&
+                                            selectedDecks.find(
+                                                (d) => d.id === deck.id,
+                                            ),
+                                    )}
+                                />
                             ))}
                     </div>
                 </>
