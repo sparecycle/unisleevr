@@ -5,7 +5,7 @@ import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck } from '@/types/mtg';
 import { router } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 type DecksProps = {
     decks: {
@@ -17,10 +17,12 @@ type DecksProps = {
 };
 
 export default function Decks({ decks }: DecksProps) {
+    console.log('decks', decks);
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
 
-    useEffect(() => {}, [decks]);
+    const deckRef = useRef<HTMLDivElement>(null);
+
 
     const handleOnDelete = (id: number) => {
         router.delete(route('decks.destroy', id), {

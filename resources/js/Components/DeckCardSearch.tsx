@@ -1,5 +1,4 @@
 import { CardDataType } from '@/types/mtg';
-import { Dispatch, SetStateAction } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import Searchbar from './Searchbar';
 
@@ -43,9 +42,7 @@ const DeckCardSearch = ({
                                     aria-label={`remove ${card.name} from deck`}
                                     className="flex items-center"
                                     disabled={processing || !isSearching}
-                                    onClick={() =>
-                                        removeAction(card)
-                                    }
+                                    onClick={() => removeAction(card)}
                                 >
                                     {card.name}
                                     {processing ||
