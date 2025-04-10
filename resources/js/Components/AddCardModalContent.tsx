@@ -86,7 +86,7 @@ const AddCardModalContent = ({ decks }: Props) => {
                             {selectedCard.name}
                         </NametagButton>
                     </div>
-                    <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
+                    <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md bg-zinc-900 p-3">
                         Please a select a deck to add this card to:
                     </div>
                     <div className="flex flex-col flex-wrap">
@@ -94,7 +94,7 @@ const AddCardModalContent = ({ decks }: Props) => {
                             decks.map((deck) => (
                                 <div
                                     className={
-                                        'max-h-[30vh] w-full overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2'
+                                        'max-h-[30vh] my-2 w-full overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2'
                                     }
                                 >
                                     {deck.name}
@@ -103,10 +103,6 @@ const AddCardModalContent = ({ decks }: Props) => {
                     </div>
                 </>
             )}
-            <form
-                //onSubmit={onSubmit}
-                className="flex w-full flex-col items-center gap-4"
-            ></form>
         </div>
     );
 };
