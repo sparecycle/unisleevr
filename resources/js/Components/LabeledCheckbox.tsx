@@ -10,19 +10,28 @@ type Props = {
 
 const LabeledCheckbox = ({
     label = 'checkbox label',
-    initialState = true,
+    initialState = false,
     parentSetter,
 }: Props) => {
     const [isChecked, setIsChecked] = useState(initialState);
+    const handleClick = () => {
+        setIsChecked(!isChecked);
+        console.log('clicked');
+    };
     return (
-        <button className="flex items-center justify-start gap-2 p-2">
+        <button
+            className="flex items-center justify-start gap-2 p-2"
+            onClick={handleClick}
+        >
             <div
                 className={twMerge(
-                    'border w-6 h-6 rounded border-solid border-gray-300',
+                    'h-6 w-6 rounded border border-solid border-gray-300',
                     isChecked && 'border-white',
                 )}
             >
-                {isChecked && <IoIosCheckmark className='fill-white w-full h-full' />}
+                {isChecked && (
+                    <IoIosCheckmark className="h-full w-full fill-white" />
+                )}
             </div>
             {label}
         </button>
