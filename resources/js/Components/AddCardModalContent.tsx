@@ -5,6 +5,7 @@ import { useState } from 'react';
 import LabeledCheckbox from './LabeledCheckbox';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
+import updateDeck from '@/utilities/updateDeck';
 
 type Props = {
     decks: Deck[];
@@ -14,65 +15,29 @@ const AddCardModalContent = ({ decks }: Props) => {
     const { auth } = usePage().props;
     const [searchFocus, setSearchFocus] = useState<boolean>(true);
     const [selectedCard, setSelectedCard] = useState<CardDataType | null>(null);
-    const [selectedDecks, setSelectedDecks] = useState<Deck[] | null>(null);
-    console.log(decks);
-    const {
-        data,
-        setData,
-        patch,
-        post,
-        processing,
-        clearErrors,
-        reset,
-        errors,
-        setError,
-        wasSuccessful,
-        recentlySuccessful,
-    } = useForm({
-        name: undefined,
-        user_id: auth.user.id,
-        //card:  selectedCard,
-    });
+    const [selectedDecks, setSelectedDecks] = useState<Deck[] | []>([]);
     const handleCardSelect = (results: CardDataType[] | []) => {
         if (results === undefined || results.length == 0) return;
         setSelectedCard(results[0]);
         setSearchFocus(false);
     };
-    //const validate = () => {
-    //    if (!data.name) {
-    //        setError('name', 'Name is required');
-    //        return false;
-    //    }
-    //    if (data.cards.length === 0) {
-    //        setError('cards', 'At least one card is required');
-    //        return false;
-    //    }
-    //    clearErrors(); // Clear previous errors
-    //
-    //    return true;
-    //};
-    //const onSubmit = (e: FormEvent) => {
-    //    e.preventDefault();
-    //
-    //    validate();
-    //
-    //    patch(route('decks.update', deck?.id), {
-    //        data, // Use the form state managed by useForm
-    //        onSuccess: (e) => {
-    //            setIsEditing(false); // Close the editing form on success
-    //            if (e.props.decks) {
-    //                setUpdated(
-    //                    (e.props.decks as { data: Deck[] }).data.filter(
-    //                        (d) => d.id === deck?.id,
-    //                    )[0], // Update the deck data
-    //                );
-    //            }
-    //        },
-    //        onError: (errors) => {
-    //            console.error(errors); // Log errors to the console
-    //        },
-    //    });
-    //};
+    const handleDeckSelect = (deck: Deck) => {
+        if (selectedDecks.length === 0) {
+            setSelectedDecks([deck]);
+        } else {
+            const currentDeck = selectedDecks.filter((d) => d.id === deck.id);
+            if (currentDeck.length === 0) {
+                setSelectedDecks([...selectedDecks, deck]);
+            } else {
+                setSelectedDecks(selectedDecks.filter((d) => d.id != deck.id));
+            }
+        }
+    };
+    const onSubmit = () => {
+        selectedDecks.forEach((deck) => {
+            updateDeck(deck,auth.user.id, deck.cards);
+        });
+    };
     return (
         <div className="flex flex-col gap-2">
             <Searchbar
@@ -94,6 +59,7 @@ const AddCardModalContent = ({ decks }: Props) => {
                         {decks &&
                             decks.map((deck) => (
                                 <LabeledCheckbox
+                                    key={deck.id}
                                     label={deck.name}
                                     initialState={Boolean(
                                         selectedDecks !== null &&
@@ -101,8 +67,12 @@ const AddCardModalContent = ({ decks }: Props) => {
                                                 (d) => d.id === deck.id,
                                             ),
                                     )}
+                                    parentSetter={() => handleDeckSelect(deck)}
                                 />
                             ))}
+                    </div>
+                    <div>
+                        <button onClick={onSubmit}>submit</button>
                     </div>
                 </>
             )}

@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { IoIosCheckmark } from 'react-icons/io';
 import { twMerge } from 'tailwind-merge';
 
 type Props = {
     label: string;
     initialState?: boolean;
-    parentSetter?: Dispatch<SetStateAction<boolean>>;
+    parentSetter?: () => void;
 };
 
 const LabeledCheckbox = ({
@@ -16,6 +16,7 @@ const LabeledCheckbox = ({
     const [isChecked, setIsChecked] = useState(initialState);
     const handleClick = () => {
         setIsChecked(!isChecked);
+        if (parentSetter !== undefined) parentSetter();
     };
     return (
         <button
