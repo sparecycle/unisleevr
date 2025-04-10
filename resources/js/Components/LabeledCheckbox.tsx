@@ -16,7 +16,6 @@ const LabeledCheckbox = ({
     const [isChecked, setIsChecked] = useState(initialState);
     const handleClick = () => {
         setIsChecked(!isChecked);
-        console.log('clicked');
     };
     return (
         <button
