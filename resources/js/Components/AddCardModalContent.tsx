@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { IoIosCheckmark } from 'react-icons/io';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
+import LabeledCheckbox from './LabeledCheckbox';
 
 type Props = {
     decks: Deck[];
@@ -80,10 +81,7 @@ const AddCardModalContent = ({ decks }: Props) => {
                 parentSetter={handleCardSelect}
                 specificCard={true}
             />
-            <button className="flex items-center justify-start gap-2 p-2">
-                <IoIosCheckmark />
-                checkmark
-            </button>
+            <LabeledCheckbox label='whamwham'/>
             {selectedCard && (
                 <>
                     <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
