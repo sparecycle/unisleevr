@@ -2,6 +2,7 @@ import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
 import { useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import { IoIosCheckmark } from 'react-icons/io';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
 
@@ -79,6 +80,10 @@ const AddCardModalContent = ({ decks }: Props) => {
                 parentSetter={handleCardSelect}
                 specificCard={true}
             />
+            <button className="flex items-center justify-start gap-2 p-2">
+                <IoIosCheckmark />
+                checkmark
+            </button>
             {selectedCard && (
                 <>
                     <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
@@ -94,7 +99,7 @@ const AddCardModalContent = ({ decks }: Props) => {
                             decks.map((deck) => (
                                 <div
                                     className={
-                                        'max-h-[30vh] my-2 w-full overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2'
+                                        'my-2 max-h-[30vh] w-full overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2'
                                     }
                                 >
                                     {deck.name}

@@ -1,5 +1,4 @@
 import { CardDataType } from '@/types/mtg';
-import { Dispatch, SetStateAction } from 'react';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
 
@@ -38,9 +37,7 @@ const DeckCardSearch = ({
                                 <NametagButton
                                     aria-label={`remove ${card.name} from deck`}
                                     disabled={processing || !isSearching}
-                                    onClick={() =>
-                                        removeAction(card)
-                                    }
+                                    onClick={() => removeAction(card)}
                                     showClose={processing || isSearching}
                                 >
                                     {card.name}
