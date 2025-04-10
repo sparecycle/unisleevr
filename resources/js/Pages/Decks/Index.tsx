@@ -4,8 +4,9 @@ import Modal from '@/Components/Modal';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck } from '@/types/mtg';
+import { debounce } from '@/utility';
 import { router } from '@inertiajs/react';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type DecksProps = {
     decks: {
@@ -23,6 +24,33 @@ export default function Decks({ decks }: DecksProps) {
 
     const deckRef = useRef<HTMLDivElement>(null);
 
+    const handleScrollPast = (isIntersecting: boolean) => {
+        alert(`isIntersecting: ${isIntersecting}`);
+    };
+
+    const debouncedHandleScrollPast = debounce(handleScrollPast, 100);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                debouncedHandleScrollPast(entry.isIntersecting);
+            },
+            {
+                root: null, // Use the viewport as the root
+                threshold: 0, // Trigger when the element is fully out of view
+            },
+        );
+
+        if (deckRef.current) {
+            observer.observe(deckRef.current);
+        }
+
+        return () => {
+            if (deckRef.current) {
+                observer.unobserve(deckRef.current);
+            }
+        };
+    }, [debouncedHandleScrollPast]);
 
     const handleOnDelete = (id: number) => {
         router.delete(route('decks.destroy', id), {

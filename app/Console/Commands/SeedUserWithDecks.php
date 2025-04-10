@@ -33,8 +33,8 @@ class SeedUserWithDecks extends Command
         $count = (int) $this->argument('count');
 
         // Predefined card data
-        $cardData = [
-            [
+        $cardData = array([
+            
                 'id' => '4f616706-ec97-4923-bb1e-11a69fbaa1f8',
                 'name' => 'Counterspell',
                 'oracleText' => 'Counter target spell.',
@@ -50,16 +50,15 @@ class SeedUserWithDecks extends Command
                     'small' => 'https://cards.scryfall.io/small/front/4/f/4f616706-ec97-4923-bb1e-11a69fbaa1f8.jpg?1726837907',
                 ],
                 'manaCost' => ['{U}', '{U}'],
-            ],
-        ];
+        ]);
 
         // Create the specified number of decks
         for ($i = 1; $i <= $count; $i++) {
             $deck = new Deck();
             $generatedName = "dummy-deck-" . Str::uuid(); // Generate the name
-            $deck->name = substr($generatedName, 0, 36); // Truncate to 46 characters
+            $deck->name = substr($generatedName, 0, 46); // Truncate to 46 characters
             $deck->user_id = $userId;
-            $deck->cards = json_encode($cardData); // Save the card data as a JSON string
+            $deck->cards = $cardData; // Assign the array directly
             $deck->save();
 
             $this->info("Deck {$deck->name} created for user ID {$userId}.");
