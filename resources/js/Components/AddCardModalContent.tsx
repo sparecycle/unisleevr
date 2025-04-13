@@ -1,11 +1,11 @@
 import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
-import { useForm, usePage } from '@inertiajs/react';
+import updateDeck from '@/utilities/updateDeck';
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import LabeledCheckbox from './LabeledCheckbox';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
-import updateDeck from '@/utilities/updateDeck';
 
 type Props = {
     decks: Deck[];
@@ -16,6 +16,8 @@ const AddCardModalContent = ({ decks }: Props) => {
     const [searchFocus, setSearchFocus] = useState<boolean>(true);
     const [selectedCard, setSelectedCard] = useState<CardDataType | null>(null);
     const [selectedDecks, setSelectedDecks] = useState<Deck[] | []>([]);
+    const [currentDeck, setCurrentDeck] = useState<Deck | null>(null);
+    const [submitting, setSubmitting] = useState<boolean>(false);
     const handleCardSelect = (results: CardDataType[] | []) => {
         if (results === undefined || results.length == 0) return;
         setSelectedCard(results[0]);
@@ -33,10 +35,15 @@ const AddCardModalContent = ({ decks }: Props) => {
             }
         }
     };
-    const onSubmit = () => {
-        selectedDecks.forEach((deck) => {
-            updateDeck(deck,auth.user.id, deck.cards);
-        });
+    const onSubmit = async () => {
+        setSubmitting(true);
+        try {
+            selectedDecks.forEach((deck) =>
+                updateDeck(deck, auth.user.id, selectedCard as CardDataType),
+            );
+        } catch (error) {
+            console.error('One of the promises failed:', error);
+        }
     };
     return (
         <div className="flex flex-col gap-2">
