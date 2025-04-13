@@ -6,7 +6,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck } from '@/types/mtg';
 import { debounce } from '@/utility';
 import { router } from '@inertiajs/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type DecksProps = {
     decks: {
@@ -18,14 +18,47 @@ type DecksProps = {
 };
 
 export default function Decks({ decks }: DecksProps) {
-    console.log('decks', decks);
+    console.log(decks);
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
+    const [decksToDisplay, setDecksToDisplay] = useState<Deck[]>(decks.data);
+    const [currentPage, setCurrentPage] = useState(decks.current_page);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-    const deckRef = useRef<HTMLDivElement>(null);
+    const deckContainerRef = useRef<HTMLDivElement>(null);
+    const targetTileRef = useRef<HTMLDivElement>(null);
 
-    const handleScrollPast = (isIntersecting: boolean) => {
-        alert(`isIntersecting: ${isIntersecting}`);
+    const handleScrollPast = async (isIntersecting: boolean) => {
+        if (isIntersecting && !isLoadingMore && currentPage < decks.last_page) {
+            console.log('Loading more decks...');
+            setIsLoadingMore(true);
+
+            try {
+                // Make a direct API call to fetch the next page of decks
+                const response = await fetch(`/decks?page=${currentPage + 1}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch decks');
+                }
+
+                const data = await response.json();
+
+                // Update the state with the new decks
+                const newDecks = data.decks.data;
+                setDecksToDisplay((prevDecks) => [...prevDecks, ...newDecks]);
+                setCurrentPage(data.decks.current_page);
+            } catch (error) {
+                console.error('Failed to load more decks:', error);
+            } finally {
+                setIsLoadingMore(false);
+            }
+        }
     };
 
     const debouncedHandleScrollPast = debounce(handleScrollPast, 100);
@@ -37,31 +70,41 @@ export default function Decks({ decks }: DecksProps) {
             },
             {
                 root: null, // Use the viewport as the root
-                threshold: 0, // Trigger when the element is fully out of view
+                threshold: 0.5, // Trigger when the element is halfway into the view
             },
         );
 
-        if (deckRef.current) {
-            observer.observe(deckRef.current);
+        if (targetTileRef.current) {
+            observer.observe(targetTileRef.current);
         }
 
         return () => {
-            if (deckRef.current) {
-                observer.unobserve(deckRef.current);
+            if (targetTileRef.current) {
+                observer.unobserve(targetTileRef.current);
             }
         };
-    }, [debouncedHandleScrollPast]);
+    }, [debouncedHandleScrollPast, decksToDisplay.length, currentPage]);
+
+    const targetTileIndex = useMemo(() => {
+        const columns = window.innerWidth < 768 ? 1 : 4; // Adjust based on screen size (e.g., 1 column for mobile, 4 for desktop)
+        const rows = Math.ceil(decksToDisplay.length / columns);
+        return Math.floor(rows * 0.75) * columns - 1; // 75% of the rows
+    }, [decksToDisplay.length]);
 
     const handleOnDelete = (id: number) => {
         router.delete(route('decks.destroy', id), {
             onSuccess: () => {
                 console.log(`Deck ${id} deleted successfully`);
+                setDecksToDisplay((prevDecks) =>
+                    prevDecks.filter((deck) => deck.id !== id),
+                );
             },
             onError: (errors) => {
                 console.error(errors);
             },
         });
     };
+
     const handleCloseModal = () => {
         setActiveDeck(null);
         setIsCreating(false);
@@ -71,7 +114,7 @@ export default function Decks({ decks }: DecksProps) {
         <AuthenticatedLayout header={<PageTitle>Decks</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
                 <div>
-                    {decks.data.length > 0 && (
+                    {decksToDisplay.length > 0 && (
                         <button
                             onClick={() => {
                                 setIsCreating(!isCreating);
@@ -85,21 +128,23 @@ export default function Decks({ decks }: DecksProps) {
                     )}
                 </div>
             </div>
-            <div className="container mx-auto px-3 py-4">
+            <div className="container mx-auto px-3 py-4" ref={deckContainerRef}>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-                    {decks.data.length > 0 && (
-                        <>
-                            {decks.data.map((deck, idx) => (
-                                <DeckTile
-                                    key={idx}
-                                    title={deck.name}
-                                    deck={deck}
-                                    activeSetter={setActiveDeck}
-                                    onDelete={() => handleOnDelete(deck.id)}
-                                />
-                            ))}
-                        </>
-                    )}
+                    {decksToDisplay.length > 0 &&
+                        decksToDisplay.map((deck, idx) => (
+                            <DeckTile
+                                key={`${idx}-${deck.id}`}
+                                title={deck.name + ' - ' + (idx + 1)}
+                                deck={deck}
+                                activeSetter={setActiveDeck}
+                                onDelete={() => handleOnDelete(deck.id)}
+                                ref={
+                                    idx === targetTileIndex
+                                        ? targetTileRef
+                                        : undefined
+                                }
+                            />
+                        ))}
                     <DeckTile
                         isButton
                         buttonAction={() => setIsCreating(true)}

@@ -15,14 +15,18 @@ class DeckController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $decks = Deck::query()
             ->where('user_id', Auth::id())
             ->paginate(24);
 
+        if ($request->wantsJson()) {
+            return response()->json(['decks' => $decks]);
+        }
+
         return Inertia::render('Decks/Index', [
-            'decks' => $decks
+            'decks' => $decks,
         ]);
     }
 
