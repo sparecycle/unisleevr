@@ -10,11 +10,14 @@ type DeckModalContentProps = {
     deck?: Deck;
     creating?: boolean;
     onClose: () => void;
+    onDeckCreated?: (newDeck: Deck) => void; // Add the callback prop
 };
+
 const DeckModalContent = ({
     deck,
     creating,
     onClose,
+    onDeckCreated, // Destructure the callback
 }: DeckModalContentProps) => {
     const { auth } = usePage().props;
     const [isEditing, setIsEditing] = useState(creating ?? false);
@@ -60,7 +63,7 @@ const DeckModalContent = ({
     };
 
     const removeCard = (card: CardDataType) => {
-        const updatedCards =selectedCards.filter((c) => c.id !== card.id)
+        const updatedCards = selectedCards.filter((c) => c.id !== card.id);
         setSelectedCards(updatedCards);
         setData('cards', updatedCards);
     };
@@ -99,11 +102,16 @@ const DeckModalContent = ({
         e.preventDefault();
 
         if (creating) {
-            validate();
+            if (!validate()) return;
 
             post(route('decks.store'), {
-                data, // Use the form state managed by useForm
-                onSuccess: () => {
+                data,
+                preserveScroll: true, // Prevents the page from scrolling to the top
+                onSuccess: (response) => {
+                    if (response.deck) {
+                        // Call the callback with the new deck
+                        onDeckCreated?.(response.deck);
+                    }
                     reset();
                     onClose();
                 },
@@ -116,6 +124,7 @@ const DeckModalContent = ({
 
             patch(route('decks.update', deck?.id), {
                 data, // Use the form state managed by useForm
+                preserveScroll: true,
                 onSuccess: (e) => {
                     setIsEditing(false); // Close the editing form on success
                     if (e.props.decks) {

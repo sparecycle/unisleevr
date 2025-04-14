@@ -1,3 +1,4 @@
+import ButtonShelf from '@/Components/ButtonShelf';
 import DeckModalContent from '@/Components/DeckModalContent';
 import DeckTile from '@/Components/DeckTile';
 import Modal from '@/Components/Modal';
@@ -18,7 +19,6 @@ type DecksProps = {
 };
 
 export default function Decks({ decks }: DecksProps) {
-    console.log(decks);
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
     const [decksToDisplay, setDecksToDisplay] = useState<Deck[]>(decks.data);
@@ -61,7 +61,45 @@ export default function Decks({ decks }: DecksProps) {
         }
     };
 
-    const debouncedHandleScrollPast = debounce(handleScrollPast, 100);
+    const debouncedHandleScrollPast = debounce(handleScrollPast, 50);
+
+    useEffect(() => {
+        if (decksToDisplay.length < decks.total) {
+            const fetchMissingDecks = async () => {
+                try {
+                    const response = await fetch(`/decks?page=${currentPage}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Accept: 'application/json',
+                        },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch missing decks');
+                    }
+
+                    const data = await response.json();
+                    const missingDecks = data.decks.data;
+
+                    // Append missing decks to decksToDisplay
+                    setDecksToDisplay((prevDecks) => {
+                        const existingIds = new Set(
+                            prevDecks.map((deck) => deck.id),
+                        );
+                        const newDecks = missingDecks.filter(
+                            (deck: Deck) => !existingIds.has(deck.id),
+                        );
+                        return [...prevDecks, ...newDecks];
+                    });
+                } catch (error) {
+                    console.error('Failed to sync decks:', error);
+                }
+            };
+
+            fetchMissingDecks();
+        }
+    }, [decksToDisplay.length, decks.total, currentPage]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -93,6 +131,7 @@ export default function Decks({ decks }: DecksProps) {
 
     const handleOnDelete = (id: number) => {
         router.delete(route('decks.destroy', id), {
+            preserveScroll: true, // Prevents the page from scrolling to the top
             onSuccess: () => {
                 console.log(`Deck ${id} deleted successfully`);
                 setDecksToDisplay((prevDecks) =>
@@ -105,6 +144,10 @@ export default function Decks({ decks }: DecksProps) {
         });
     };
 
+    const handleAddDeck = (newDeck: Deck) => {
+        setDecksToDisplay((prevDecks) => [...prevDecks, newDeck]);
+    };
+
     const handleCloseModal = () => {
         setActiveDeck(null);
         setIsCreating(false);
@@ -115,16 +158,14 @@ export default function Decks({ decks }: DecksProps) {
             <div className="container mx-auto px-3 py-4">
                 <div>
                     {decksToDisplay.length > 0 && (
-                        <button
-                            onClick={() => {
-                                setIsCreating(!isCreating);
-                            }}
-                            className={
-                                'btn bg-lg rounded-md border border-solid border-slate-600 px-3 py-2'
-                            }
-                        >
-                            Create a deck
-                        </button>
+                        <ButtonShelf
+                            buttons={[
+                                {
+                                    label: 'Create a deck',
+                                    action: () => setIsCreating(true),
+                                },
+                            ]}
+                        />
                     )}
                 </div>
             </div>
@@ -157,7 +198,11 @@ export default function Decks({ decks }: DecksProps) {
                 onClose={() => handleCloseModal()}
             >
                 {isCreating && (
-                    <DeckModalContent creating onClose={handleCloseModal} />
+                    <DeckModalContent
+                        creating={isCreating}
+                        onClose={handleCloseModal}
+                        onDeckCreated={handleAddDeck}
+                    />
                 )}
                 {activeDeck && (
                     <DeckModalContent

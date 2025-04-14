@@ -61,16 +61,21 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'user_id' => 'required|integer|exists:users,id',
-            'cards' => 'required|array|min:1', // Require cards to be a non-empty array
+            'cards' => 'required|array|min:1',
         ]);
 
-        Deck::create([
+        $deck = Deck::create([
             'name' => $validated['name'],
             'user_id' => $validated['user_id'],
-            'cards' => $validated['cards'], // Ensure cards is always populated
+            'cards' => $validated['cards'],
         ]);
 
-        return redirect(route('decks.index'));
+        // Check if the request expects an Inertia response
+        if ($request->wantsJson()) {
+            return response()->json(['deck' => $deck]); // Return JSON for API requests
+        }
+
+        return redirect()->route('decks.index')->with('success', 'Deck created successfully!');
     }
 
     /**
