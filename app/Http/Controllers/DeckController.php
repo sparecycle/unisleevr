@@ -104,7 +104,7 @@ class DeckController extends Controller
         return redirect(route('decks.index'));
     }
 
-    public function updateDecks(Request $request, Collection $decks)
+    public function updateDecks(Request $request)
     {
         $request->validate([
             'decks' => 'required|array',
@@ -117,7 +117,7 @@ class DeckController extends Controller
 
         try {
             foreach ($request->decks as $deckData) {
-                $deck = $decks->firstWhere('id', $deckData['id']);
+                $deck = Deck::findOrFail($deckData['id']);
 
                 // Skip if deck not found in the collection
                 if (!$deck) {
@@ -138,12 +138,12 @@ class DeckController extends Controller
             DB::commit();
 
             return redirect(route('decks.index'))->with('success', 'Decks updated successfully');
-    } catch (\Exception $e) {
-        // Rollback the transaction on error
-        DB::rollBack();
+        } catch (\Exception $e) {
+            // Rollback the transaction on error
+            DB::rollBack();
 
-        return redirect()->back()->withErrors(['error' => 'Failed to update decks: ' . $e->getMessage()]);
-    }
+            return redirect()->back()->withErrors(['error' => 'Failed to update decks: ' . $e->getMessage()]);
+        }
     }
     /**
      * Remove the specified resource from storage.
