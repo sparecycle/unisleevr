@@ -131,7 +131,6 @@ class DeckController extends Controller
                 ]);
             }
 
-            // Commit the transaction if all updates succeeded
             DB::commit();
 
             if ($request->wantsJson()) {
