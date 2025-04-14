@@ -1,6 +1,6 @@
 import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
-import updateDeck from '@/utilities/updateDeck';
+import updateDecks from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import LabeledCheckbox from './LabeledCheckbox';
@@ -38,8 +38,10 @@ const AddCardModalContent = ({ decks }: Props) => {
     const onSubmit = async () => {
         setSubmitting(true);
         try {
-            selectedDecks.forEach((deck) =>
-                updateDeck(deck, auth.user.id, selectedCard as CardDataType),
+            updateDecks(
+                selectedDecks,
+                auth.user.id,
+                selectedCard as CardDataType,
             );
         } catch (error) {
             console.error('One of the promises failed:', error);
