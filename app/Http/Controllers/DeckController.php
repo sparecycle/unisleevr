@@ -134,10 +134,18 @@ class DeckController extends Controller
             // Commit the transaction if all updates succeeded
             DB::commit();
 
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'Decks updated successfully']);
+            }
+
             return redirect(route('decks.index'))->with('success', 'Decks updated successfully');
         } catch (\Exception $e) {
             // Rollback the transaction on error
             DB::rollBack();
+
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Failed to update decks: ' . $e->getMessage()], 422);
+            }
 
             return redirect()->back()->withErrors(['error' => 'Failed to update decks: ' . $e->getMessage()]);
         }
