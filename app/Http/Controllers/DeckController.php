@@ -119,15 +119,12 @@ class DeckController extends Controller
             foreach ($request->decks as $deckData) {
                 $deck = Deck::findOrFail($deckData['id']);
 
-                // Skip if deck not found in the collection
                 if (!$deck) {
                     continue;
                 }
 
-                // Authorization check for each deck
                 Gate::authorize('update', $deck);
 
-                // Update the deck with its specific data
                 $deck->update([
                     'name' => $deckData['name'],
                     'cards' => $deckData['cards']
