@@ -18,6 +18,7 @@ const AddCardModalContent = ({ decks }: Props) => {
     const [selectedDecks, setSelectedDecks] = useState<Deck[] | []>([]);
     const [currentDeck, setCurrentDeck] = useState<Deck | null>(null);
     const [submitting, setSubmitting] = useState<boolean>(false);
+    const [submitted, setSubmitted] = useState<boolean>(false);
     const handleCardSelect = (results: CardDataType[] | []) => {
         if (results === undefined || results.length == 0) return;
         setSelectedCard(results[0]);
@@ -42,6 +43,7 @@ const AddCardModalContent = ({ decks }: Props) => {
                 selectedDecks,
                 auth.user.id,
                 selectedCard as CardDataType,
+                setSubmitted
             );
         } catch (error) {
             console.error('One of the promises failed:', error);
