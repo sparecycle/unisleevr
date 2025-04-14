@@ -14,7 +14,7 @@ const updateDecks = (decks: Deck[], user_id: number, card: CardDataType) => {
             preserveState: true,
             only: [],
             onSuccess: () => {
-                console.log(`Card added to ${decks.length} decks`);
+                console.log(`Card added to decks`);
             },
             onError: (errors) => {
                 console.error(`Error update decks`, errors);
