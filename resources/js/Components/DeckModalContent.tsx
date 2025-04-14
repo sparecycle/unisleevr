@@ -1,5 +1,5 @@
 import { Deck } from '@/types/deck';
-import { useForm, usePage } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
 import { CardDataType } from '../types/mtg';
 import Button from './Button';
@@ -10,18 +10,19 @@ type DeckModalContentProps = {
     deck?: Deck;
     creating?: boolean;
     onClose: () => void;
-    onDeckCreated?: (newDeck: Deck) => void; // Add the callback prop
+    onDeckCreated?: (newDeck: Deck) => void;
+    onDeckUpdated?: (updatedDeck: Deck) => void; // Add the callback prop
 };
 
 const DeckModalContent = ({
     deck,
     creating,
     onClose,
-    onDeckCreated, // Destructure the callback
+    onDeckCreated,
+    onDeckUpdated, // Destructure the callback
 }: DeckModalContentProps) => {
     const { auth } = usePage().props;
     const [isEditing, setIsEditing] = useState(creating ?? false);
-    const [updated, setUpdated] = useState<null | Deck>(null);
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
     );
@@ -123,20 +124,38 @@ const DeckModalContent = ({
             validate();
 
             patch(route('decks.update', deck?.id), {
-                data, // Use the form state managed by useForm
+                data,
                 preserveScroll: true,
-                onSuccess: (e) => {
-                    setIsEditing(false); // Close the editing form on success
-                    if (e.props.decks) {
-                        setUpdated(
-                            (e.props.decks as { data: Deck[] }).data.filter(
-                                (d) => d.id === deck?.id,
-                            )[0], // Update the deck data
+                onSuccess: (response) => {
+                    console.log('onSuccess fired', response); // Debugging log
+
+                    // Type guard to check if updatedDeck is a valid Deck
+                    const isValidDeck = (deck: any): deck is Deck => {
+                        return (
+                            deck &&
+                            typeof deck.id === 'number' &&
+                            typeof deck.name === 'string' &&
+                            typeof deck.created_at === 'string' &&
+                            typeof deck.updated_at === 'string'
+                        );
+                    };
+
+                    if (isValidDeck(response.props.updatedDeck)) {
+                        console.log('updated deck', response.props.updatedDeck); // Debugging log
+                        if (onDeckUpdated) {
+                            onDeckUpdated(response.props.updatedDeck);
+                        }
+                    } else {
+                        console.warn(
+                            'Invalid or empty updatedDeck:',
+                            response.props.updatedDeck,
                         );
                     }
+                    reset();
+                    onClose();
                 },
                 onError: (errors) => {
-                    console.error(errors); // Log errors to the console
+                    console.error(errors);
                 },
             });
         }
@@ -165,7 +184,7 @@ const DeckModalContent = ({
                 ) : (
                     <div>
                         {deck && deck.name && auth.user.id === deck.user_id ? (
-                            <>{updated?.name ?? deck.name}</>
+                            <>{deck.name}</>
                         ) : (
                             <p className="text-zinc-500">
                                 No deck selected or no permission to edit
@@ -202,8 +221,6 @@ const DeckModalContent = ({
                             {isEditing && (
                                 <Button
                                     onClick={(e) => {
-                                        console.log('from action');
-                                        console.log(data);
                                         e.preventDefault(); // Prevent default button behavior
                                         onSubmit(e); // Trigger the form submission
                                     }}

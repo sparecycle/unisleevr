@@ -24,9 +24,12 @@ class DeckController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['decks' => $decks]);
         }
+        // Check if there is an updatedDeck in the session
+        $updatedDeck = session('updatedDeck'); // Ensure updatedDeck is retrieved correctly
 
         return Inertia::render('Decks/Index', [
             'decks' => $decks,
+            'updatedDeck' => $updatedDeck, // Pass the updatedDeck as a prop
         ]);
     }
 
@@ -103,12 +106,16 @@ class DeckController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'cards' => 'required|array|min:0'
+            'cards' => 'required|array|min:0',
         ]);
 
         $deck->update($validated);
 
-        return redirect(route('decks.index'));
+        // Redirect to the decks.index route with the updatedDeck in the session
+        return redirect()->route('decks.index')->with([
+            'success' => 'Deck updated successfully!',
+            'updatedDeck' => $deck, // Store the updated deck in the session
+        ]);
     }
 
     /**

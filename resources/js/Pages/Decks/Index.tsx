@@ -16,9 +16,10 @@ type DecksProps = {
         last_page: number;
         total: number;
     };
+    updatedDeck?: Deck; // Add updatedDeck to the props
 };
 
-export default function Decks({ decks }: DecksProps) {
+export default function Decks({ decks, updatedDeck }: DecksProps) {
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
     const [decksToDisplay, setDecksToDisplay] = useState<Deck[]>(decks.data);
@@ -148,6 +149,26 @@ export default function Decks({ decks }: DecksProps) {
         setDecksToDisplay((prevDecks) => [...prevDecks, newDeck]);
     };
 
+    const handleUpdateDeck = (updatedDeck: Deck) => {
+        console.log('Updating deck:', updatedDeck); // Debugging log
+        setDecksToDisplay((prevDecks) =>
+            prevDecks.map((deck) =>
+                deck.id === updatedDeck.id ? updatedDeck : deck,
+            ),
+        );
+    };
+
+    // useEffect(() => {
+    //     if (updatedDeck) {
+    //         console.log('Updating deck from updatedDeck prop:', updatedDeck);
+    //         setDecksToDisplay((prevDecks) =>
+    //             prevDecks.map((deck) =>
+    //                 deck.id === updatedDeck.id ? updatedDeck : deck,
+    //             ),
+    //         );
+    //     }
+    // }, [updatedDeck]);
+
     const handleCloseModal = () => {
         setActiveDeck(null);
         setIsCreating(false);
@@ -209,6 +230,7 @@ export default function Decks({ decks }: DecksProps) {
                         deck={activeDeck as Deck}
                         creating={false}
                         onClose={handleCloseModal}
+                        onDeckUpdated={handleUpdateDeck} // Pass the callback
                     />
                 )}
             </Modal>
