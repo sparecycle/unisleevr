@@ -20,6 +20,8 @@ type DecksProps = {
 };
 
 export default function Decks({ decks, updatedDeck }: DecksProps) {
+    console.log('Decks data:', decks);
+    console.log('Updated deck data for decksToDisplay:', updatedDeck);
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
     const [decksToDisplay, setDecksToDisplay] = useState<Deck[]>(decks.data);
@@ -65,44 +67,6 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
     const debouncedHandleScrollPast = debounce(handleScrollPast, 50);
 
     useEffect(() => {
-        if (decksToDisplay.length < decks.total) {
-            const fetchMissingDecks = async () => {
-                try {
-                    const response = await fetch(`/decks?page=${currentPage}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
-                        },
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch missing decks');
-                    }
-
-                    const data = await response.json();
-                    const missingDecks = data.decks.data;
-
-                    // Append missing decks to decksToDisplay
-                    setDecksToDisplay((prevDecks) => {
-                        const existingIds = new Set(
-                            prevDecks.map((deck) => deck.id),
-                        );
-                        const newDecks = missingDecks.filter(
-                            (deck: Deck) => !existingIds.has(deck.id),
-                        );
-                        return [...prevDecks, ...newDecks];
-                    });
-                } catch (error) {
-                    console.error('Failed to sync decks:', error);
-                }
-            };
-
-            fetchMissingDecks();
-        }
-    }, [decksToDisplay.length, decks.total, currentPage]);
-
-    useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 debouncedHandleScrollPast(entry.isIntersecting);
@@ -145,29 +109,29 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
         });
     };
 
-    const handleAddDeck = (newDeck: Deck) => {
-        setDecksToDisplay((prevDecks) => [...prevDecks, newDeck]);
-    };
-
     const handleUpdateDeck = (updatedDeck: Deck) => {
-        console.log('Updating deck:', updatedDeck); // Debugging log
-        setDecksToDisplay((prevDecks) =>
-            prevDecks.map((deck) =>
-                deck.id === updatedDeck.id ? updatedDeck : deck,
-            ),
-        );
+        console.log('Updating decksToDisplay data with:', updatedDeck); // Debugging log
+
+        setDecksToDisplay((prevDecks) => {
+            const deckExists = prevDecks.some(
+                (deck) => deck.id === updatedDeck.id,
+            );
+
+            if (deckExists) {
+                // Update the existing deck
+                return prevDecks.map((deck) =>
+                    deck.id === updatedDeck.id ? updatedDeck : deck,
+                );
+            } else {
+                // Append the new deck if it doesn't exist
+                console.warn(
+                    `Deck with id ${updatedDeck.id} not found. Appending to decksToDisplay.`,
+                );
+                return [...prevDecks, updatedDeck];
+            }
+        });
     };
 
-    // useEffect(() => {
-    //     if (updatedDeck) {
-    //         console.log('Updating deck from updatedDeck prop:', updatedDeck);
-    //         setDecksToDisplay((prevDecks) =>
-    //             prevDecks.map((deck) =>
-    //                 deck.id === updatedDeck.id ? updatedDeck : deck,
-    //             ),
-    //         );
-    //     }
-    // }, [updatedDeck]);
 
     const handleCloseModal = () => {
         setActiveDeck(null);
@@ -196,7 +160,7 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
                         decksToDisplay.map((deck, idx) => (
                             <DeckTile
                                 key={`${idx}-${deck.id}`}
-                                title={deck.name + ' - ' + (idx + 1)}
+                                title={deck.name}
                                 deck={deck}
                                 activeSetter={setActiveDeck}
                                 onDelete={() => handleOnDelete(deck.id)}
@@ -222,7 +186,7 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
                     <DeckModalContent
                         creating={isCreating}
                         onClose={handleCloseModal}
-                        onDeckCreated={handleAddDeck}
+                        onDeckUpdated={handleUpdateDeck}
                     />
                 )}
                 {activeDeck && (

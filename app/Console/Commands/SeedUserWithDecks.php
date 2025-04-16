@@ -34,7 +34,7 @@ class SeedUserWithDecks extends Command
 
         // Predefined card data
         $cardData = array([
-            
+
                 'id' => '4f616706-ec97-4923-bb1e-11a69fbaa1f8',
                 'name' => 'Counterspell',
                 'oracleText' => 'Counter target spell.',
