@@ -11,6 +11,7 @@ import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
+    console.log('cards', { raw: cards, parsed: prepCardDataForRender(cards) });
     const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
     const [isAdding, setIsAdding] = useState(false);
 
