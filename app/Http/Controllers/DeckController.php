@@ -75,13 +75,6 @@ class DeckController extends Controller
             'cards' => $validated['cards'],
         ]);
 
-        // // Check if the request expects an Inertia response
-        // if ($request->wantsJson()) {
-        //     return response()->json(['deck' => $deck]); // Return JSON for API requests
-        // }
-
-        // return redirect()->route('decks.index')->with('success', 'Deck created successfully!');
-
         // Redirect to the decks.index route with the updatedDeck in the session
         return redirect()->route('decks.index')->with([
             'success' => 'Deck updated successfully!',
