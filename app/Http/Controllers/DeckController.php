@@ -7,6 +7,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 use Inertia\Inertia;
 
@@ -124,6 +126,51 @@ class DeckController extends Controller
         ]);
     }
 
+    public function updateDecks(Request $request)
+    {
+        $request->validate([
+            'decks' => 'required|array',
+            'decks.*.id' => 'required|exists:decks,id',
+            'decks.*.name' => 'required|string|max:255',
+            'decks.*.cards' => 'required|array|min:0'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($request->decks as $deckData) {
+                $deck = Deck::findOrFail($deckData['id']);
+
+                if (!$deck) {
+                    continue;
+                }
+
+                Gate::authorize('update', $deck);
+
+                $deck->update([
+                    'name' => $deckData['name'],
+                    'cards' => $deckData['cards']
+                ]);
+            }
+
+            DB::commit();
+
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'Decks updated successfully']);
+            }
+
+            return redirect(route('decks.index'))->with('success', 'Decks updated successfully');
+        } catch (\Exception $e) {
+            // Rollback the transaction on error
+            DB::rollBack();
+
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Failed to update decks: ' . $e->getMessage()], 422);
+            }
+
+            return redirect()->back()->withErrors(['error' => 'Failed to update decks: ' . $e->getMessage()]);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */
