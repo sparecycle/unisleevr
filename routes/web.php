@@ -21,9 +21,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    
+
     $userId = Auth::id();
-        
+
     list($allCards, $decks) = getCardPoolAndDecksFromUserID($userId);
 
     // Ensure $allCards and $decks are arrays before slicing
@@ -55,6 +55,10 @@ Route::resource('cards', CardController::class)
 
 Route::resource('decks', DeckController::class)
     ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+
+Route::put('decks-batch', [DeckController::class, 'updateDecks'])
+    ->name('decks.update-batch')
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

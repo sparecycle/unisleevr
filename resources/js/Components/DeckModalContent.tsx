@@ -60,7 +60,7 @@ const DeckModalContent = ({
     };
 
     const removeCard = (card: CardDataType) => {
-        const updatedCards =selectedCards.filter((c) => c.id !== card.id)
+        const updatedCards = selectedCards.filter((c) => c.id !== card.id);
         setSelectedCards(updatedCards);
         setData('cards', updatedCards);
     };
