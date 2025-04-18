@@ -28,22 +28,16 @@ export default function Authenticated({
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
+                                    href={route('decks.index')}
+                                    active={route().current('decks.index')}
                                 >
-                                    Dashboard
+                                    Decks
                                 </NavLink>
                                 <NavLink
                                     href={route('cards.index')}
                                     active={route().current('cards.index')}
                                 >
                                     Card Pool
-                                </NavLink>
-                                <NavLink
-                                    href={route('decks.index')}
-                                    active={route().current('decks.index')}
-                                >
-                                    Decks
                                 </NavLink>
                             </div>
                         </div>
