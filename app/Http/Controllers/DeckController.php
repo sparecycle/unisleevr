@@ -17,14 +17,21 @@ class DeckController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $decks = Deck::query()
             ->where('user_id', Auth::id())
             ->paginate(24);
 
+        if ($request->wantsJson()) {
+            return response()->json(['decks' => $decks]);
+        }
+        // Check if there is an updatedDeck in the session
+        $updatedDeck = session('updatedDeck'); // Ensure updatedDeck is retrieved correctly
+
         return Inertia::render('Decks/Index', [
-            'decks' => $decks
+            'decks' => $decks,
+            'updatedDeck' => $updatedDeck, // Pass the updatedDeck as a prop
         ]);
     }
 
@@ -59,16 +66,20 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'user_id' => 'required|integer|exists:users,id',
-            'cards' => 'required|array|min:1', // Require cards to be a non-empty array
+            'cards' => 'required|array|min:1',
         ]);
 
-        Deck::create([
+        $deck = Deck::create([
             'name' => $validated['name'],
             'user_id' => $validated['user_id'],
-            'cards' => $validated['cards'], // Ensure cards is always populated
+            'cards' => $validated['cards'],
         ]);
 
-        return redirect(route('decks.index'));
+        // Redirect to the decks.index route with the updatedDeck in the session
+        return redirect()->route('decks.index')->with([
+            'success' => 'Deck updated successfully!',
+            'updatedDeck' => $deck, // Store the updated deck in the session
+        ]);
     }
 
     /**
@@ -96,12 +107,16 @@ class DeckController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'cards' => 'required|array|min:0'
+            'cards' => 'required|array|min:0',
         ]);
 
         $deck->update($validated);
 
-        return redirect(route('decks.index'));
+        // Redirect to the decks.index route with the updatedDeck in the session
+        return redirect()->route('decks.index')->with([
+            'success' => 'Deck updated successfully!',
+            'updatedDeck' => $deck, // Store the updated deck in the session
+        ]);
     }
 
     public function updateDecks(Request $request)
