@@ -69,7 +69,6 @@ const Searchbar = ({
             setLoading(false);
             setAutoCompleteResults(filteredData);
             setError(undefined);
-            console.log('autocomplete data', filteredData);
         } catch (error) {
             console.error(error);
         } finally {
