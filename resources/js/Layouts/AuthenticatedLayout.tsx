@@ -138,22 +138,16 @@ export default function Authenticated({
                 >
                     <div className="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
+                            href={route('decks.index')}
+                            active={route().current('decks.index')}
                         >
-                            Dashboard
+                            Decks
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             href={route('cards.index')}
                             active={route().current('cards.index')}
                         >
                             Cards
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route('decks.index')}
-                            active={route().current('decks.index')}
-                        >
-                            Decks
                         </ResponsiveNavLink>
                     </div>
 
