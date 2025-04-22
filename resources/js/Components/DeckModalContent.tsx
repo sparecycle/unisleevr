@@ -2,6 +2,7 @@ import { Deck } from '@/types/deck';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
 import { CardDataType } from '../types/mtg';
+import { useToast } from './Toast/ToastContext';
 import Button from './Button';
 import DeckCardSearch from './DeckCardSearch';
 import Input from './Input';
@@ -19,6 +20,7 @@ const DeckModalContent = ({
     onClose,
     onDeckUpdated, // Destructure the callback
 }: DeckModalContentProps) => {
+    const { openToast } = useToast();
     const { auth } = usePage().props;
     const [isEditing, setIsEditing] = useState(creating ?? false);
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
@@ -77,6 +79,10 @@ const DeckModalContent = ({
     };
 
     const validate = () => {
+        console.log('validating');
+        console.log('openToast', openToast);
+        openToast?.('sample message! ' + selectedCards.length);
+
         if (!data.name) {
             setError('name', 'Name is required');
             return false;
