@@ -26,6 +26,7 @@ const DeckCardSearch = ({
                     specificCard
                     CTAText="Add Card"
                     placeholderText="Add cards to your deck"
+                    cardsToExclude={cards}
                 ></Searchbar>
             )}
 

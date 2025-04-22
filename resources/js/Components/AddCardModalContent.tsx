@@ -9,9 +9,10 @@ import Searchbar from './Searchbar';
 
 type Props = {
     decks: Deck[];
+    cardpool?: CardDataType[];
 };
 
-const AddCardModalContent = ({ decks }: Props) => {
+const AddCardModalContent = ({ decks, cardpool }: Props) => {
     const { auth } = usePage().props;
     const [searchFocus, setSearchFocus] = useState<boolean>(true);
     const [selectedCard, setSelectedCard] = useState<CardDataType | null>(null);
@@ -55,6 +56,7 @@ const AddCardModalContent = ({ decks }: Props) => {
                 autofocus={searchFocus}
                 parentSetter={handleCardSelect}
                 specificCard={true}
+                cardsToExclude={cardpool}
             />
             {selectedCard && (
                 <>

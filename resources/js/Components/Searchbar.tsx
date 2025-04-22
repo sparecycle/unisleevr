@@ -14,6 +14,7 @@ type SearchbarProps = {
     specificCard?: boolean | undefined;
     placeholderText?: string;
     CTAText?: string;
+    cardsToExclude?: CardDataType[];
 };
 
 const Searchbar = ({
@@ -22,6 +23,7 @@ const Searchbar = ({
     specificCard,
     placeholderText,
     CTAText,
+    cardsToExclude,
 }: SearchbarProps) => {
     const [userSearchInput, setUserSearchInput] = useState('');
     const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
@@ -61,8 +63,12 @@ const Searchbar = ({
         }
         try {
             const data = await scryfallAutoComplete(userSearchInput);
+            const filteredData = data.filter((result: string) => {
+                return !cardsToExclude?.some((card) => card.name === result);
+            });
             setLoading(false);
-            setAutoCompleteResults(data);
+            setAutoCompleteResults(filteredData);
+            setError(undefined);
         } catch (error) {
             console.error(error);
         } finally {
