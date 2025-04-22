@@ -31,10 +31,21 @@ const Searchbar = ({
     );
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
+    const [highlightedIndex, setHighlightedIndex] = useState<number | null>(
+        null,
+    );
 
     const searchWrapperRef = useRef(null);
+    const listRef = useRef<HTMLUListElement | null>(null);
+
     const handleOutsideClick = () => {
+        resetSearch();
+    };
+
+    const resetSearch = () => {
+        setUserSearchInput('');
         setAutoCompleteResults([]);
+        setHighlightedIndex(null);
         setError(undefined);
     };
     useOutsideAlerter(searchWrapperRef, () => handleOutsideClick());
@@ -59,6 +70,7 @@ const Searchbar = ({
         setUserSearchInput(searchQuery);
         if (!validateSearch(searchQuery)) {
             setLoading(false);
+            console.error('Search query is invalid', searchQuery);
             throw new Error(error);
         }
         try {
@@ -84,7 +96,7 @@ const Searchbar = ({
                 ? await scryfallNamedSearch(searchQuery)
                 : await scryfallSearch(searchQuery);
             const output: CardDataType[] = await prepCardDataForRender([data]);
-            setAutoCompleteResults([]);
+            resetSearch();
             parentSetter(output);
         } catch (error) {
             console.error(error);
@@ -98,13 +110,24 @@ const Searchbar = ({
         setLoading(true);
 
         try {
-            handleSubmitSearch(searchQuery);
-            setAutoCompleteResults([]);
+            await handleSubmitSearch(searchQuery);
             setLoading(false);
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const scrollToHighlightedIndex = (index: number | null) => {
+        if (listRef.current && index !== null) {
+            const listItem = listRef.current.children[index] as HTMLElement;
+            if (listItem) {
+                listItem.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                });
+            }
         }
     };
 
@@ -133,12 +156,67 @@ const Searchbar = ({
                 <input
                     type="search"
                     id="default-search"
-                    className="block w-full rounded-lg border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    className={`block w-full ${autoCompleteResults.length > 0 ? 'rounded-t-lg' : 'rounded-lg'} border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
                     placeholder={placeholderText ?? `Search for a card`}
                     min={3}
                     max={100}
                     value={userSearchInput}
                     onChange={(e) => handleSearchOnChange(e.target.value)}
+                    onKeyDown={(e) => {
+                        let newIndex = highlightedIndex;
+                        switch (e.key) {
+                            case 'Enter':
+                                e.preventDefault();
+                                handleSubmitSearch(
+                                    !highlightedIndex
+                                        ? userSearchInput
+                                        : autoCompleteResults[highlightedIndex],
+                                );
+                                break;
+                            case 'Escape':
+                                setUserSearchInput('');
+                                setAutoCompleteResults([]);
+                                break;
+                            case 'ArrowUp':
+                                e.preventDefault();
+                                if (highlightedIndex !== null) {
+                                    newIndex =
+                                        highlightedIndex > 0
+                                            ? highlightedIndex - 1
+                                            : autoCompleteResults.length - 1;
+                                    setHighlightedIndex(newIndex);
+                                    scrollToHighlightedIndex(newIndex);
+                                }
+                                break;
+                            case 'ArrowDown':
+                                e.preventDefault();
+                                newIndex =
+                                    highlightedIndex !== null &&
+                                    highlightedIndex <
+                                        autoCompleteResults.length - 1
+                                        ? highlightedIndex + 1
+                                        : 0;
+                                setHighlightedIndex(newIndex);
+                                scrollToHighlightedIndex(newIndex);
+                                break;
+                            case 'Tab':
+                                if (autoCompleteResults.length > 0) {
+                                    e.preventDefault();
+
+                                    setUserSearchInput(
+                                        autoCompleteResults[
+                                            highlightedIndex ?? 0
+                                        ],
+                                    );
+                                    !highlightedIndex
+                                        ? setHighlightedIndex(0)
+                                        : setHighlightedIndex(null);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }}
                     autoFocus={autofocus}
                     autoComplete="off"
                 />
@@ -151,19 +229,30 @@ const Searchbar = ({
             </div>
 
             <div
-                className={`autocomplete-results ${autoCompleteResults.length > 0 ? 'block' : 'hidden'}`}
-                style={{ position: 'relative', zIndex: 10 }}
+                className={`autocomplete-results rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
+                    autoCompleteResults.length > 0 ? 'block' : 'hidden'
+                }`}
+                style={{
+                    position: 'relative',
+                    zIndex: 10,
+                    maxHeight: '20vh',
+                    overflowY: 'auto',
+                }}
             >
                 <ul
-                    className="z-99 max-h-[20vh] w-auto overflow-y-auto rounded-lg border border-zinc-300 bg-zinc-700/90 py-2 dark:border-zinc-600"
+                    ref={listRef}
+                    className="autocomplete-results-list z-99 relative w-auto rounded-b-lg bg-zinc-800/50"
                     tabIndex={0}
                 >
+                    <div className="sticky top-0 z-10 h-1 py-2 shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)]"></div>
                     {autoCompleteResults.map(
                         (result: string, index: number) => (
                             <li
-                                className={
-                                    'cursor-pointer px-2 hover:bg-zinc-200 hover:text-zinc-800'
-                                }
+                                className={`cursor-pointer px-2 ${
+                                    highlightedIndex === index
+                                        ? 'bg-zinc-200 text-zinc-800'
+                                        : 'hover:bg-zinc-400 hover:text-zinc-800'
+                                }`}
                                 key={`autoCompleteResults-${index}`}
                                 onClick={() =>
                                     handleAutoCompleteResultClick(result)
