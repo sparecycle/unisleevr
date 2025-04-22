@@ -1,5 +1,5 @@
 import { Deck } from '@/types/deck';
-import { router, useForm, usePage } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
 import { CardDataType } from '../types/mtg';
 import Button from './Button';
@@ -163,7 +163,7 @@ const DeckModalContent = ({
     };
 
     return (
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex h-full pt-2">
             <div className="flex w-full grow flex-col items-center gap-4 py-4">
                 {isEditing ? (
                     <form
@@ -200,7 +200,7 @@ const DeckModalContent = ({
                     processing={processing}
                     removeAction={removeCard}
                 />
-                <div className="shrink-0">
+                <div className="absolute bottom-4 shrink-0">
                     {creating ? (
                         <Button
                             onClick={(e) => {
