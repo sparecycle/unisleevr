@@ -20,25 +20,6 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-
-    $userId = Auth::id();
-
-    list($allCards, $decks) = getCardPoolAndDecksFromUserID($userId);
-
-    // Ensure $allCards and $decks are arrays before slicing
-    $decks = $decks->toArray();
-
-    $allCards = array_slice($allCards, 0, 5);
-    $decks = array_slice($decks, 0, 4);
-
-    return Inertia::render('Dashboard', [
-        'cards' => $allCards,
-        'decks' => $decks
-    ]);
-
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/founders', function() {
     return Inertia::render('Founders');
 });
