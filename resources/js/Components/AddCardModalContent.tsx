@@ -68,13 +68,16 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
             {selectedCard && (
                 <>
                     <div className="grid grid-cols-1 grid-rows-3 gap-4 lg:grid-cols-2 lg:grid-rows-2">
-                        <div className="flex w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2 lg:col-start-1 lg:row-start-2">
-                            <NametagButton
-                                aria-label={`tempo`}
-                                showClose={false}
-                            >
-                                {selectedCard.name}
-                            </NametagButton>
+                        <div className="flex w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2 lg:col-start-1 lg:row-start-2 lg:border-none">
+                            {minWidth && minWidth > 1024 && <>something</>}
+                            {maxWidth && maxWidth < 1024 && (
+                                <NametagButton
+                                    aria-label={`tempo`}
+                                    showClose={false}
+                                >
+                                    {selectedCard.name}
+                                </NametagButton>
+                            )}
                         </div>
                         <div className="row-start-2 flex w-full flex-wrap overflow-y-auto rounded-md bg-zinc-900 p-3 lg:col-span-2 lg:col-start-1 lg:row-start-1">
                             Please a select a deck to add this card to:
