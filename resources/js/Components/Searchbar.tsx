@@ -4,7 +4,7 @@ import {
     scryfallSearch,
 } from '@/api/Scryfall';
 import { CardDataType } from '@/types/mtg';
-import { prepCardDataForRender, useOutsideAlerter } from '@/utility';
+import { debounce, prepCardDataForRender, useOutsideAlerter } from '@/utility';
 import { useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 
@@ -73,12 +73,15 @@ const Searchbar = ({
             console.error('Search query is invalid', searchQuery);
             throw new Error(error);
         }
+        debouncedFetchAutoComplete(searchQuery);
+    };
+
+    const debouncedFetchAutoComplete = debounce(async (searchQuery: string) => {
         try {
-            const data = await scryfallAutoComplete(userSearchInput);
+            const data = await scryfallAutoComplete(searchQuery);
             const filteredData = data.filter((result: string) => {
                 return !cardsToExclude?.some((card) => card.name === result);
             });
-            setLoading(false);
             setAutoCompleteResults(filteredData);
             setError(undefined);
         } catch (error) {
@@ -86,7 +89,7 @@ const Searchbar = ({
         } finally {
             setLoading(false);
         }
-    };
+    }, 100);
 
     const handleSubmitSearch = async (searchQuery: string) => {
         setLoading(true);
