@@ -85,17 +85,31 @@ const DeckModalContent = ({
     const validate = () => {
         if (!data.name) {
             setError('name', 'Name is required');
-            openToast?.(errors.name, 'error');
             return false;
         }
         if (data.cards.length === 0) {
             setError('cards', 'At least one card is required');
-            openToast?.(errors.cards, 'error');
             return false;
         }
         clearErrors(); // Clear previous errors
 
         return true;
+    };
+
+    const renderErrors = () => {
+        if (!recentlySuccessful) {
+            return (
+                <>
+                    {errors.name && (
+                        <p className="text-red-500">{errors.name}</p>
+                    )}
+                    {errors.cards && (
+                        <p className="text-red-500">{errors.cards}</p>
+                    )}
+                </>
+            );
+        }
+        return null;
     };
 
     const closeForm = () => {
@@ -173,6 +187,7 @@ const DeckModalContent = ({
     return (
         <div className="flex h-full pt-2">
             <div className="flex w-full grow flex-col items-center gap-4 py-4">
+                {renderErrors()}
                 {isEditing ? (
                     <form
                         onSubmit={onSubmit}
