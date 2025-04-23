@@ -2,7 +2,8 @@ import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
 import updateDecks from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useBreakpoint from 'use-breakpoint';
 import LabeledCheckbox from './LabeledCheckbox';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
@@ -13,6 +14,7 @@ type Props = {
 };
 
 const AddCardModalContent = ({ decks, cardpool }: Props) => {
+    const BREAKPOINTS = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
     const { auth } = usePage().props;
     const [searchFocus, setSearchFocus] = useState<boolean>(true);
     const [selectedCard, setSelectedCard] = useState<CardDataType | null>(null);
@@ -20,11 +22,16 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
     const [currentDeck, setCurrentDeck] = useState<Deck | null>(null);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
+    const { maxWidth, minWidth } = useBreakpoint(BREAKPOINTS);
     const handleCardSelect = (results: CardDataType[] | []) => {
         if (results === undefined || results.length == 0) return;
         setSelectedCard(results[0]);
         setSearchFocus(false);
     };
+    useEffect(() => {
+        console.log(`max: ${maxWidth}`);
+        console.log(`min: ${minWidth}`);
+    });
     const handleDeckSelect = (deck: Deck) => {
         if (selectedDecks.length === 0) {
             setSelectedDecks([deck]);
@@ -44,7 +51,7 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                 selectedDecks,
                 auth.user.id,
                 selectedCard as CardDataType,
-                setSubmitted
+                setSubmitted,
             );
         } catch (error) {
             console.error('One of the promises failed:', error);
@@ -60,29 +67,36 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
             />
             {selectedCard && (
                 <>
-                    <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
-                        <NametagButton aria-label={`tempo`} showClose={false}>
-                            {selectedCard.name}
-                        </NametagButton>
-                    </div>
-                    <div className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md bg-zinc-900 p-3">
-                        Please a select a deck to add this card to:
-                    </div>
-                    <div className="flex flex-col flex-wrap">
-                        {decks &&
-                            decks.map((deck) => (
-                                <LabeledCheckbox
-                                    key={deck.id}
-                                    label={deck.name}
-                                    initialState={Boolean(
-                                        selectedDecks !== null &&
-                                            selectedDecks.find(
-                                                (d) => d.id === deck.id,
-                                            ),
-                                    )}
-                                    parentSetter={() => handleDeckSelect(deck)}
-                                />
-                            ))}
+                    <div className="grid grid-cols-1 grid-rows-3 gap-4 lg:grid-cols-2 lg:grid-rows-2">
+                        <div className="flex w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2 lg:col-start-1 lg:row-start-2">
+                            <NametagButton
+                                aria-label={`tempo`}
+                                showClose={false}
+                            >
+                                {selectedCard.name}
+                            </NametagButton>
+                        </div>
+                        <div className="row-start-2 flex w-full flex-wrap overflow-y-auto rounded-md bg-zinc-900 p-3 lg:col-span-2 lg:col-start-1 lg:row-start-1">
+                            Please a select a deck to add this card to:
+                        </div>
+                        <div className="row-start-3 flex flex-col flex-wrap lg:row-start-2">
+                            {decks &&
+                                decks.map((deck) => (
+                                    <LabeledCheckbox
+                                        key={deck.id}
+                                        label={deck.name}
+                                        initialState={Boolean(
+                                            selectedDecks !== null &&
+                                                selectedDecks.find(
+                                                    (d) => d.id === deck.id,
+                                                ),
+                                        )}
+                                        parentSetter={() =>
+                                            handleDeckSelect(deck)
+                                        }
+                                    />
+                                ))}
+                        </div>
                     </div>
                     <div>
                         <button onClick={onSubmit}>submit</button>
