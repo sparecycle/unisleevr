@@ -83,38 +83,19 @@ const DeckModalContent = ({
     };
 
     const validate = () => {
-        console.log('validating');
-        console.log('openToast', openToast);
-
         if (!data.name) {
             setError('name', 'Name is required');
-            openToast?.(`Name is required`, 'error');
+            openToast?.(errors.name, 'error');
             return false;
         }
         if (data.cards.length === 0) {
             setError('cards', 'At least one card is required');
-            openToast?.(`At least one card is required`, 'error');
+            openToast?.(errors.cards, 'error');
             return false;
         }
         clearErrors(); // Clear previous errors
 
         return true;
-    };
-
-    const renderErrors = () => {
-        if (!recentlySuccessful) {
-            return (
-                <>
-                    {errors.name && (
-                        <p className="text-red-500">{errors.name}</p>
-                    )}
-                    {errors.cards && (
-                        <p className="text-red-500">{errors.cards}</p>
-                    )}
-                </>
-            );
-        }
-        return null;
     };
 
     const closeForm = () => {
@@ -126,10 +107,9 @@ const DeckModalContent = ({
         e.preventDefault();
         console.log('submitting', e);
 
-       
-        if (creating) {
-            if (!validate()) return;
+        validate();
 
+        if (creating) {
             post(route('decks.store'), {
                 data,
                 preserveScroll: true, // Prevents the page from scrolling to the top
@@ -161,8 +141,6 @@ const DeckModalContent = ({
                 closeForm();
                 return;
             }
-    
-            validate();
 
             patch(route('decks.update', deck?.id), {
                 data,

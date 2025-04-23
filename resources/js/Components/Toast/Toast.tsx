@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { IoIosClose } from 'react-icons/io';
 
 type ToastProps = {
-    msg: string;
+    msg: string | undefined;
     type: toastTypeString;
     close: () => void;
 };
@@ -14,7 +14,7 @@ type ToastProviderPropertiesType = {
 
 type ToastType = {
     id: number;
-    msg: string;
+    msg: string | undefined;
     type: toastTypeString;
 };
 
@@ -58,7 +58,7 @@ export const Toast = ({ msg, type, close }: ToastProps) => {
             aria-live="assertive"
             role="alert"
         >
-            <p>{msg}</p>
+            <p>{msg ?? type}</p>
             <button className="pl-2" onClick={close}>
                 <IoIosClose />
             </button>
