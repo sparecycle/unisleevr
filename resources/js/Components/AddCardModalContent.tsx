@@ -22,7 +22,7 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
     const [currentDeck, setCurrentDeck] = useState<Deck | null>(null);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
-    const { maxWidth, minWidth } = useBreakpoint(BREAKPOINTS);
+    const { breakpoint, maxWidth, minWidth } = useBreakpoint(BREAKPOINTS);
     const handleCardSelect = (results: CardDataType[] | []) => {
         if (results === undefined || results.length == 0) return;
         setSelectedCard(results[0]);
@@ -67,19 +67,23 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
             />
             {selectedCard && (
                 <>
-                    <div className="grid grid-cols-1 grid-rows-3 gap-4 lg:grid-cols-2 lg:grid-rows-2">
-                        <div className="flex w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2 lg:col-start-1 lg:row-start-2 lg:border-none">
-                            {minWidth && minWidth > 1024 && <>something</>}
-                            {maxWidth && maxWidth < 1024 && (
-                                <NametagButton
-                                    aria-label={`tempo`}
-                                    showClose={false}
-                                >
-                                    {selectedCard.name}
-                                </NametagButton>
-                            )}
+                    <div className="grid grid-cols-1 grid-rows-[auto] gap-4 lg:grid-cols-2 lg:grid-rows-2">
+                        <div className="lg:col-start-1 lg:row-start-2 lg:border-none">
+                            <div className="flex w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
+                                {minWidth && minWidth > 1024 && <>something</>}
+                                {(breakpoint === null ||
+                                    breakpoint === 'sm' ||
+                                    breakpoint === 'md') && (
+                                    <NametagButton
+                                        aria-label={`tempo`}
+                                        showClose={false}
+                                    >
+                                        {selectedCard.name}
+                                    </NametagButton>
+                                )}
+                            </div>
                         </div>
-                        <div className="row-start-2 flex w-full flex-wrap overflow-y-auto rounded-md bg-zinc-900 p-3 lg:col-span-2 lg:col-start-1 lg:row-start-1">
+                        <div className="row-start-2 flex w-full flex-wrap h-min overflow-y-auto rounded-md bg-zinc-900 p-3 lg:col-span-2 lg:col-start-1 lg:row-start-1">
                             Please a select a deck to add this card to:
                         </div>
                         <div className="row-start-3 flex flex-col flex-wrap lg:row-start-2">
