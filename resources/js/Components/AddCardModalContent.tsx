@@ -7,6 +7,7 @@ import useBreakpoint from 'use-breakpoint';
 import LabeledCheckbox from './LabeledCheckbox';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
+import MTGCard from './MTGCard';
 
 type Props = {
     decks: Deck[];
@@ -70,7 +71,9 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                     <div className="grid grid-cols-1 grid-rows-[auto] gap-4 lg:grid-cols-2 lg:grid-rows-2">
                         <div className="lg:col-start-1 lg:row-start-2 lg:border-none">
                             <div className="flex w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
-                                {minWidth && minWidth > 1024 && <>something</>}
+                                {minWidth && minWidth > 1024 && <>
+                                    <MTGCard imgUris={selectedCard.imgUris} name={selectedCard.name}  />
+                                </>}
                                 {(breakpoint === null ||
                                     breakpoint === 'sm' ||
                                     breakpoint === 'md') && (
