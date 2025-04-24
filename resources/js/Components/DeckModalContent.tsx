@@ -99,14 +99,14 @@ const DeckModalContent = ({
     const renderErrors = () => {
         if (!recentlySuccessful) {
             return (
-                <>
+                <p>
                     {errors.name && (
-                        <p className="text-red-500">{errors.name}</p>
-                    )}
+                        <span className="text-red-500">{errors.name}</span>
+                    )}{' '}
                     {errors.cards && (
-                        <p className="text-red-500">{errors.cards}</p>
+                        <span className="text-red-500">{errors.cards}</span>
                     )}
-                </>
+                </p>
             );
         }
         return null;
@@ -134,7 +134,7 @@ const DeckModalContent = ({
                             onDeckUpdated(response.props.updatedDeck);
                             openToast?.(
                                 `Deck "${response.props.updatedDeck.name}" created`,
-                                'success',
+                                'info',
                             );
                         }
                     } else {
@@ -167,7 +167,7 @@ const DeckModalContent = ({
                         }
                         openToast?.(
                             `Deck "${response.props.updatedDeck.name}" updated`,
-                            'success',
+                            'info',
                         );
                     } else {
                         console.warn(
