@@ -94,7 +94,8 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                                     breakpoint === 'md') && (
                                     <NametagButton
                                         aria-label={`tempo`}
-                                        showClose={false}
+                                        onClick={() => setSelectedCard(null)}
+                                        showClose={true}
                                     >
                                         {selectedCard.name}
                                     </NametagButton>
@@ -123,7 +124,7 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                                 ))}
                         </div>
                     </div>
-                    <div>
+                    <div className="flex items-center justify-center">
                         <Button onClick={onSubmit}>Add Card</Button>
                     </div>
                 </>
