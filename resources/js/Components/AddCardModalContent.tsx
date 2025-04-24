@@ -125,7 +125,15 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                         </div>
                     </div>
                     <div className="flex items-center justify-center">
-                        <Button onClick={onSubmit}>Add Card</Button>
+                        <Button
+                            onClick={onSubmit}
+                            disabled={
+                                selectedCard === null ||
+                                selectedDecks.length === 0
+                            }
+                        >
+                            Add Card
+                        </Button>
                     </div>
                 </>
             )}
