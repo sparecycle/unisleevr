@@ -132,7 +132,6 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
         });
     };
 
-
     const handleCloseModal = () => {
         setActiveDeck(null);
         setIsCreating(false);

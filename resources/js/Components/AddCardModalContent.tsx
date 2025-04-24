@@ -44,7 +44,7 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                 selectedDecks,
                 auth.user.id,
                 selectedCard as CardDataType,
-                setSubmitted
+                setSubmitted,
             );
         } catch (error) {
             console.error('One of the promises failed:', error);
