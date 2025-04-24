@@ -105,7 +105,7 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                         <div className="row-start-2 flex h-min w-full flex-wrap overflow-y-auto rounded-md bg-zinc-900 p-3 lg:col-span-2 lg:col-start-1 lg:row-start-1">
                             Please a select a deck to add this card to:
                         </div>
-                        <div className="row-start-3 flex flex-col flex-wrap lg:row-start-2">
+                        <div className="row-start-3 flex max-h-96 flex-col overflow-y-scroll md:max-h-[26.5rem] lg:row-start-2">
                             {decks &&
                                 decks.map((deck) => (
                                     <LabeledCheckbox
@@ -124,7 +124,7 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                                 ))}
                         </div>
                     </div>
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center py-4">
                         <Button
                             onClick={onSubmit}
                             disabled={
