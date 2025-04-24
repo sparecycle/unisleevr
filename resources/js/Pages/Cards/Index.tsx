@@ -64,7 +64,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
             </div>
             {isAdding && (
                 <Modal show={true} onClose={() => setIsAdding(false)}>
-                    <AddCardModalContent decks={decks} cardpool={cards} />
+                    <AddCardModalContent decks={decks} cardpool={cards} modalClose={setIsAdding} />
                 </Modal>
             )}
         </AuthenticatedLayout>
