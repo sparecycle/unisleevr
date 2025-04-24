@@ -5,6 +5,7 @@ import { CardDataType } from '../types/mtg';
 import Button from './Button';
 import DeckCardSearch from './DeckCardSearch';
 import Input from './Input';
+import { useToast } from './Toast/ToastContext';
 
 type DeckModalContentProps = {
     deck?: Deck;
@@ -19,11 +20,13 @@ const DeckModalContent = ({
     onClose,
     onDeckUpdated, // Destructure the callback
 }: DeckModalContentProps) => {
+    const { openToast } = useToast();
     const { auth } = usePage().props;
     const [isEditing, setIsEditing] = useState(creating ?? false);
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
     );
+    const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
 
     const {
         data,
@@ -42,6 +45,7 @@ const DeckModalContent = ({
         user_id: auth.user.id,
         cards: selectedCards,
     });
+
     const isValidDeck = (deck: any): deck is Deck => {
         return (
             deck &&
@@ -53,6 +57,7 @@ const DeckModalContent = ({
     };
 
     const handleCardSelect = (results: CardDataType[] | []) => {
+        if (!isFormEdited) setIsFormEdited(true);
         if (results === undefined || results.length == 0) return;
 
         let uniqueOutput: CardDataType[] = [];
@@ -71,6 +76,7 @@ const DeckModalContent = ({
     };
 
     const removeCard = (card: CardDataType) => {
+        if (!isFormEdited) setIsFormEdited(true);
         const updatedCards = selectedCards.filter((c) => c.id !== card.id);
         setSelectedCards(updatedCards);
         setData('cards', updatedCards);
@@ -93,25 +99,31 @@ const DeckModalContent = ({
     const renderErrors = () => {
         if (!recentlySuccessful) {
             return (
-                <>
+                <p>
                     {errors.name && (
-                        <p className="text-red-500">{errors.name}</p>
-                    )}
+                        <span className="text-red-500">{errors.name}</span>
+                    )}{' '}
                     {errors.cards && (
-                        <p className="text-red-500">{errors.cards}</p>
+                        <span className="text-red-500">{errors.cards}</span>
                     )}
-                </>
+                </p>
             );
         }
         return null;
     };
 
+    const closeForm = () => {
+        reset();
+        onClose();
+    };
+
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
+        console.log('submitting', e);
+
+        validate();
 
         if (creating) {
-            if (!validate()) return;
-
             post(route('decks.store'), {
                 data,
                 preserveScroll: true, // Prevents the page from scrolling to the top
@@ -120,6 +132,10 @@ const DeckModalContent = ({
                         console.log('created deck', response.props.updatedDeck); // Debugging log
                         if (onDeckUpdated) {
                             onDeckUpdated(response.props.updatedDeck);
+                            openToast?.(
+                                `Deck "${response.props.updatedDeck.name}" created`,
+                                'info',
+                            );
                         }
                     } else {
                         console.warn(
@@ -127,15 +143,18 @@ const DeckModalContent = ({
                             response.props.updatedDeck,
                         );
                     }
-                    reset();
-                    onClose();
+                    closeForm();
                 },
                 onError: (errors) => {
                     console.error(errors);
                 },
             });
         } else if (!creating) {
-            validate();
+            if (!isFormEdited) {
+                console.log('Form has not been edited. Skipping submission.');
+                closeForm();
+                return;
+            }
 
             patch(route('decks.update', deck?.id), {
                 data,
@@ -146,14 +165,17 @@ const DeckModalContent = ({
                         if (onDeckUpdated) {
                             onDeckUpdated(response.props.updatedDeck);
                         }
+                        openToast?.(
+                            `Deck "${response.props.updatedDeck.name}" updated`,
+                            'info',
+                        );
                     } else {
                         console.warn(
                             'Invalid or empty updatedDeck:',
                             response.props.updatedDeck,
                         );
                     }
-                    reset();
-                    onClose();
+                    closeForm();
                 },
                 onError: (errors) => {
                     console.error(errors);
@@ -165,6 +187,7 @@ const DeckModalContent = ({
     return (
         <div className="flex h-full pt-2">
             <div className="flex w-full grow flex-col items-center gap-4 py-4">
+                {renderErrors()}
                 {isEditing ? (
                     <form
                         onSubmit={onSubmit}
@@ -176,9 +199,10 @@ const DeckModalContent = ({
                                 value={data.name || ''} // Ensure the input is always controlled
                                 placeholder="Name Your Deck"
                                 className="block w-full rounded-lg border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                onChange={(e) =>
-                                    setData('name', e.target.value)
-                                }
+                                onChange={(e) => {
+                                    if (!isFormEdited) setIsFormEdited(true);
+                                    setData('name', e.target.value);
+                                }}
                             />
                         </div>
                     </form>

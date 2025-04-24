@@ -2,6 +2,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import { ToastProvider } from '@/Components/Toast/Toast';
 import { Link, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
 
@@ -185,7 +186,9 @@ export default function Authenticated({
                 </header>
             )}
 
-            <main className="dark:text-white">{children}</main>
+            <ToastProvider>
+                <main className="dark:text-white">{children}</main>
+            </ToastProvider>
         </div>
     );
 }

@@ -1,148 +1,86 @@
 <?php
 
-namespace Tests\Feature;
-
 use App\Models\Deck;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-class DeckControllerTest extends TestCase
-{
-    use RefreshDatabase;
+uses(RefreshDatabase::class);
 
-    /**
-     * Test the create route for DeckController.
-     */
-    public function test_create_deck()
-    {
-        // Create a user
-        $user = User::factory()->create();
+it('creates a deck', function () {
+    $user = User::factory()->create();
 
-        // Simulate a logged-in user
-        $this->actingAs($user);
+    $this->actingAs($user);
 
-        // Assert that the decks relationship exists and is initially empty
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
-        $this->assertTrue($user->decks->isEmpty());
+    $payload = [
+        'name' => 'Test Deck',
+        'user_id' => $user->id,
+        'cards' => [
+            ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
+            ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
+        ],
+    ];
 
-        // Define the payload for the request
-        $payload = [
-            'name' => 'Test Deck',
-            'user_id' => $user->id,
-            'cards' => [
-                ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
-                ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
-            ],
-        ];
+    $response = $this->post(route('decks.store'), $payload);
 
-        // Send a POST request to the create route
-        $response = $this->post(route('decks.store'), $payload);
+    $deck = Deck::where('name', 'Test Deck')->first();
 
-        // Retrieve the deck from the database
-        $deck = Deck::where('name', 'Test Deck')->first();
+    expect($deck)->not->toBeNull();
+    expect($deck->cards)->toBe($payload['cards']);
+    expect($user->refresh()->decks)->toHaveCount(1);
+    expect($user->decks->first()->name)->toBe('Test Deck');
 
-        $this->assertNotEmpty($deck->cards);
-        // Assert that the deck was created in the database
-        $this->assertDatabaseHas('decks', [
-            'name' => 'Test Deck',
-            'user_id' => $user->id,
-        ]);
+    $response->assertRedirect(route('decks.index'));
+});
 
-        // Assert that the cards were stored correctly as an array
-        $this->assertEquals($payload['cards'], $deck->cards); // Use the model's casted value
+it('lists decks on the index route', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
 
-        // Refresh the user to load the new relationship data
-        $user->refresh();
+    Deck::factory()->count(3)->create(['user_id' => $user->id]);
 
-        // Now check that the user has one deck
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
-        $this->assertFalse($user->decks->isEmpty());
-        $this->assertEquals(1, $user->decks->count());
-        $this->assertEquals('Test Deck', $user->decks->first()->name);
+    $response = $this->get(route('decks.index'));
 
-        // Assert that the response redirects to the decks index page
-        $response->assertRedirect(route('decks.index'));
-    }
+    $response->assertStatus(200);
+    $response->assertSee('Decks');
+});
 
-    /**
-     * Test the index route for DeckController.
-     */
-    public function test_index_decks()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+it('updates a deck', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
 
-        Deck::factory()->count(3)->create(['user_id' => $user->id]);
+    $deck = Deck::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->get(route('decks.index'));
+    $payload = [
+        'name' => 'Updated Deck Name',
+        'cards' => [
+            ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
+            ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
+        ],
+    ];
 
-        $response->assertStatus(200);
-        $response->assertSee('Decks');
-    }
+    $response = $this->put(route('decks.update', $deck), $payload);
 
-    /**
-     * TO DO: Test the show route for DeckController.
-     */
+    $deck->refresh();
 
+    expect($deck->cards)->toBe($payload['cards']);
+    expect($deck->name)->toBe('Updated Deck Name');
 
-    /**
-     * TO DO: Test the edit route for DeckController.
-     */
+    $response->assertRedirect(route('decks.index'));
+    $this->assertDatabaseHas('decks', [
+        'id' => $deck->id,
+        'name' => 'Updated Deck Name',
+        'cards' => json_encode($payload['cards']),
+    ]);
+});
 
-    /**
-     * Test the update route for DeckController.
-     */
-    public function test_update_deck()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+it('deletes a deck', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
 
-        // Assert that the decks relationship exists and is initially empty
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $user->decks);
-        $this->assertTrue($user->decks->isEmpty());
+    $deck = Deck::factory()->create(['user_id' => $user->id]);
 
-        $deck = Deck::factory()->create(['user_id' => $user->id]);
+    $response = $this->delete(route('decks.destroy', $deck));
 
-        $payload = [
-            'name' => 'Updated Deck Name',
-            'cards' => [
-                ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
-                ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
-            ]
-        ];
-
-        $response = $this->put(route('decks.update', $deck), $payload);
-
-        $user->refresh();
-        $deck->refresh();
-
-        $this->assertFalse($user->decks->isEmpty());
-
-        $this->assertNotEmpty($deck->cards);
-        $this->assertEquals($payload['cards'], $deck->cards);
-
-        $response->assertRedirect(route('decks.index'));
-        $this->assertDatabaseHas('decks', [
-            'id' => $deck->id,
-            'name' => 'Updated Deck Name',
-            'cards' => json_encode($payload['cards'])
-        ]);
-    }
-
-    /**
-     * Test the destroy route for DeckController.
-     */
-    public function test_destroy_deck()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
-        $deck = Deck::factory()->create(['user_id' => $user->id]);
-
-        $response = $this->delete(route('decks.destroy', $deck));
-
-        $response->assertRedirect(route('decks.index'));
-        $this->assertDatabaseMissing('decks', ['id' => $deck->id]);
-    }
-}
+    $response->assertRedirect(route('decks.index'));
+    $this->assertDatabaseMissing('decks', ['id' => $deck->id]);
+});
