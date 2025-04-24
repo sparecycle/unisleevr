@@ -4,6 +4,7 @@ import updateDecks from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import useBreakpoint from 'use-breakpoint';
+import Button from './Button';
 import LabeledCheckbox from './LabeledCheckbox';
 import MTGCard from './MTGCard';
 import NametagButton from './NametagButton';
@@ -68,7 +69,7 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
             />
             {selectedCard && (
                 <>
-                    <div className="grid grid-cols-1 grid-rows-auto gap-4 lg:grid-cols-2">
+                    <div className="grid-rows-auto grid grid-cols-1 gap-4 lg:grid-cols-2">
                         <div className="lg:col-start-1 lg:row-start-2 lg:border-none">
                             <div className="flex w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
                                 {minWidth && minWidth > 768 && (
@@ -123,7 +124,7 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
                         </div>
                     </div>
                     <div>
-                        <button onClick={onSubmit}>submit</button>
+                        <Button onClick={onSubmit}>Add Card</Button>
                     </div>
                 </>
             )}
