@@ -6,7 +6,7 @@ const Button = ({ children, ...props }: Props) => {
         <button
             {...props}
             className={
-                'btn bg-lg rounded-md border border-solid border-slate-600 px-3 py-2'
+                'btn bg-lg rounded-md border border-solid border-slate-600 px-3 py-2 disabled:opacity-25'
             }
         >
             {children}

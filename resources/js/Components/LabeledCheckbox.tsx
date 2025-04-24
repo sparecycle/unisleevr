@@ -25,7 +25,7 @@ const LabeledCheckbox = ({
         >
             <div
                 className={twMerge(
-                    'h-6 w-6 rounded border border-solid border-gray-300',
+                    'aspect-square h-6 w-6 rounded border border-solid border-gray-300',
                     isChecked && 'border-white',
                 )}
             >
