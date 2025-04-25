@@ -2,7 +2,7 @@ import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
 import updateDecks from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import useBreakpoint from 'use-breakpoint';
 import Button from './Button';
 import LabeledCheckbox from './LabeledCheckbox';
@@ -13,9 +13,10 @@ import Searchbar from './Searchbar';
 type Props = {
     decks: Deck[];
     cardpool?: CardDataType[];
+    modalClose?: Dispatch<SetStateAction<boolean>>;
 };
 
-const AddCardModalContent = ({ decks, cardpool }: Props) => {
+const AddCardModalContent = ({ decks, cardpool, modalClose }: Props) => {
     const BREAKPOINTS = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
     const { auth } = usePage().props;
     const [searchFocus, setSearchFocus] = useState<boolean>(true);
@@ -31,9 +32,12 @@ const AddCardModalContent = ({ decks, cardpool }: Props) => {
         setSearchFocus(false);
     };
     useEffect(() => {
-        console.log(`max: ${maxWidth}`);
-        console.log(`min: ${minWidth}`);
-    });
+        if (submitted === true) {
+            if (modalClose !== undefined) {
+                modalClose(false);
+            }
+        }
+    }, [submitted]);
     const handleDeckSelect = (deck: Deck) => {
         if (selectedDecks.length === 0) {
             setSelectedDecks([deck]);

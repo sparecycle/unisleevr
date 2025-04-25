@@ -42,7 +42,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCardsWithDeckRefs.length > 0 &&
-                        parsedCardsWithDeckRefs.map((card: CardsWithDecks) => (
+                        parsedCardsWithDeckRefs.sort((a,b) => a.name.localeCompare(b.name)).map((card: CardsWithDecks) => (
                             <div key={`${card.id}`}>
                                 <MTGCard
                                     id={card.id}
@@ -64,7 +64,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
             </div>
             {isAdding && (
                 <Modal show={true} onClose={() => setIsAdding(false)}>
-                    <AddCardModalContent decks={decks} cardpool={cards} />
+                    <AddCardModalContent decks={decks} cardpool={cards} modalClose={setIsAdding} />
                 </Modal>
             )}
         </AuthenticatedLayout>
