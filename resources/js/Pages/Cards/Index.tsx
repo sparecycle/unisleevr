@@ -42,29 +42,35 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCardsWithDeckRefs.length > 0 &&
-                        parsedCardsWithDeckRefs.sort((a,b) => a.name.localeCompare(b.name)).map((card: CardsWithDecks) => (
-                            <div key={`${card.id}`}>
-                                <MTGCard
-                                    id={card.id}
-                                    imgUris={card.imgUris}
-                                    name={card.name}
-                                    oracleText={card.oracleText}
-                                    cardSuperType={card.cardSuperType}
-                                    cardType={card.cardType}
-                                    manaCost={card.manaCost}
-                                    power={card.power}
-                                    toughness={card.toughness}
-                                    backCardData={card.backCardData}
-                                    onDelete={() => handleDelete(card.id)}
-                                    decks={card.decks}
-                                ></MTGCard>
-                            </div>
-                        ))}
+                        parsedCardsWithDeckRefs
+                            .sort((a, b) => a.name.localeCompare(b.name))
+                            .map((card: CardsWithDecks) => (
+                                <div key={`${card.id}`}>
+                                    <MTGCard
+                                        id={card.id}
+                                        imgUris={card.imgUris}
+                                        name={card.name}
+                                        oracleText={card.oracleText}
+                                        cardSuperType={card.cardSuperType}
+                                        cardType={card.cardType}
+                                        manaCost={card.manaCost}
+                                        power={card.power}
+                                        toughness={card.toughness}
+                                        backCardData={card.backCardData}
+                                        onDelete={() => handleDelete(card.id)}
+                                        decks={card.decks}
+                                    ></MTGCard>
+                                </div>
+                            ))}
                 </div>
             </div>
             {isAdding && (
                 <Modal show={true} onClose={() => setIsAdding(false)}>
-                    <AddCardModalContent decks={decks} cardpool={cards} modalClose={setIsAdding} />
+                    <AddCardModalContent
+                        decks={decks}
+                        cardpool={cards}
+                        modalClose={setIsAdding}
+                    />
                 </Modal>
             )}
         </AuthenticatedLayout>

@@ -3,6 +3,7 @@ import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
 import { CardDataType } from '../types/mtg';
 import Button from './Button';
+import ButtonLink from './ButtonLink';
 import DeckCardSearch from './DeckCardSearch';
 import Input from './Input';
 import { useToast } from './Toast/ToastContext';
@@ -255,6 +256,7 @@ const DeckModalContent = ({
                                     Save
                                 </Button>
                             )}
+                            <ButtonLink href={`/decks/${deck?.id}`}>deck details</ButtonLink>
                         </div>
                     )}
                 </div>
