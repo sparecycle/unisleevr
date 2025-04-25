@@ -35,7 +35,7 @@ Route::resource('cards', CardController::class)
     ->middleware(['auth', 'verified']);
 
 Route::resource('decks', DeckController::class)
-    ->only(['index', 'store', 'update', 'destroy'])
+    ->only(['index', 'store', 'update', 'destroy', 'show'])
     ->middleware(['auth', 'verified']);
 
 Route::put('decks-batch', [DeckController::class, 'updateDecks'])
