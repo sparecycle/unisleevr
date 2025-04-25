@@ -1,17 +1,12 @@
-import { Deck } from '@/types/deck';
 import { CardsWithDecks } from '@/types/mtg';
 import MTGCard from './MTGCard';
 
 type Props = {
-    deck: Deck;
+    cards: CardsWithDecks[];
     showDecks?: boolean;
     parentDelete?: () => void | null;
 };
-const CardList = ({
-    deck: { cards },
-    showDecks = false,
-    parentDelete,
-}: Props) => {
+const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
     const handleDelete = (id) => {
         if (parentDelete) {
             parentDelete();
