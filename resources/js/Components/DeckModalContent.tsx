@@ -256,7 +256,9 @@ const DeckModalContent = ({
                                     Save
                                 </Button>
                             )}
-                            <ButtonLink href={`/decks/${deck?.id}`}>deck details</ButtonLink>
+                            <ButtonLink href={`/decks/${deck?.id}`}>
+                                deck details
+                            </ButtonLink>
                         </div>
                     )}
                 </div>
