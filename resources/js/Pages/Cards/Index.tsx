@@ -43,7 +43,10 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCardsWithDeckRefs.length > 0 &&
                         parsedCardsWithDeckRefs && (
-                            <CardList cards={parsedCardsWithDeckRefs} showDecks={true} />
+                            <CardList
+                                cards={parsedCardsWithDeckRefs}
+                                showDecks={true}
+                            />
                         )}
                 </div>
             </div>
