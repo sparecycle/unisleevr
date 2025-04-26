@@ -22,10 +22,9 @@ const AddCardModalContent = ({ decks, cardpool, modalClose }: Props) => {
     const [searchFocus, setSearchFocus] = useState<boolean>(true);
     const [selectedCard, setSelectedCard] = useState<CardDataType | null>(null);
     const [selectedDecks, setSelectedDecks] = useState<Deck[] | []>([]);
-    const [currentDeck, setCurrentDeck] = useState<Deck | null>(null);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
-    const { breakpoint, maxWidth, minWidth } = useBreakpoint(BREAKPOINTS);
+    const { breakpoint, minWidth } = useBreakpoint(BREAKPOINTS);
     const handleCardSelect = (results: CardDataType[] | []) => {
         if (results === undefined || results.length == 0) return;
         setSelectedCard(results[0]);
