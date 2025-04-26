@@ -1,4 +1,4 @@
-import { CardDataType, CardsWithDecks } from '@/types/mtg';
+import { CardsWithDecks } from '@/types/mtg';
 import MTGCard from './MTGCard';
 
 type Props = {
