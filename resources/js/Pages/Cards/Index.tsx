@@ -6,7 +6,7 @@ import CardList from '@/Components/CardList';
 import Modal from '@/Components/Modal';
 import RemoveCardModalContent from '@/Components/RemoveCardModalContent';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { CardDataType, Deck } from '@/types/mtg';
+import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
 import { attachDeckRefsToParsedCards, prepCardDataForRender } from '@/utility';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
@@ -16,6 +16,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
     const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
     const [isAdding, setIsAdding] = useState(false);
     const [isRemoving, setIsRemoving] = useState(false);
+    const [currentCard, setCurrentCard] = useState<CardsWithDecks | null>(null);
 
     const parsedCardsWithDeckRefs = attachDeckRefsToParsedCards(
         parsedCards,
@@ -36,8 +37,9 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
         { label: 'Add a Card', action: addCard },
     ];
 
-    const handleDelete = (id: string) => {
+    const handleDelete = (card: CardsWithDecks) => {
         setIsRemoving(true);
+        setCurrentCard(card);
     };
 
     return (
@@ -68,7 +70,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                 )}
                 {isRemoving && (
                     <RemoveCardModalContent
-                        card={decks}
+                        card={currentCard as CardsWithDecks}
                         modalClose={setIsRemoving}
                     />
                 )}
