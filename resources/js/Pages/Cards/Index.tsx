@@ -14,6 +14,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
     console.log('cards', { raw: cards, parsed: prepCardDataForRender(cards) });
     const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
     const [isAdding, setIsAdding] = useState(false);
+    const [isRemoving, setIsRemoving] = useState(false);
 
     const parsedCardsWithDeckRefs = attachDeckRefsToParsedCards(
         parsedCards,
@@ -26,7 +27,8 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
 
     const handleClose = () => {
         setIsAdding(false);
-    }
+        setIsRemoving(false);
+    };
 
     const buttons = [
         { label: 'Create a deck', link: '/decks/' },
@@ -56,11 +58,13 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                 </div>
             </div>
             <Modal show={isAdding} onClose={handleClose}>
-                <AddCardModalContent
-                    decks={decks}
-                    cardpool={cards}
-                    modalClose={setIsAdding}
-                />
+                {isAdding && (
+                    <AddCardModalContent
+                        decks={decks}
+                        cardpool={cards}
+                        modalClose={setIsAdding}
+                    />
+                )}{' '}
             </Modal>
         </AuthenticatedLayout>
     );
