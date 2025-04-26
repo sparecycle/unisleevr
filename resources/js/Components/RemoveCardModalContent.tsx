@@ -1,7 +1,7 @@
 import { CardsWithDecks, Deck } from '@/types/mtg';
 import updateDecks from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
-import { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Button from './Button';
 import LabeledCheckbox from './LabeledCheckbox';
 
@@ -18,9 +18,10 @@ const RemoveCardModalContent = ({ card, modalClose }: Props) => {
         card.decks as Deck[],
     );
     const handleCheckbox = (deck: Deck) => {
-        const cardInDeck = deck.cards.filter(d=>d.id === card.id).length > 0;
-        if(cardInDeck) {
-          setSelectedDecks(selectedDecks.filter(d=>d.id !== deck.id));
+        const cardInDeck =
+            deck.cards.filter((d) => d.id === card.id).length > 0;
+        if (cardInDeck) {
+            setSelectedDecks(selectedDecks.filter((d) => d.id !== deck.id));
         } else {
             setSelectedDecks([...selectedDecks, deck]);
         }
