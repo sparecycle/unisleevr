@@ -7,20 +7,20 @@ const updateDecks = (
     user_id: number,
     card: CardDataType,
     parentSetter?: Dispatch<SetStateAction<boolean>>,
-    action: 'add' | 'remove'
+    action: 'add' | 'remove',
 ) => {
-    const add = (deck:Deck, card:CardDataType) => {
+    const add = (deck: Deck, card: CardDataType) => {
         return [...deck.cards, card];
-    }
+    };
 
-    const remove = (deck:Deck, card:CardDataType) => {
-        return deck.cards.filter(c => c.id !== card.id);
-    }
+    const remove = (deck: Deck, card: CardDataType) => {
+        return deck.cards.filter((c) => c.id !== card.id);
+    };
 
     const actions = {
-        'add': add,
-        'remove': remove
-    }
+        add: add,
+        remove: remove,
+    };
     const updatedDecks = decks.map((deck) => ({
         id: deck.id,
         name: deck.name,
