@@ -4,14 +4,9 @@ import MTGCard from './MTGCard';
 type Props = {
     cards: CardsWithDecks[];
     showDecks?: boolean;
-    parentDelete?: () => void | null;
+    parentDelete?: (id: string) => void | null;
 };
 const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
-    const handleDelete = (id) => {
-        if (parentDelete) {
-            parentDelete();
-        }
-    };
     return (
         <>
             {cards
@@ -29,7 +24,9 @@ const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
                             power={card.power}
                             toughness={card.toughness}
                             backCardData={card.backCardData}
-                            onDelete={() => handleDelete(card.id)}
+                            onDelete={() => {
+                                if (parentDelete) parentDelete(card.id);
+                            }}
                             decks={showDecks ? card.decks : []}
                         ></MTGCard>
                     </div>
