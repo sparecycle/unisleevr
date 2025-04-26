@@ -4,6 +4,7 @@ import PageTitle from '@/Components/PageTitle';
 import AddCardModalContent from '@/Components/AddCardModalContent';
 import CardList from '@/Components/CardList';
 import Modal from '@/Components/Modal';
+import RemoveCardModalContent from '@/Components/RemoveCardModalContent';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType, Deck } from '@/types/mtg';
 import { attachDeckRefsToParsedCards, prepCardDataForRender } from '@/utility';
@@ -26,8 +27,8 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
     };
 
     const handleClose = () => {
-        setIsAdding(false);
-        setIsRemoving(false);
+        if (isAdding) setIsAdding(false);
+        if (isRemoving) setIsRemoving(false);
     };
 
     const buttons = [
@@ -36,7 +37,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
     ];
 
     const handleDelete = (id: string) => {
-        alert(`delete card ${id}`);
+        setIsRemoving(true);
     };
 
     return (
@@ -57,14 +58,20 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                         )}
                 </div>
             </div>
-            <Modal show={isAdding} onClose={handleClose}>
+            <Modal show={isAdding || isRemoving} onClose={handleClose}>
                 {isAdding && (
                     <AddCardModalContent
                         decks={decks}
                         cardpool={cards}
                         modalClose={setIsAdding}
                     />
-                )}{' '}
+                )}
+                {isRemoving && (
+                    <RemoveCardModalContent
+                        card={decks}
+                        modalClose={setIsRemoving}
+                    />
+                )}
             </Modal>
         </AuthenticatedLayout>
     );
