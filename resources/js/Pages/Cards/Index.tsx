@@ -24,6 +24,10 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
         setIsAdding(true);
     };
 
+    const handleClose = () => {
+        setIsAdding(false);
+    }
+
     const buttons = [
         { label: 'Create a deck', link: '/decks/' },
         { label: 'Add a Card', action: addCard },
@@ -46,19 +50,18 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                             <CardList
                                 cards={parsedCardsWithDeckRefs}
                                 showDecks={true}
+                                parentDelete={handleDelete}
                             />
                         )}
                 </div>
             </div>
-            {isAdding && (
-                <Modal show={true} onClose={() => setIsAdding(false)}>
-                    <AddCardModalContent
-                        decks={decks}
-                        cardpool={cards}
-                        modalClose={setIsAdding}
-                    />
-                </Modal>
-            )}
+            <Modal show={isAdding} onClose={handleClose}>
+                <AddCardModalContent
+                    decks={decks}
+                    cardpool={cards}
+                    modalClose={setIsAdding}
+                />
+            </Modal>
         </AuthenticatedLayout>
     );
 }
