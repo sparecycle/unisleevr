@@ -45,7 +45,7 @@ class DeckController extends Controller
             'name' => 'required|string|max:255', // Validate the name field
             'user_id' => 'required|integer|exists:users,id', // Validate the user_id field
             'cards' => 'required|array|min:1', // Require cards to be a non-empty array
-            'commanders' => 'required|array|min:1', // required commanders field
+            'commanders' => 'required|array|min:1|max:3', // Require commanders to be a non-empty array
         ]);
 
         // Create a new deck with the validated data
@@ -69,7 +69,7 @@ class DeckController extends Controller
             'name' => 'required|string|max:255',
             'user_id' => 'required|integer|exists:users,id',
             'cards' => 'required|array|min:1',
-            'commanders' => 'required|array|min:1', // required commanders field
+            'commanders' => 'required|array|min:1|max:3',
         ]);
 
         $deck = Deck::create([
@@ -91,7 +91,9 @@ class DeckController extends Controller
      */
     public function show(Deck $deck)
     {
-        //
+        return Inertia::render('Decks/Show', [
+            'deck' => $deck
+        ]);
     }
 
     /**
@@ -112,7 +114,7 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'cards' => 'required|array|min:0',
-            'commanders' => 'required|array|min:1',
+            'commanders' => 'required|array|min:1|max:3',
         ]);
 
         $deck->update($validated);
@@ -130,8 +132,8 @@ class DeckController extends Controller
             'decks' => 'required|array',
             'decks.*.id' => 'required|exists:decks,id',
             'decks.*.name' => 'required|string|max:255',
-            'decks.*.cards' => 'required|array|min:1',
-            'decks.*.commanders' => 'required|array|min:1',
+            'decks.*.cards' => 'required|array|min:0',
+            'decks.*.commanders' => 'required|array|min:1|max:3',
         ]);
 
         DB::beginTransaction();
@@ -148,8 +150,7 @@ class DeckController extends Controller
 
                 $deck->update([
                     'name' => $deckData['name'],
-                    'cards' => $deckData['cards'],
-                    'commanders' => $deckData['commanders']
+                    'cards' => $deckData['cards']
                 ]);
             }
 

@@ -11,14 +11,11 @@ export default function Deck({ deck: { name, commanders, cards } }: Props) {
     return (
         <AuthenticatedLayout header={<PageTitle>{name}</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
-                <div className="mt-4">
-                    <h2 className="text-lg font-semibold">Commanders</h2>
-                    <ul>
-                        {commanders.map((commander) => (
-                            <li key={commander.id}>{commander.name}</li>
-                        ))}
-                    </ul>
+                <h2 className="text-lg font-semibold">Commanders</h2>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <CardList cards={commanders} />
                 </div>
+                <h2 className="text-lg font-semibold">Cards</h2>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <CardList cards={cards} />
                 </div>

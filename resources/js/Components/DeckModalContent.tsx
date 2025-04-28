@@ -48,6 +48,7 @@ const DeckModalContent = ({
         name: deck?.name || undefined,
         user_id: auth.user.id,
         cards: selectedCards,
+        commanders: selectedCommanders,
     });
 
     const isValidDeck = (deck: any): deck is Deck => {
@@ -119,8 +120,16 @@ const DeckModalContent = ({
             setError('name', 'Name is required');
             return false;
         }
+        if (data.commanders.length === 0) {
+            setError('commanders', 'At least one commander is required');
+            return false;
+        }
         if (data.cards.length === 0) {
             setError('cards', 'At least one card is required');
+            return false;
+        }
+        if (data.commanders.length > 3) {
+            setError('commanders', 'No more than three commanders are allowed');
             return false;
         }
         clearErrors(); // Clear previous errors
@@ -137,6 +146,11 @@ const DeckModalContent = ({
                     )}{' '}
                     {errors.cards && (
                         <span className="text-red-500">{errors.cards}</span>
+                    )}{' '}
+                    {errors.commanders && (
+                        <span className="text-red-500">
+                            {errors.commanders}
+                        </span>
                     )}
                 </p>
             );
