@@ -77,30 +77,54 @@ function getCardPoolAndDecksFromUserID($userID)
 
 function generateRandomCommander()
 {
-    $mondoCommanderData = [[
+    $colorlessCommanderData = [[
         'cardSuperType' => ['Legendary', 'Creature'],
-        'cardType' => ['Illusion'],
-        'colorIdentity' => ['U'],
-        'id' => 'ebdf2f50-f69a-47c4-a75f-ff55781bb0c8',
+        'cardType' => ['Eldrazi'],
+        'colorIdentity' => [],
+        'id' => 'd27cf7b7-7982-46bd-a559-7789c0e74bae',
         'imgUris' => [
-            'small' =>
-                'https://cards.scryfall.io/small/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
-            'normal' =>
-                'https://cards.scryfall.io/normal/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
-            'large' =>
-                'https://cards.scryfall.io/large/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
-            'png' =>
-                'https://cards.scryfall.io/png/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.png?1562942414',
-            'art_crop' =>
-                'https://cards.scryfall.io/art_crop/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
+            'art_crop' => 'https://cards.scryfall.io/art_crop/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+            'border_crop' => 'https://cards.scryfall.io/border_crop/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+            'large' => 'https://cards.scryfall.io/large/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+            'normal' => 'https://cards.scryfall.io/normal/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+            'png' => 'https://cards.scryfall.io/png/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.png?1673146904',
+            'small' => 'https://cards.scryfall.io/small/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
         ],
-        'manaCost' => ['{3}', '{U}'],
-        'name' => 'Toothy, Imaginary Friend',
-        'oracleText' =>
-            "Partner with Pir, Imaginative Rascal (When this creature enters, target player may put Pir into their hand from their library, then shuffle.)\nWhenever you draw a card, put a +1/+1 counter on Toothy.\nWhen Toothy leaves the battlefield, draw a card for each +1/+1 counter on it.",
-        'power' => '1',
-        'toughness' => '1',
+        'manaCost' => ['{10}'],
+        'name' => 'Kozilek, Butcher of Truth',
+        'oracleText' => "When you cast this spell, draw four cards.\nAnnihilator 4 (Whenever this creature attacks, defending player sacrifices four permanents of their choice.)\nWhen Kozilek is put into a graveyard from anywhere, its owner shuffles their graveyard into their library.",
+        'power' => '12',
+        'toughness' => '12',
     ]];
+
+    $monoCommanderData = [
+        [
+            'cardSuperType' => ['Legendary', 'Creature'],
+            'cardType' => ['Aetherborn', 'Rogue'],
+            'colorIdentity' => ['B'],
+            'id' => 'fbbb3aef-af1f-4b77-b7d6-64cfd706a9d9',
+            'imgUris' => [
+                'art_crop' =>
+                    'https://cards.scryfall.io/art_crop/front/f/b/fbbb3aef-af1f-4b77-b7d6-64cfd706a9d9.jpg?1712393017',
+                'border_crop' =>
+                    'https://cards.scryfall.io/border_crop/front/f/b/fbbb3aef-af1f-4b77-b7d6-64cfd706a9d9.jpg?1712393017',
+                'large' =>
+                    'https://cards.scryfall.io/large/front/f/b/fbbb3aef-af1f-4b77-b7d6-64cfd706a9d9.jpg?1712393017',
+                'normal' =>
+                    'https://cards.scryfall.io/normal/front/f/b/fbbb3aef-af1f-4b77-b7d6-64cfd706a9d9.jpg?1712393017',
+                'png' =>
+                    'https://cards.scryfall.io/png/front/f/b/fbbb3aef-af1f-4b77-b7d6-64cfd706a9d9.png?1712393017',
+                'small' =>
+                    'https://cards.scryfall.io/small/front/f/b/fbbb3aef-af1f-4b77-b7d6-64cfd706a9d9.jpg?1712393017',
+            ],
+            'manaCost' => ['{2}', '{B}', '{B}'],
+            'name' => 'Gonti, Lord of Luxury',
+            'oracleText' =>
+                "Deathtouch\nWhen Gonti enters, look at the top four cards of target opponent's library, exile one of them face down, then put the rest on the bottom of that library in a random order. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell.",
+            'power' => '2',
+            'toughness' => '3',
+        ],
+    ];
     $partnerCommanderData = [
         [
             'cardSuperType' => ['Legendary', 'Creature'],
@@ -120,9 +144,9 @@ function generateRandomCommander()
                     'https://cards.scryfall.io/art_crop/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
             ],
             'manaCost' => ['{3}', '{U}'],
-            'name' => 'Pir, Imaginative Rascal',
+            'name' => 'Toothy, Imaginary Friend',
             'oracleText' =>
-                "Partner with Toothy, Imaginary Friend (When this creature enters, target player may put Toothy into their hand from their library, then shuffle.)\nWhenever you draw a card, put a +1/+1 counter on Pir.\nWhen Pir leaves the battlefield, draw a card for each +1/+1 counter on it.",
+                "Partner with Pir, Imaginative Rascal (When this creature enters, target player may put Pir into their hand from their library, then shuffle.)\nWhenever you draw a card, put a +1/+1 counter on Toothy.\nWhen Toothy leaves the battlefield, draw a card for each +1/+1 counter on it.",
             'power' => '1',
             'toughness' => '1',
         ],
@@ -181,13 +205,15 @@ function generateRandomCommander()
             'toughness' => '1',
         ],
     ];
-    switch (rand(1, 3)) {
+    switch (rand(1, 4)) {
         case 1:
-            return $mondoCommanderData;
+            return $monoCommanderData;
         case 2:
             return $multiColorCommanderData;
         case 3:
             return $partnerCommanderData;
+        case 4:
+            return $colorlessCommanderData;
         default:
             return $mondoCommanderData;
     }
