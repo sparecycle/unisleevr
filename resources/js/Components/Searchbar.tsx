@@ -100,6 +100,7 @@ const Searchbar = ({
                 ? await scryfallNamedSearch(searchQuery)
                 : await scryfallSearch(searchQuery);
             const output: CardDataType[] = await prepCardDataForRender([data]);
+            console.log('output', output);
             resetSearch();
             parentSetter(output);
         } catch (error) {

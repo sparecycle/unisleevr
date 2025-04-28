@@ -52,25 +52,6 @@ class SeedUserWithDecks extends Command
                 'manaCost' => ['{U}', '{U}'],
         ]);
 
-        $commanderData = array([
-            'cardSuperType' => ['Legendary', 'Creature'],
-            'cardType' => ['Illusion'],
-            'colorIdentity' => ['U'],
-            'id' => 'ebdf2f50-f69a-47c4-a75f-ff55781bb0c8',
-            'imgUris' => [
-                'small' => 'https://cards.scryfall.io/small/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
-                'normal' => 'https://cards.scryfall.io/normal/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
-                'large' => 'https://cards.scryfall.io/large/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
-                'png' => 'https://cards.scryfall.io/png/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.png?1562942414',
-                'art_crop' => 'https://cards.scryfall.io/art_crop/front/e/b/ebdf2f50-f69a-47c4-a75f-ff55781bb0c8.jpg?1562942414',
-            ],
-            'manaCost' => ['{3}', '{U}'],
-            'name' => 'Toothy, Imaginary Friend',
-            'oracleText' => "Partner with Pir, Imaginative Rascal (When this creature enters, target player may put Pir into their hand from their library, then shuffle.)\nWhenever you draw a card, put a +1/+1 counter on Toothy.\nWhen Toothy leaves the battlefield, draw a card for each +1/+1 counter on it.",
-            'power' => '1',
-            'toughness' => '1',
-        ]);
-
         // Create the specified number of decks
         for ($i = 1; $i <= $count; $i++) {
             $deck = new Deck();
@@ -78,7 +59,7 @@ class SeedUserWithDecks extends Command
             $deck->name = substr($generatedName, 0, 46); // Truncate to 46 characters
             $deck->user_id = $userId;
             $deck->cards = $cardData; // Assign the array directly
-            $deck->commanders = $commanderData; // Assign the array directly
+            $deck->commanders = generateRandomCommander(); // Assign the array directly
             $deck->save();
 
             $this->info("Deck {$deck->name} created for user ID {$userId}.");
