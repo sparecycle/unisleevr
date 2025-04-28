@@ -1,9 +1,10 @@
 import ButtonShelf from '@/Components/ButtonShelf';
-import MTGCard from '@/Components/MTGCard';
 import PageTitle from '@/Components/PageTitle';
 
 import AddCardModalContent from '@/Components/AddCardModalContent';
+import CardList from '@/Components/CardList';
 import Modal from '@/Components/Modal';
+import RemoveCardModalContent from '@/Components/RemoveCardModalContent';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
 import { attachDeckRefsToParsedCards, prepCardDataForRender } from '@/utility';
@@ -14,6 +15,8 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
     console.log('cards', { raw: cards, parsed: prepCardDataForRender(cards) });
     const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
     const [isAdding, setIsAdding] = useState(false);
+    const [isRemoving, setIsRemoving] = useState(false);
+    const [currentCard, setCurrentCard] = useState<CardsWithDecks | null>(null);
 
     const parsedCardsWithDeckRefs = attachDeckRefsToParsedCards(
         parsedCards,
@@ -24,13 +27,19 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
         setIsAdding(true);
     };
 
+    const handleClose = () => {
+        if (isAdding) setIsAdding(false);
+        if (isRemoving) setIsRemoving(false);
+    };
+
     const buttons = [
         { label: 'Create a deck', link: '/decks/' },
         { label: 'Add a Card', action: addCard },
     ];
 
-    const handleDelete = (id: string) => {
-        alert(`delete card ${id}`);
+    const handleDelete = (card: CardsWithDecks) => {
+        setIsRemoving(true);
+        setCurrentCard(card);
     };
 
     return (
@@ -42,31 +51,30 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {parsedCardsWithDeckRefs.length > 0 &&
-                        parsedCardsWithDeckRefs.sort((a,b) => a.name.localeCompare(b.name)).map((card: CardsWithDecks) => (
-                            <div key={`${card.id}`}>
-                                <MTGCard
-                                    id={card.id}
-                                    imgUris={card.imgUris}
-                                    name={card.name}
-                                    oracleText={card.oracleText}
-                                    cardSuperType={card.cardSuperType}
-                                    cardType={card.cardType}
-                                    manaCost={card.manaCost}
-                                    power={card.power}
-                                    toughness={card.toughness}
-                                    backCardData={card.backCardData}
-                                    onDelete={() => handleDelete(card.id)}
-                                    decks={card.decks}
-                                ></MTGCard>
-                            </div>
-                        ))}
+                        parsedCardsWithDeckRefs && (
+                            <CardList
+                                cards={parsedCardsWithDeckRefs}
+                                showDecks={true}
+                                parentDelete={handleDelete}
+                            />
+                        )}
                 </div>
             </div>
-            {isAdding && (
-                <Modal show={true} onClose={() => setIsAdding(false)}>
-                    <AddCardModalContent decks={decks} cardpool={cards} modalClose={setIsAdding} />
-                </Modal>
-            )}
+            <Modal show={isAdding || isRemoving} onClose={handleClose}>
+                {isAdding && (
+                    <AddCardModalContent
+                        decks={decks}
+                        cardpool={cards}
+                        modalClose={setIsAdding}
+                    />
+                )}
+                {isRemoving && (
+                    <RemoveCardModalContent
+                        card={currentCard as CardsWithDecks}
+                        modalClose={setIsRemoving}
+                    />
+                )}
+            </Modal>
         </AuthenticatedLayout>
     );
 }
