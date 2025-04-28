@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { debounce } from '../utility';
+import { debounce } from '../utilities/general';
 import PrimaryButton from './PrimaryButton';
 
 type Button = {

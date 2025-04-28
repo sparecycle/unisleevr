@@ -1,4 +1,4 @@
-import { Deck } from '@/types/deck';
+import { Deck } from '@/types/mtg';
 import { Dispatch, forwardRef, SetStateAction } from 'react';
 import DeckTileButtonContent from './DeckTileButtonFace';
 import DeckTileDeckContent from './DeckTileDeckFace';

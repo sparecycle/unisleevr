@@ -32,26 +32,17 @@ const MTGCard = ({
     const [brokenImage, setBrokenImage] = useState(false);
     const [brokenBackImage, setBrokenBackImage] = useState(false);
 
-    const renderButtons = () => {
-        const deleteButton = () => (
-            <button
-                className={`btn btn-primary transition-rotate absolute right-0 top-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black group-hover:opacity-100 lg:opacity-0`}
-                onClick={onDelete}
-            >
-                <MdDeleteForever className="h-12 w-12 md:h-10 md:w-10 lg:h-6 lg:w-6" />
-            </button>
-        );
-        const flipButton = () => (
-            <button
-                className={`btn btn-primary transition-rotate absolute right-0 rounded-full border-none bg-slate-500/50 p-2 duration-200 ease-in-out hover:rotate-180`}
-                onClick={() => setIsFlipped(!isFlipped)}
-            >
-                <ImSpinner11 />
-            </button>
-        );
+    const RenderButtons = () => {
         return (
             <div className="card-actions group absolute z-10 aspect-[2.5/3.5] w-full content-center">
-                {onDelete && deleteButton()}
+                {onDelete && (
+                    <button
+                        className={`btn btn-primary transition-rotate absolute right-0 top-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black group-hover:opacity-100 lg:opacity-0`}
+                        onClick={onDelete}
+                    >
+                        <MdDeleteForever className="h-12 w-12 md:h-10 md:w-10 lg:h-6 lg:w-6" />
+                    </button>
+                )}
                 {decks && decks.length > 0 && (
                     <button
                         className={`btn btn-primary transition-rotate absolute bottom-0 right-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black group-hover:opacity-100 md:bottom-auto md:top-14 lg:top-10 lg:opacity-0`}
@@ -60,7 +51,14 @@ const MTGCard = ({
                         <TbCardsFilled className="h-12 w-12 md:h-10 md:w-10 lg:h-6 lg:w-6" />
                     </button>
                 )}
-                {backCardData && flipButton()}
+                {backCardData && (
+                    <button
+                        className={`btn btn-primary transition-rotate absolute right-0 rounded-full border-none bg-slate-500/50 p-2 duration-200 ease-in-out hover:rotate-180`}
+                        onClick={() => setIsFlipped(!isFlipped)}
+                    >
+                        <ImSpinner11 />
+                    </button>
+                )}
             </div>
         );
     };
@@ -108,7 +106,7 @@ const MTGCard = ({
                     className={`card_front absolute top-0 z-10 h-full w-full`}
                     style={{ backfaceVisibility: 'hidden' }}
                 >
-                    {renderButtons()}
+                    {RenderButtons()}
 
                     <MTGCardFace
                         imgUris={imgUris}
@@ -132,7 +130,7 @@ const MTGCard = ({
                             transform: 'rotateY(.5turn)',
                         }}
                     >
-                        {renderButtons()}
+                        {RenderButtons()}
                         <MTGCardFace
                             imgUris={backCardData.imgUris}
                             name={backCardData.name}

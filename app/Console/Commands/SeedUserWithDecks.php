@@ -52,7 +52,7 @@ class SeedUserWithDecks extends Command
                 'manaCost' => ['{U}', '{U}'],
         ]);
 
-        $commanderData = array(
+        $commanderData = array([
             'cardSuperType' => ['Legendary', 'Creature'],
             'cardType' => ['Illusion'],
             'colorIdentity' => ['U'],
@@ -69,7 +69,7 @@ class SeedUserWithDecks extends Command
             'oracleText' => "Partner with Pir, Imaginative Rascal (When this creature enters, target player may put Pir into their hand from their library, then shuffle.)\nWhenever you draw a card, put a +1/+1 counter on Toothy.\nWhen Toothy leaves the battlefield, draw a card for each +1/+1 counter on it.",
             'power' => '1',
             'toughness' => '1',
-        );
+        ]);
 
         // Create the specified number of decks
         for ($i = 1; $i <= $count; $i++) {

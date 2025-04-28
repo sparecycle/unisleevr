@@ -4,7 +4,8 @@ import {
     scryfallSearch,
 } from '@/api/Scryfall';
 import { CardDataType } from '@/types/mtg';
-import { debounce, prepCardDataForRender, useOutsideAlerter } from '@/utility';
+import { debounce, useOutsideAlerter } from '@/utilities/general';
+import { prepCardDataForRender } from '@/utilities/prepCardData';
 import { useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 
