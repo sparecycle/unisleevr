@@ -45,6 +45,7 @@ class DeckController extends Controller
             'name' => 'required|string|max:255', // Validate the name field
             'user_id' => 'required|integer|exists:users,id', // Validate the user_id field
             'cards' => 'required|array|min:1', // Require cards to be a non-empty array
+            'commanders' => 'required|array|min:1', // required commanders field
         ]);
 
         // Create a new deck with the validated data
@@ -52,6 +53,7 @@ class DeckController extends Controller
             'name' => $validated['name'],
             'user_id' => $validated['user_id'],
             'cards' => $validated['cards'], // Include cards in the creation
+            'commanders' => $validated['commanders'],
         ]);
 
         // Redirect to the decks index page
@@ -67,12 +69,14 @@ class DeckController extends Controller
             'name' => 'required|string|max:255',
             'user_id' => 'required|integer|exists:users,id',
             'cards' => 'required|array|min:1',
+            'commanders' => 'required|array|min:1', // required commanders field
         ]);
 
         $deck = Deck::create([
             'name' => $validated['name'],
             'user_id' => $validated['user_id'],
             'cards' => $validated['cards'],
+            'commanders' => $validated['commanders'],
         ]);
 
         // Redirect to the decks.index route with the updatedDeck in the session
@@ -87,9 +91,7 @@ class DeckController extends Controller
      */
     public function show(Deck $deck)
     {
-        return Inertia::render('Decks/Show', [
-            'deck' => $deck
-        ]);
+        //
     }
 
     /**
@@ -110,6 +112,7 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'cards' => 'required|array|min:0',
+            'commanders' => 'required|array|min:1',
         ]);
 
         $deck->update($validated);
@@ -127,7 +130,8 @@ class DeckController extends Controller
             'decks' => 'required|array',
             'decks.*.id' => 'required|exists:decks,id',
             'decks.*.name' => 'required|string|max:255',
-            'decks.*.cards' => 'required|array|min:0'
+            'decks.*.cards' => 'required|array|min:1',
+            'decks.*.commanders' => 'required|array|min:1',
         ]);
 
         DB::beginTransaction();
@@ -144,7 +148,8 @@ class DeckController extends Controller
 
                 $deck->update([
                     'name' => $deckData['name'],
-                    'cards' => $deckData['cards']
+                    'cards' => $deckData['cards'],
+                    'commanders' => $deckData['commanders']
                 ]);
             }
 
