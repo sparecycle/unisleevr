@@ -51,14 +51,15 @@ const AddCardModalContent = ({ decks, cardpool, modalClose }: Props) => {
     };
     const onSubmit = async () => {
         setSubmitting(true);
+        const updatedDecks = selectedDecks.map((deck) => {
+            return {
+                id: deck.id,
+                name: deck.name,
+                cards: [...deck.cards, selectedCard] as CardDataType[],
+            } as Deck;
+        });
         try {
-            updateDecks(
-                selectedDecks,
-                auth.user.id,
-                selectedCard as CardDataType,
-                setSubmitted,
-                'add',
-            );
+            updateDecks(updatedDecks, auth.user.id, setSubmitted);
         } catch (error) {
             console.error('One of the promises failed:', error);
         }

@@ -1,9 +1,9 @@
-import { CardsWithDecks, Deck } from '@/types/mtg';
-import updateDecks from '@/utilities/updateDecks';
+import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
 import { usePage } from '@inertiajs/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Button from './Button';
 import LabeledCheckbox from './LabeledCheckbox';
+import updateDecks from '@/utilities/updateDecks';
 
 type Props = {
     card: CardsWithDecks;
@@ -35,13 +35,18 @@ const RemoveCardModalContent = ({ card, modalClose }: Props) => {
     }, [submitted]);
     const onSubmit = async () => {
         setSubmitting(true);
+        const updatedDecks = selectedDecks.map((deck) => {
+            return {
+                id: deck.id,
+                name: deck.name,
+                cards: deck.cards.filter((c) => c.id !== card.id) as CardDataType[]
+            } as Deck;
+        });
         try {
             updateDecks(
-                selectedDecks,
+                updatedDecks,
                 auth.user.id,
-                card as CardsWithDecks,
                 setSubmitted,
-                'remove',
             );
         } catch (error) {
             console.error('One of the promises failed:', error);
