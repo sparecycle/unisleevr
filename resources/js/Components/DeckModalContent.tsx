@@ -27,6 +27,9 @@ const DeckModalContent = ({
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
     );
+    const [selectedCommanders, setSelectedCommanders] = useState<
+        CardDataType[]
+    >(deck?.commanders || []);
     const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
 
     const {
@@ -57,6 +60,25 @@ const DeckModalContent = ({
         );
     };
 
+    const handleCommanderSelect = (results: CardDataType[] | []) => {
+        if (!isFormEdited) setIsFormEdited(true);
+        if (results === undefined || results.length == 0) return;
+
+        let uniqueOutput: CardDataType[] = [];
+
+        if (selectedCommanders.length > 0) {
+            uniqueOutput = [...selectedCommanders, ...results].filter(
+                (item, index, self) =>
+                    index === self.findIndex((t) => t.id === item.id),
+            );
+        } else {
+            uniqueOutput = [...results];
+        }
+        // uniqueOutput.sort((a, b) => a.id - b.id);
+        setSelectedCommanders(uniqueOutput); // Update selectedCommanders instead of selectedCards
+        setData('commanders', uniqueOutput); // Update commanders in the form state
+    };
+
     const handleCardSelect = (results: CardDataType[] | []) => {
         if (!isFormEdited) setIsFormEdited(true);
         if (results === undefined || results.length == 0) return;
@@ -81,6 +103,15 @@ const DeckModalContent = ({
         const updatedCards = selectedCards.filter((c) => c.id !== card.id);
         setSelectedCards(updatedCards);
         setData('cards', updatedCards);
+    };
+
+    const removeCommander = (card: CardDataType) => {
+        if (!isFormEdited) setIsFormEdited(true);
+        const updatedCommanders = selectedCommanders.filter(
+            (c) => c.id !== card.id,
+        );
+        setSelectedCommanders(updatedCommanders);
+        setData('commanders', updatedCommanders);
     };
 
     const validate = () => {
@@ -220,10 +251,19 @@ const DeckModalContent = ({
                 )}
                 <DeckCardSearch
                     isSearching={isEditing}
+                    parentSetter={handleCommanderSelect}
+                    cards={selectedCommanders}
+                    processing={processing}
+                    removeAction={removeCommander}
+                    searchingForCommanders={true}
+                />
+                <DeckCardSearch
+                    isSearching={isEditing}
                     parentSetter={handleCardSelect}
                     cards={selectedCards}
                     processing={processing}
                     removeAction={removeCard}
+                    searchingForCommanders={false}
                 />
                 <div className="absolute bottom-4 shrink-0">
                     {creating ? (
