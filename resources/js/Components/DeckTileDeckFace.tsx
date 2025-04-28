@@ -21,6 +21,8 @@ const DeckTileDeckFace = ({
         onDelete();
     };
 
+    const maxTitleLength = 60;
+
     return (
         <div className="relative h-full w-full">
             <button
@@ -34,8 +36,48 @@ const DeckTileDeckFace = ({
                 className="deck-tile-header absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center overflow-hidden rounded-md"
                 onClick={() => activeSetter && activeSetter(deck)}
             >
-                {deck.commanders?.length > 0 &&
-                    deck.commanders.map((commander: CardDataType) => (
+                {deck.commanders?.length === 2 ? (
+                    <>
+                        {/* First commander - top-left half */}
+                        <div
+                            className="absolute inset-0 overflow-hidden"
+                            style={{
+                                clipPath: 'polygon(0 0, 100% 0, 0 100%)',
+                            }}
+                        >
+                            <img
+                                className="h-full w-full object-cover transition-transform duration-200 group-hover/deck-tile:scale-110"
+                                src={deck.commanders[0].imgUris.art_crop}
+                                alt={deck.commanders[0].name}
+                            />
+                        </div>
+
+                        {/* Second commander - bottom-right half */}
+                        <div
+                            className="absolute inset-0 overflow-hidden"
+                            style={{
+                                clipPath: 'polygon(100% 0, 100% 100%, 0 100%)',
+                            }}
+                        >
+                            <img
+                                className="h-full w-full object-cover transition-transform duration-200 group-hover/deck-tile:scale-110"
+                                src={deck.commanders[1].imgUris.art_crop}
+                                alt={deck.commanders[1].name}
+                            />
+                        </div>
+
+                        {/* Optional diagonal line - can be removed if not needed */}
+                        <div
+                            className="pointer-events-none absolute inset-0"
+                            style={{
+                                background:
+                                    'linear-gradient(to right bottom, transparent calc(50% - 1px), rgba(255,255,255,0.7) calc(50%), transparent calc(50% + 1px))',
+                            }}
+                        />
+                    </>
+                ) : (
+                    // Original code for one or more than two commanders
+                    deck.commanders?.map((commander) => (
                         <div
                             key={`deck-commander-${commander.id}`}
                             className="align-center flex h-full w-full justify-center"
@@ -46,7 +88,8 @@ const DeckTileDeckFace = ({
                                 alt={commander.name}
                             />
                         </div>
-                    ))}
+                    ))
+                )}
             </button>
             <div
                 className="deck-tile-body z-1 absolute bottom-0 left-0 flex h-auto w-full flex-wrap items-center justify-center rounded-b-md bg-zinc-900 p-0 pb-2 text-white shadow-md transition-transform duration-200 ease-in-out group-hover/deck-tile:bg-zinc-900/80"
@@ -68,7 +111,9 @@ const DeckTileDeckFace = ({
                 </div>
                 <div className="w-full pt-1 text-center">
                     <h4 className="deck-tile-title hyphen-manual w-full text-wrap px-2 text-center font-bold">
-                        {title}
+                        {title.length > maxTitleLength
+                            ? `${title.slice(0, maxTitleLength)}...`
+                            : title}
                     </h4>
                 </div>
 
