@@ -2,7 +2,7 @@
     "singleQuote": true,
     "plugins": [
         "prettier-plugin-organize-imports",
-        "prettier-plugin-tailwindcss",
-        "@prettier/plugin-php"
+        "@prettier/plugin-php",
+        "prettier-plugin-tailwindcss"
     ]
 }
