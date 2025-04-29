@@ -79,7 +79,6 @@ export const getColorIdentityFromCommanders = (
         return [];
     }
 
-    console.log('commanders', commanders);
     const colorIdentities = commanders.flatMap(
         (card: CardDataType) => card.colorIdentity,
     );

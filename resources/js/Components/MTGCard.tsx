@@ -106,7 +106,7 @@ const MTGCard = ({
                     className={`card_front absolute top-0 z-10 h-full w-full`}
                     style={{ backfaceVisibility: 'hidden' }}
                 >
-                    {RenderButtons()}
+                    <RenderButtons />
 
                     <MTGCardFace
                         imgUris={imgUris}
@@ -130,7 +130,7 @@ const MTGCard = ({
                             transform: 'rotateY(.5turn)',
                         }}
                     >
-                        {RenderButtons()}
+                        <RenderButtons />
                         <MTGCardFace
                             imgUris={backCardData.imgUris}
                             name={backCardData.name}

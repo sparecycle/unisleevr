@@ -20,7 +20,6 @@ type DecksProps = {
 };
 
 export default function Decks({ decks, updatedDeck }: DecksProps) {
-    console.log('Decks data:', decks);
     console.log('Updated deck data for decksToDisplay:', updatedDeck);
 
     const decksWithColorIdentity = useMemo(() => {
@@ -125,7 +124,11 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
     };
 
     const handleUpdateDeck = (updatedDeck: Deck) => {
-        console.log('Updating decksToDisplay data with:', updatedDeck); // Debugging log
+        const colorIdentity = getColorIdentityFromCommanders(
+            updatedDeck.commanders,
+        ).filter((color): color is mtgColorStrings => color !== undefined);
+
+        updatedDeck.color_identity = colorIdentity;
 
         setDecksToDisplay((prevDecks) => {
             const deckExists = prevDecks.some(
