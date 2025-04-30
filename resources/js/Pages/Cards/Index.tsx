@@ -7,7 +7,10 @@ import Modal from '@/Components/Modal';
 import RemoveCardModalContent from '@/Components/RemoveCardModalContent';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
-import { attachDeckRefsToParsedCards, prepCardDataForRender } from '@/utility';
+import {
+    attachDeckRefsToParsedCards,
+    prepCardDataForRender,
+} from '@/utilities/prepCardData';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 

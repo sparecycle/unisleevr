@@ -7,6 +7,15 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## useful commands
+
+```
+php artisan deck:seedmany {userId} {count}
+
+php artisan test PATH/TO/TESTFILE
+php artisan test tests/Feature/DeckControllerTest.php
+```
+
 ## Pre-Installation
 
 If you don't have PHP, Composer, or the Laravel installer, run this:

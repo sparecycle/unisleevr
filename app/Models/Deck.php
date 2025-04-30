@@ -15,11 +15,13 @@ class Deck extends Model
     protected $fillable = [
         'name',
         'cards',
-        'user_id' // Add user_id to fillable properties
+        'user_id', // Add user_id to fillable properties
+        'commanders'
     ];
 
     protected $casts = [
         'cards' => 'array', // Cast cards to an array
+        'commanders' => 'array', // Cast commanders to an array
     ];
 
     // define the many to many relationship with the Card model, also the method

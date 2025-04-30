@@ -8,6 +8,7 @@ type Props = {
     cards: CardDataType[];
     processing: boolean;
     removeAction: (card: CardDataType) => void;
+    searchingForCommanders: boolean;
 };
 
 const DeckCardSearch = ({
@@ -16,6 +17,7 @@ const DeckCardSearch = ({
     cards,
     processing,
     removeAction,
+    searchingForCommanders,
 }: Props) => {
     return (
         <>
@@ -24,9 +26,16 @@ const DeckCardSearch = ({
                     autofocus={false}
                     parentSetter={parentSetter}
                     specificCard
-                    CTAText="Add Card"
-                    placeholderText="Add cards to your deck"
+                    CTAText={
+                        searchingForCommanders ? 'Add Commander' : 'Add Card'
+                    }
+                    placeholderText={
+                        searchingForCommanders
+                            ? 'Add commanders to your deck'
+                            : 'Add cards to your deck'
+                    }
                     cardsToExclude={cards}
+                    searchingForCommanders={searchingForCommanders}
                 ></Searchbar>
             )}
 

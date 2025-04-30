@@ -27,6 +27,9 @@ const DeckModalContent = ({
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
     );
+    const [selectedCommanders, setSelectedCommanders] = useState<
+        CardDataType[]
+    >(deck?.commanders || []);
     const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
 
     const {
@@ -45,6 +48,7 @@ const DeckModalContent = ({
         name: deck?.name || undefined,
         user_id: auth.user.id,
         cards: selectedCards,
+        commanders: selectedCommanders,
     });
 
     const isValidDeck = (deck: any): deck is Deck => {
@@ -55,6 +59,25 @@ const DeckModalContent = ({
             typeof deck.created_at === 'string' &&
             typeof deck.updated_at === 'string'
         );
+    };
+
+    const handleCommanderSelect = (results: CardDataType[] | []) => {
+        if (!isFormEdited) setIsFormEdited(true);
+        if (results === undefined || results.length == 0) return;
+
+        let uniqueOutput: CardDataType[] = [];
+
+        if (selectedCommanders.length > 0) {
+            uniqueOutput = [...selectedCommanders, ...results].filter(
+                (item, index, self) =>
+                    index === self.findIndex((t) => t.id === item.id),
+            );
+        } else {
+            uniqueOutput = [...results];
+        }
+        // uniqueOutput.sort((a, b) => a.id - b.id);
+        setSelectedCommanders(uniqueOutput); // Update selectedCommanders instead of selectedCards
+        setData('commanders', uniqueOutput); // Update commanders in the form state
     };
 
     const handleCardSelect = (results: CardDataType[] | []) => {
@@ -83,13 +106,30 @@ const DeckModalContent = ({
         setData('cards', updatedCards);
     };
 
+    const removeCommander = (card: CardDataType) => {
+        if (!isFormEdited) setIsFormEdited(true);
+        const updatedCommanders = selectedCommanders.filter(
+            (c) => c.id !== card.id,
+        );
+        setSelectedCommanders(updatedCommanders);
+        setData('commanders', updatedCommanders);
+    };
+
     const validate = () => {
         if (!data.name) {
             setError('name', 'Name is required');
             return false;
         }
+        if (data.commanders.length === 0) {
+            setError('commanders', 'At least one commander is required');
+            return false;
+        }
         if (data.cards.length === 0) {
             setError('cards', 'At least one card is required');
+            return false;
+        }
+        if (data.commanders.length > 3) {
+            setError('commanders', 'No more than three commanders are allowed');
             return false;
         }
         clearErrors(); // Clear previous errors
@@ -106,6 +146,11 @@ const DeckModalContent = ({
                     )}{' '}
                     {errors.cards && (
                         <span className="text-red-500">{errors.cards}</span>
+                    )}{' '}
+                    {errors.commanders && (
+                        <span className="text-red-500">
+                            {errors.commanders}
+                        </span>
                     )}
                 </p>
             );
@@ -220,10 +265,19 @@ const DeckModalContent = ({
                 )}
                 <DeckCardSearch
                     isSearching={isEditing}
+                    parentSetter={handleCommanderSelect}
+                    cards={selectedCommanders}
+                    processing={processing}
+                    removeAction={removeCommander}
+                    searchingForCommanders={true}
+                />
+                <DeckCardSearch
+                    isSearching={isEditing}
                     parentSetter={handleCardSelect}
                     cards={selectedCards}
                     processing={processing}
                     removeAction={removeCard}
+                    searchingForCommanders={false}
                 />
                 <div className="absolute bottom-4 shrink-0">
                     {creating ? (

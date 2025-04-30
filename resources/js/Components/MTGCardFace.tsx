@@ -1,7 +1,7 @@
-import { mtgImgSrc } from '../types/mtg';
+import { mtgImgSrcType } from '../types/mtg';
 
 type cardFaceDataType = {
-    imgUris: mtgImgSrc;
+    imgUris: mtgImgSrcType;
     name: string;
     cardSuperType: string[];
     cardType?: string[];

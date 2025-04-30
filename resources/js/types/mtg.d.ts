@@ -1,4 +1,5 @@
-export interface mtgImgSrc {
+export type mtgColorStrings = 'W' | 'U' | 'B' | 'R' | 'G';
+export interface mtgImgSrcType {
     normal: string;
     large: string;
     png: string;
@@ -9,7 +10,7 @@ export interface mtgImgSrc {
 
 export interface CardDataType {
     id: string;
-    imgUris: mtgImgSrc;
+    imgUris: mtgImgSrcType;
     name: string;
     cardSuperType: string[];
     cardType?: string[];
@@ -32,4 +33,6 @@ export interface Deck {
     updated_at: string;
     user_id: number;
     cards: CardDataType[];
+    commanders: CardDataType[];
+    color_identity: mtgColorStrings[];
 }

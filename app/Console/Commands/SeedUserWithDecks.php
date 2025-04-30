@@ -59,6 +59,7 @@ class SeedUserWithDecks extends Command
             $deck->name = substr($generatedName, 0, 46); // Truncate to 46 characters
             $deck->user_id = $userId;
             $deck->cards = $cardData; // Assign the array directly
+            $deck->commanders = generateRandomCommander(); // Assign the array directly
             $deck->save();
 
             $this->info("Deck {$deck->name} created for user ID {$userId}.");

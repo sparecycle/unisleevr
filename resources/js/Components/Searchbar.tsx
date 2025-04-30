@@ -4,7 +4,8 @@ import {
     scryfallSearch,
 } from '@/api/Scryfall';
 import { CardDataType } from '@/types/mtg';
-import { debounce, prepCardDataForRender, useOutsideAlerter } from '@/utility';
+import { debounce, useOutsideAlerter } from '@/utilities/general';
+import { prepCardDataForRender } from '@/utilities/prepCardData';
 import { useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 
@@ -99,6 +100,7 @@ const Searchbar = ({
                 ? await scryfallNamedSearch(searchQuery)
                 : await scryfallSearch(searchQuery);
             const output: CardDataType[] = await prepCardDataForRender([data]);
+            console.log('output', output);
             resetSearch();
             parentSetter(output);
         } catch (error) {

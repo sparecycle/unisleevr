@@ -24,6 +24,10 @@ class DeckFactory extends Factory
                 ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
                 ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
             ],
+            'commanders' => [ // Store commanders as an array
+                ['id' => 1, 'name' => 'Commander A', 'type' => 'Legendary Creature'],
+                ['id' => 2, 'name' => 'Commander B', 'type' => 'Planeswalker'],
+            ],
         ];
     }
 }

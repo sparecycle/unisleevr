@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { CardDataType, CardsWithDecks, Deck } from './types/mtg';
+import { CardDataType, CardsWithDecks, Deck } from '../types/mtg';
+import { splitStringByHyphen, turnManaCostIntoArray } from './general';
 
 // currently an any because this takes the raw card data from scryfall.
 export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
@@ -88,62 +88,4 @@ export const filterNonPlayableCards = (cards: unknown[]): unknown[] => {
     );
 
     return filteredCards;
-};
-
-export const splitStringByHyphen = (input: string): [string[], string[]] => {
-    // Match words before and after the hyphen
-    const matches = input.match(/^(.+?)\s*—\s*(.+)$/);
-
-    // Check if the match was successful
-    if (matches && matches.length === 3) {
-        const beforeHyphen = matches[1].trim().split(/\s+/);
-        const afterHyphen = matches[2].trim().split(/\s+/);
-        return [beforeHyphen, afterHyphen];
-    }
-
-    // If no hyphen is found, return all strings in the first array
-    const beforeHyphen = input.trim().split(/\s+/);
-    return [beforeHyphen, []];
-};
-
-export const turnManaCostIntoArray = (manaCost: string): string[] => {
-    // Match all mana symbols in the string
-    const matches = manaCost.match(/{(.+?)}/g);
-
-    // Check if the match was successful
-    if (matches) {
-        return matches;
-    }
-
-    return [];
-};
-
-export const debounce = (func: (...args: any[]) => void, wait: number) => {
-    let timeout: NodeJS.Timeout;
-    return (...args: any[]) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func(...args), wait);
-    };
-};
-
-export const useOutsideAlerter = (
-    ref: React.RefObject<HTMLElement>,
-    callback: () => void,
-) => {
-    useEffect(() => {
-        /**
-         * Alert if clicked on outside of element
-         */
-        const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
-                callback();
-            }
-        };
-        // Bind the event listener
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            // Unbind the event listener on clean up
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [ref, callback]);
 };

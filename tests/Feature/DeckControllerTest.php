@@ -18,6 +18,10 @@ it('creates a deck', function () {
             ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
             ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
         ],
+        'commanders' => [
+            ['id' => 1, 'name' => 'Commander A', 'type' => 'Legendary Creature'],
+            ['id' => 2, 'name' => 'Commander B', 'type' => 'Planeswalker'],
+        ],
     ];
 
     $response = $this->post(route('decks.store'), $payload);
@@ -26,10 +30,16 @@ it('creates a deck', function () {
 
     expect($deck)->not->toBeNull();
     expect($deck->cards)->toBe($payload['cards']);
+    expect($deck->commanders)->toBe($payload['commanders']);
     expect($user->refresh()->decks)->toHaveCount(1);
     expect($user->decks->first()->name)->toBe('Test Deck');
 
     $response->assertRedirect(route('decks.index'));
+    $this->assertDatabaseHas('decks', [
+        'name' => 'Test Deck',
+        'cards' => json_encode($payload['cards']),
+        'commanders' => json_encode($payload['commanders']),
+    ]);
 });
 
 it('lists decks on the index route', function () {
@@ -53,8 +63,12 @@ it('updates a deck', function () {
     $payload = [
         'name' => 'Updated Deck Name',
         'cards' => [
-            ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
-            ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
+            ['id' => 1, 'name' => 'Card C', 'type' => 'Creature'],
+            ['id' => 2, 'name' => 'Card D', 'type' => 'Spell'],
+        ],
+        'commanders' => [
+            ['id' => 1, 'name' => 'Commander C', 'type' => 'Legendary Creature'],
+            ['id' => 2, 'name' => 'Commander D', 'type' => 'Planeswalker'],
         ],
     ];
 
@@ -70,6 +84,7 @@ it('updates a deck', function () {
         'id' => $deck->id,
         'name' => 'Updated Deck Name',
         'cards' => json_encode($payload['cards']),
+        'commanders' => json_encode($payload['commanders']),
     ]);
 });
 

@@ -4,8 +4,8 @@ import DeckTile from '@/Components/DeckTile';
 import Modal from '@/Components/Modal';
 import PageTitle from '@/Components/PageTitle';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Deck } from '@/types/mtg';
-import { debounce } from '@/utility';
+import { Deck, mtgColorStrings } from '@/types/mtg';
+import { debounce, getColorIdentityFromCommanders } from '@/utilities/general';
 import { router } from '@inertiajs/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -20,11 +20,25 @@ type DecksProps = {
 };
 
 export default function Decks({ decks, updatedDeck }: DecksProps) {
-    console.log('Decks data:', decks);
     console.log('Updated deck data for decksToDisplay:', updatedDeck);
+
+    const decksWithColorIdentity = useMemo(() => {
+        return decks.data.map((deck) => {
+            const commanders = deck.commanders || [];
+            const colorIdentity = getColorIdentityFromCommanders(
+                commanders,
+            ).filter((color): color is mtgColorStrings => color !== undefined);
+            return { ...deck, color_identity: colorIdentity };
+        });
+    }, [decks.data]);
+
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
-    const [decksToDisplay, setDecksToDisplay] = useState<Deck[]>(decks.data);
+    const [decksToDisplay, setDecksToDisplay] = useState<Deck[]>(
+        decksWithColorIdentity,
+    );
+    console.log('decksToDisplay', decksToDisplay);
+
     const [currentPage, setCurrentPage] = useState(decks.current_page);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
 
@@ -110,7 +124,11 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
     };
 
     const handleUpdateDeck = (updatedDeck: Deck) => {
-        console.log('Updating decksToDisplay data with:', updatedDeck); // Debugging log
+        const colorIdentity = getColorIdentityFromCommanders(
+            updatedDeck.commanders,
+        ).filter((color): color is mtgColorStrings => color !== undefined);
+
+        updatedDeck.color_identity = colorIdentity;
 
         setDecksToDisplay((prevDecks) => {
             const deckExists = prevDecks.some(
