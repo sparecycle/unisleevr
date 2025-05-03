@@ -1,6 +1,7 @@
 import { Deck } from '@/types/deck';
+import { getColorIdentityFromCommanders } from '@/utilities/general';
 import { useForm, usePage } from '@inertiajs/react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { CardDataType } from '../types/mtg';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
@@ -31,6 +32,9 @@ const DeckModalContent = ({
         CardDataType[]
     >(deck?.commanders || []);
     const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
+
+    const currentColorIdentity =
+        getColorIdentityFromCommanders(selectedCommanders);
 
     const {
         data,
@@ -115,6 +119,24 @@ const DeckModalContent = ({
         setData('commanders', updatedCommanders);
     };
 
+    useEffect(() => {
+        const invalidColorIdentity = !selectedCards.some((card) =>
+            currentColorIdentity.some((color: string) =>
+                card.colorIdentity?.includes(color),
+            ),
+        );
+
+        if (invalidColorIdentity) {
+            console.log(
+                "Selected cards do not match the deck's color identity", selectedCards, currentColorIdentity,
+            );
+            setError(
+                'cards',
+                "Selected cards do not match the deck's color identity",
+            );
+        }
+    }, [selectedCards, selectedCommanders]);
+
     const validate = () => {
         if (!data.name) {
             setError('name', 'Name is required');
@@ -132,12 +154,14 @@ const DeckModalContent = ({
             setError('commanders', 'No more than three commanders are allowed');
             return false;
         }
+
         clearErrors(); // Clear previous errors
 
         return true;
     };
 
     const renderErrors = () => {
+        console.log('errors', errors);
         if (!recentlySuccessful) {
             return (
                 <p>
@@ -237,6 +261,7 @@ const DeckModalContent = ({
                 {isEditing ? (
                     <form
                         onSubmit={onSubmit}
+                        onChange={() => validateColorIdentity()}
                         className="flex w-full flex-col items-center gap-4"
                     >
                         <div className="relative flex w-full flex-wrap">
@@ -270,6 +295,7 @@ const DeckModalContent = ({
                     processing={processing}
                     removeAction={removeCommander}
                     searchingForCommanders={true}
+                    colorIdentity={deck?.color_identity}
                 />
                 <DeckCardSearch
                     isSearching={isEditing}
@@ -278,6 +304,7 @@ const DeckModalContent = ({
                     processing={processing}
                     removeAction={removeCard}
                     searchingForCommanders={false}
+                    colorIdentity={deck?.color_identity}
                 />
                 <div className="absolute bottom-4 shrink-0">
                     {creating ? (

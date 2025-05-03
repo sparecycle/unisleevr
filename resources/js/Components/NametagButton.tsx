@@ -1,11 +1,15 @@
 import { ComponentProps } from 'react';
 import { IoIosClose } from 'react-icons/io';
 
-type Props = ComponentProps<'button'> & { showClose: boolean };
+type Props = ComponentProps<'button'> & {
+    showClose: boolean;
+    invalid: boolean;
+};
 
 const NametagButton = ({
     'aria-label': ariaLabel,
     disabled,
+    invalid,
     onClick,
     children,
     showClose = false,
@@ -14,7 +18,7 @@ const NametagButton = ({
         <button
             type="button"
             aria-label={ariaLabel}
-            className="group/nametag flex items-center rounded-md bg-zinc-800 px-2 py-1 group-hover/nametag:bg-zinc-700"
+            className={`group/nametag flex items-center rounded-md bg-zinc-800 px-2 py-1 group-hover/nametag:bg-zinc-700 ${invalid ? 'border border-red-500' : ''}`}
             disabled={disabled}
             onClick={onClick}
         >
