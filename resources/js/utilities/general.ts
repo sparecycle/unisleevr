@@ -76,7 +76,6 @@ export const getColorIdentityFromCommanders = (
     commanders: CardDataType[],
 ): mtgColorStrings[] => {
     if (!commanders || commanders.length === 0) {
-        console.log('No commanders found');
         return [];
     }
 
