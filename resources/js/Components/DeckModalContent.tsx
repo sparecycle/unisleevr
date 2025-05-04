@@ -1,8 +1,8 @@
-import { Deck } from '@/types/deck';
+import { Deck } from '@/types/mtg';
 import { getColorIdentityFromCommanders } from '@/utilities/general';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
-import { CardDataType } from '../types/mtg';
+import { CardDataType, mtgColorStrings } from '../types/mtg';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
 import DeckCardSearch from './DeckCardSearch';
@@ -10,7 +10,7 @@ import Input from './Input';
 import { useToast } from './Toast/ToastContext';
 
 type DeckModalContentProps = {
-    deck?: Deck;
+    deck: Deck;
     creating?: boolean;
     onClose: () => void;
     onDeckUpdated?: (updatedDeck: Deck) => void; // Add the callback prop
@@ -25,6 +25,7 @@ const DeckModalContent = ({
     const { openToast } = useToast();
     const { auth } = usePage().props;
     const [isEditing, setIsEditing] = useState(creating ?? false);
+    const [DisableSubmitButton, setDisableSubmitButton] = useState(false);
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
     );
@@ -32,9 +33,26 @@ const DeckModalContent = ({
         CardDataType[]
     >(deck?.commanders || []);
     const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
-
-    const currentColorIdentity =
+    const initialCommanderColorIdentity =
         getColorIdentityFromCommanders(selectedCommanders);
+    const [currentColorIdentity, setCurrentColorIdentity] = useState<
+        mtgColorStrings[]
+    >(initialCommanderColorIdentity);
+
+    useEffect(() => {
+        const newCommanderColorIdentity =
+            getColorIdentityFromCommanders(selectedCommanders);
+        console.log(
+            'commanders CHanged',
+            selectedCommanders,
+            newCommanderColorIdentity,
+        );
+        setCurrentColorIdentity(newCommanderColorIdentity);
+    }, [selectedCommanders]);
+
+    useEffect(() => {
+        console.log('currentColorIdentity changed to:', currentColorIdentity);
+    }, [currentColorIdentity]);
 
     const {
         data,
@@ -66,6 +84,7 @@ const DeckModalContent = ({
     };
 
     const handleCommanderSelect = (results: CardDataType[] | []) => {
+        console.log('handleCommanderSelect', results);
         if (!isFormEdited) setIsFormEdited(true);
         if (results === undefined || results.length == 0) return;
 
@@ -85,6 +104,7 @@ const DeckModalContent = ({
     };
 
     const handleCardSelect = (results: CardDataType[] | []) => {
+        console.log('handleCardSelect', results);
         if (!isFormEdited) setIsFormEdited(true);
         if (results === undefined || results.length == 0) return;
 
@@ -120,22 +140,43 @@ const DeckModalContent = ({
     };
 
     useEffect(() => {
-        const invalidColorIdentity = !selectedCards.some((card) =>
-            currentColorIdentity.some((color: string) =>
-                card.colorIdentity?.includes(color),
-            ),
+        const allColorsFromCards = selectedCards.flatMap(
+            (card) => card.colorIdentity,
+        );
+        const invalidColorIdentity = !currentColorIdentity
+            .filter((color): color is mtgColorStrings => color !== undefined)
+            .some((color: mtgColorStrings) =>
+                allColorsFromCards.includes(color),
+            );
+        console.log(
+            'useEffect for color identity - Invalid color identity check',
+            currentColorIdentity,
+            allColorsFromCards,
+            invalidColorIdentity,
         );
 
         if (invalidColorIdentity) {
             console.log(
-                "Selected cards do not match the deck's color identity", selectedCards, currentColorIdentity,
+                "Selected cards do not match the deck's color identity",
+                selectedCards,
+                currentColorIdentity,
             );
             setError(
                 'cards',
                 "Selected cards do not match the deck's color identity",
             );
+        } else {
+            clearErrors('cards');
         }
-    }, [selectedCards, selectedCommanders]);
+    }, [selectedCards, currentColorIdentity]);
+
+    useEffect(() => {
+        if (errors.name || errors.cards || errors.commanders) {
+            setDisableSubmitButton(true);
+        } else {
+            setDisableSubmitButton(false);
+        }
+    }, [errors]);
 
     const validate = () => {
         if (!data.name) {
@@ -190,9 +231,16 @@ const DeckModalContent = ({
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         console.log('submitting', e);
-
         validate();
-
+        if (errors.name || errors.cards || errors.commanders) {
+            console.log('Form has errors. Skipping submission.');
+            return;
+        }
+        if (!isFormEdited) {
+            console.log('Form has not been edited. Skipping submission.');
+            closeForm();
+            return;
+        }
         if (creating) {
             post(route('decks.store'), {
                 data,
@@ -220,12 +268,6 @@ const DeckModalContent = ({
                 },
             });
         } else if (!creating) {
-            if (!isFormEdited) {
-                console.log('Form has not been edited. Skipping submission.');
-                closeForm();
-                return;
-            }
-
             patch(route('decks.update', deck?.id), {
                 data,
                 preserveScroll: true,
@@ -261,7 +303,6 @@ const DeckModalContent = ({
                 {isEditing ? (
                     <form
                         onSubmit={onSubmit}
-                        onChange={() => validateColorIdentity()}
                         className="flex w-full flex-col items-center gap-4"
                     >
                         <div className="relative flex w-full flex-wrap">
@@ -295,7 +336,7 @@ const DeckModalContent = ({
                     processing={processing}
                     removeAction={removeCommander}
                     searchingForCommanders={true}
-                    colorIdentity={deck?.color_identity}
+                    commanderColorIdentity={currentColorIdentity}
                 />
                 <DeckCardSearch
                     isSearching={isEditing}
@@ -304,7 +345,7 @@ const DeckModalContent = ({
                     processing={processing}
                     removeAction={removeCard}
                     searchingForCommanders={false}
-                    colorIdentity={deck?.color_identity}
+                    commanderColorIdentity={currentColorIdentity}
                 />
                 <div className="absolute bottom-4 shrink-0">
                     {creating ? (
@@ -331,7 +372,7 @@ const DeckModalContent = ({
                                         e.preventDefault(); // Prevent default button behavior
                                         onSubmit(e); // Trigger the form submission
                                     }}
-                                    disabled={processing}
+                                    disabled={processing || DisableSubmitButton}
                                     className="border border-solid border-black bg-black px-3 py-2"
                                 >
                                     Save

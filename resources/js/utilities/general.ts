@@ -74,8 +74,9 @@ export const randFromRange = (min: number | undefined, max: number) => {
 
 export const getColorIdentityFromCommanders = (
     commanders: CardDataType[],
-): (mtgColorStrings | undefined)[] => {
+): mtgColorStrings[] => {
     if (!commanders || commanders.length === 0) {
+        console.log('No commanders found');
         return [];
     }
 
