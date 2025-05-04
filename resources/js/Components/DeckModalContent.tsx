@@ -42,17 +42,8 @@ const DeckModalContent = ({
     useEffect(() => {
         const newCommanderColorIdentity =
             getColorIdentityFromCommanders(selectedCommanders);
-        console.log(
-            'commanders CHanged',
-            selectedCommanders,
-            newCommanderColorIdentity,
-        );
         setCurrentColorIdentity(newCommanderColorIdentity);
     }, [selectedCommanders]);
-
-    useEffect(() => {
-        console.log('currentColorIdentity changed to:', currentColorIdentity);
-    }, [currentColorIdentity]);
 
     const {
         data,
@@ -84,7 +75,6 @@ const DeckModalContent = ({
     };
 
     const handleCommanderSelect = (results: CardDataType[] | []) => {
-        console.log('handleCommanderSelect', results);
         if (!isFormEdited) setIsFormEdited(true);
         if (results === undefined || results.length == 0) return;
 
@@ -98,13 +88,11 @@ const DeckModalContent = ({
         } else {
             uniqueOutput = [...results];
         }
-        // uniqueOutput.sort((a, b) => a.id - b.id);
         setSelectedCommanders(uniqueOutput); // Update selectedCommanders instead of selectedCards
         setData('commanders', uniqueOutput); // Update commanders in the form state
     };
 
     const handleCardSelect = (results: CardDataType[] | []) => {
-        console.log('handleCardSelect', results);
         if (!isFormEdited) setIsFormEdited(true);
         if (results === undefined || results.length == 0) return;
 
@@ -118,7 +106,6 @@ const DeckModalContent = ({
         } else {
             uniqueOutput = [...results];
         }
-        // uniqueOutput.sort((a, b) => a.id - b.id);
         setSelectedCards(uniqueOutput);
         setData('cards', uniqueOutput); // Update cards in the form state
     };
@@ -148,19 +135,8 @@ const DeckModalContent = ({
             .some((color: mtgColorStrings) =>
                 allColorsFromCards.includes(color),
             );
-        console.log(
-            'useEffect for color identity - Invalid color identity check',
-            currentColorIdentity,
-            allColorsFromCards,
-            invalidColorIdentity,
-        );
-
+ 
         if (invalidColorIdentity) {
-            console.log(
-                "Selected cards do not match the deck's color identity",
-                selectedCards,
-                currentColorIdentity,
-            );
             setError(
                 'cards',
                 "Selected cards do not match the deck's color identity",
@@ -230,7 +206,6 @@ const DeckModalContent = ({
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log('submitting', e);
         validate();
         if (errors.name || errors.cards || errors.commanders) {
             console.log('Form has errors. Skipping submission.');
