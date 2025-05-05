@@ -1,4 +1,5 @@
-import { CardDataType } from '@/types/mtg';
+import { CardDataType, mtgColorStrings } from '@/types/mtg';
+import { useCallback } from 'react';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
 
@@ -9,6 +10,11 @@ type Props = {
     processing: boolean;
     removeAction: (card: CardDataType) => void;
     searchingForCommanders: boolean;
+    commanderColorIdentity: mtgColorStrings[];
+};
+
+type CardDataTypeWithInvalidColor = CardDataType & {
+    isInvalidColor: boolean;
 };
 
 const DeckCardSearch = ({
@@ -18,7 +24,19 @@ const DeckCardSearch = ({
     processing,
     removeAction,
     searchingForCommanders,
+    commanderColorIdentity,
 }: Props) => {
+    const validateCardColors = useCallback(() => {
+        return cards.map((card) => {
+            const isInvalidColor =
+                !searchingForCommanders &&
+                !commanderColorIdentity.some((color) =>
+                    card.colorIdentity?.includes(color),
+                );
+            return { ...card, isInvalidColor };
+        });
+    }, [cards, commanderColorIdentity]);
+    const cardsToDisplay = validateCardColors();
     return (
         <>
             {isSearching && (
@@ -39,21 +57,27 @@ const DeckCardSearch = ({
                 ></Searchbar>
             )}
 
-            {cards.length > 0 && (
+            {cardsToDisplay.length > 0 && (
                 <>
                     <ul className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
-                        {cards.map((card) => (
-                            <li key={`selectedcard-${card.id}`} className="m-1">
-                                <NametagButton
-                                    aria-label={`remove ${card.name} from deck`}
-                                    disabled={processing || !isSearching}
-                                    onClick={() => removeAction(card)}
-                                    showClose={processing || isSearching}
+                        {cardsToDisplay.map((card) => {
+                            return (
+                                <li
+                                    key={`selectedcard-${card.id}`}
+                                    className="m-1"
                                 >
-                                    {card.name}
-                                </NametagButton>
-                            </li>
-                        ))}
+                                    <NametagButton
+                                        aria-label={`remove ${card.name} from deck`}
+                                        disabled={processing || !isSearching}
+                                        onClick={() => removeAction(card)}
+                                        showClose={processing || isSearching}
+                                        invalid={card.isInvalidColor}
+                                    >
+                                        {card.name}
+                                    </NametagButton>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </>
             )}

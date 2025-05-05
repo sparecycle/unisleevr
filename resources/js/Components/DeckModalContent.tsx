@@ -1,7 +1,8 @@
-import { Deck } from '@/types/deck';
+import { Deck } from '@/types/mtg';
+import { getColorIdentityFromCommanders } from '@/utilities/general';
 import { useForm, usePage } from '@inertiajs/react';
-import { FormEvent, useState } from 'react';
-import { CardDataType } from '../types/mtg';
+import { FormEvent, useEffect, useState } from 'react';
+import { CardDataType, mtgColorStrings } from '../types/mtg';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
 import DeckCardSearch from './DeckCardSearch';
@@ -9,7 +10,7 @@ import Input from './Input';
 import { useToast } from './Toast/ToastContext';
 
 type DeckModalContentProps = {
-    deck?: Deck;
+    deck: Deck;
     creating?: boolean;
     onClose: () => void;
     onDeckUpdated?: (updatedDeck: Deck) => void; // Add the callback prop
@@ -24,6 +25,7 @@ const DeckModalContent = ({
     const { openToast } = useToast();
     const { auth } = usePage().props;
     const [isEditing, setIsEditing] = useState(creating ?? false);
+    const [disableSubmitButton, setDisableSubmitButton] = useState(false);
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
     );
@@ -31,6 +33,17 @@ const DeckModalContent = ({
         CardDataType[]
     >(deck?.commanders || []);
     const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
+    const initialCommanderColorIdentity =
+        getColorIdentityFromCommanders(selectedCommanders);
+    const [currentColorIdentity, setCurrentColorIdentity] = useState<
+        mtgColorStrings[]
+    >(initialCommanderColorIdentity);
+
+    useEffect(() => {
+        const newCommanderColorIdentity =
+            getColorIdentityFromCommanders(selectedCommanders);
+        setCurrentColorIdentity(newCommanderColorIdentity);
+    }, [selectedCommanders]);
 
     const {
         data,
@@ -75,7 +88,6 @@ const DeckModalContent = ({
         } else {
             uniqueOutput = [...results];
         }
-        // uniqueOutput.sort((a, b) => a.id - b.id);
         setSelectedCommanders(uniqueOutput); // Update selectedCommanders instead of selectedCards
         setData('commanders', uniqueOutput); // Update commanders in the form state
     };
@@ -94,7 +106,6 @@ const DeckModalContent = ({
         } else {
             uniqueOutput = [...results];
         }
-        // uniqueOutput.sort((a, b) => a.id - b.id);
         setSelectedCards(uniqueOutput);
         setData('cards', uniqueOutput); // Update cards in the form state
     };
@@ -115,6 +126,34 @@ const DeckModalContent = ({
         setData('commanders', updatedCommanders);
     };
 
+    useEffect(() => {
+        const allColorsFromCards = selectedCards.flatMap(
+            (card) => card.colorIdentity,
+        );
+        const invalidColorIdentity = !currentColorIdentity
+            .filter((color): color is mtgColorStrings => color !== undefined)
+            .some((color: mtgColorStrings) =>
+                allColorsFromCards.includes(color),
+            );
+ 
+        if (invalidColorIdentity) {
+            setError(
+                'cards',
+                "Selected cards do not match the deck's color identity",
+            );
+        } else {
+            clearErrors('cards');
+        }
+    }, [selectedCards, currentColorIdentity]);
+
+    useEffect(() => {
+        if (errors.name || errors.cards || errors.commanders) {
+            setDisableSubmitButton(true);
+        } else {
+            setDisableSubmitButton(false);
+        }
+    }, [errors]);
+
     const validate = () => {
         if (!data.name) {
             setError('name', 'Name is required');
@@ -132,12 +171,14 @@ const DeckModalContent = ({
             setError('commanders', 'No more than three commanders are allowed');
             return false;
         }
+
         clearErrors(); // Clear previous errors
 
         return true;
     };
 
     const renderErrors = () => {
+        console.log('errors', errors);
         if (!recentlySuccessful) {
             return (
                 <p>
@@ -165,10 +206,16 @@ const DeckModalContent = ({
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log('submitting', e);
-
         validate();
-
+        if (errors.name || errors.cards || errors.commanders) {
+            console.log('Form has errors. Skipping submission.');
+            return;
+        }
+        if (!isFormEdited) {
+            console.log('Form has not been edited. Skipping submission.');
+            closeForm();
+            return;
+        }
         if (creating) {
             post(route('decks.store'), {
                 data,
@@ -196,12 +243,6 @@ const DeckModalContent = ({
                 },
             });
         } else if (!creating) {
-            if (!isFormEdited) {
-                console.log('Form has not been edited. Skipping submission.');
-                closeForm();
-                return;
-            }
-
             patch(route('decks.update', deck?.id), {
                 data,
                 preserveScroll: true,
@@ -270,6 +311,7 @@ const DeckModalContent = ({
                     processing={processing}
                     removeAction={removeCommander}
                     searchingForCommanders={true}
+                    commanderColorIdentity={currentColorIdentity}
                 />
                 <DeckCardSearch
                     isSearching={isEditing}
@@ -278,6 +320,7 @@ const DeckModalContent = ({
                     processing={processing}
                     removeAction={removeCard}
                     searchingForCommanders={false}
+                    commanderColorIdentity={currentColorIdentity}
                 />
                 <div className="absolute bottom-4 shrink-0">
                     {creating ? (
@@ -304,7 +347,7 @@ const DeckModalContent = ({
                                         e.preventDefault(); // Prevent default button behavior
                                         onSubmit(e); // Trigger the form submission
                                     }}
-                                    disabled={processing}
+                                    disabled={processing || disableSubmitButton}
                                     className="border border-solid border-black bg-black px-3 py-2"
                                 >
                                     Save
