@@ -25,7 +25,7 @@ const DeckModalContent = ({
     const { openToast } = useToast();
     const { auth } = usePage().props;
     const [isEditing, setIsEditing] = useState(creating ?? false);
-    const [DisableSubmitButton, setDisableSubmitButton] = useState(false);
+    const [disableSubmitButton, setDisableSubmitButton] = useState(false);
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
     );
@@ -347,7 +347,7 @@ const DeckModalContent = ({
                                         e.preventDefault(); // Prevent default button behavior
                                         onSubmit(e); // Trigger the form submission
                                     }}
-                                    disabled={processing || DisableSubmitButton}
+                                    disabled={processing || disableSubmitButton}
                                     className="border border-solid border-black bg-black px-3 py-2"
                                 >
                                     Save
