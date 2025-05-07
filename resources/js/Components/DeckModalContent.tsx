@@ -135,7 +135,7 @@ const DeckModalContent = ({
             .some((color: mtgColorStrings) =>
                 allColorsFromCards.includes(color),
             );
- 
+
         if (invalidColorIdentity) {
             setError(
                 'cards',
