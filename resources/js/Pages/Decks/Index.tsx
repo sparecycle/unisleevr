@@ -161,7 +161,7 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
         setActiveDeck(null);
         setIsCreating(false);
         setDeletingDeck(null);
-        console.log('Closing modal', activeDeck, isCreating, deletingDeck);
+        // Removed debugging console.log statement for production cleanliness.
     };
 
     return (
