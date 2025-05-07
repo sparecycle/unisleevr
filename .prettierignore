@@ -2,3 +2,5 @@
 vendor/**
 storage/**
 bootstrap/app.php
+public/index.php
+artisan
