@@ -1,14 +1,12 @@
 import { CardDataType, CardsWithDecks } from '@/types/mtg';
 import MTGCard from './MTGCard';
+import { isCardWithDecks } from '@/utilities/general';
 
 type Props = {
     cards: CardsWithDecks[] | CardDataType[];
     showDecks?: boolean;
     parentDelete?: (card: CardDataType | CardsWithDecks) => void | null;
 };
-function isCardWithDecks(card: CardsWithDecks | CardDataType): card is CardsWithDecks {
-  return 'decks' in card;
-}
 const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
     return (
         <>
