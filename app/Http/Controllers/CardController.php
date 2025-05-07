@@ -12,15 +12,15 @@ use Inertia\Response;
 
 class CardController extends Controller
 {
-    public function index(): Response 
+    public function index(): Response
     {
         $userId = Auth::id();
-        
+
         list($allCards, $decks) = getCardPoolAndDecksFromUserID($userId);
 
         return Inertia::render('Cards/Index', [
             'cards' => $allCards,
-            'decks' => $decks
+            'decks' => $decks,
         ]);
     }
 

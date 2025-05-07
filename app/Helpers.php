@@ -77,25 +77,34 @@ function getCardPoolAndDecksFromUserID($userID)
 
 function generateRandomCommander()
 {
-    $colorlessCommanderData = [[
-        'cardSuperType' => ['Legendary', 'Creature'],
-        'cardType' => ['Eldrazi'],
-        'colorIdentity' => [],
-        'id' => 'd27cf7b7-7982-46bd-a559-7789c0e74bae',
-        'imgUris' => [
-            'art_crop' => 'https://cards.scryfall.io/art_crop/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
-            'border_crop' => 'https://cards.scryfall.io/border_crop/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
-            'large' => 'https://cards.scryfall.io/large/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
-            'normal' => 'https://cards.scryfall.io/normal/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
-            'png' => 'https://cards.scryfall.io/png/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.png?1673146904',
-            'small' => 'https://cards.scryfall.io/small/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+    $colorlessCommanderData = [
+        [
+            'cardSuperType' => ['Legendary', 'Creature'],
+            'cardType' => ['Eldrazi'],
+            'colorIdentity' => [],
+            'id' => 'd27cf7b7-7982-46bd-a559-7789c0e74bae',
+            'imgUris' => [
+                'art_crop' =>
+                    'https://cards.scryfall.io/art_crop/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+                'border_crop' =>
+                    'https://cards.scryfall.io/border_crop/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+                'large' =>
+                    'https://cards.scryfall.io/large/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+                'normal' =>
+                    'https://cards.scryfall.io/normal/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+                'png' =>
+                    'https://cards.scryfall.io/png/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.png?1673146904',
+                'small' =>
+                    'https://cards.scryfall.io/small/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1673146904',
+            ],
+            'manaCost' => ['{10}'],
+            'name' => 'Kozilek, Butcher of Truth',
+            'oracleText' =>
+                "When you cast this spell, draw four cards.\nAnnihilator 4 (Whenever this creature attacks, defending player sacrifices four permanents of their choice.)\nWhen Kozilek is put into a graveyard from anywhere, its owner shuffles their graveyard into their library.",
+            'power' => '12',
+            'toughness' => '12',
         ],
-        'manaCost' => ['{10}'],
-        'name' => 'Kozilek, Butcher of Truth',
-        'oracleText' => "When you cast this spell, draw four cards.\nAnnihilator 4 (Whenever this creature attacks, defending player sacrifices four permanents of their choice.)\nWhen Kozilek is put into a graveyard from anywhere, its owner shuffles their graveyard into their library.",
-        'power' => '12',
-        'toughness' => '12',
-    ]];
+    ];
 
     $monoCommanderData = [
         [

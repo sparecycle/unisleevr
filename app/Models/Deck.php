@@ -16,7 +16,7 @@ class Deck extends Model
         'name',
         'cards',
         'user_id', // Add user_id to fillable properties
-        'commanders'
+        'commanders',
     ];
 
     protected $casts = [
@@ -33,7 +33,4 @@ class Deck extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }
-
-

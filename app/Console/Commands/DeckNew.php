@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\Deck;
 use Illuminate\Console\Command;
 
-
 class DeckNew extends Command
 {
     /**
@@ -42,7 +41,7 @@ class DeckNew extends Command
             $deck->cards = $deckCards; // Save cards as JSON string
             $deck->save();
 
-            $this->info("Saved.");
+            $this->info('Saved.');
         }
 
         return 0;
