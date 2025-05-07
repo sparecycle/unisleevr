@@ -1,8 +1,7 @@
-import { Deck } from '@/types/mtg';
+import { Deck, CardDataType, mtgColorStrings } from '@/types/mtg';
 import { getColorIdentityFromCommanders } from '@/utilities/general';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
-import { CardDataType, mtgColorStrings } from '../types/mtg';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
 import DeckCardSearch from './DeckCardSearch';

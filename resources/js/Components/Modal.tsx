@@ -13,11 +13,13 @@ export default function Modal({
     maxWidth = '2xl',
     closeable = true,
     onClose = () => {},
+    dynamicHeight = false,
 }: PropsWithChildren<{
     show: boolean;
     maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
     closeable?: boolean;
     onClose: CallableFunction;
+    dynamicHeight?: boolean;
 }>) {
     const close = () => {
         if (closeable) {
@@ -63,7 +65,7 @@ export default function Modal({
                     <DialogPanel
                         className={`mb-6 w-full transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 dark:text-white ${maxWidthClass}`}
                     >
-                        <div className="relative flex h-[80vh] flex-col bg-zinc-900 px-4 pb-6 pt-11">
+                        <div className={`relative flex ${dynamicHeight ? 'h-auto' : 'h-[80vh]'} flex-col bg-zinc-900 px-4 pb-6 pt-11`}>
                             <button
                                 onClick={close}
                                 className="absolute right-0 top-0 p-2 text-2xl text-zinc-900 hover:text-zinc-100 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:text-zinc-200 dark:hover:text-zinc-500"
