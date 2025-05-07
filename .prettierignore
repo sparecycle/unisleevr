@@ -1,3 +1,4 @@
 *.json
 vendor/**
 storage/**
+bootstrap/app.php
