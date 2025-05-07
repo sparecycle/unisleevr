@@ -46,6 +46,5 @@ class DeckCardSeeder extends Seeder
                 'b2af9184-df81-413b-abcf-331c4471e6d4', // Hornet Queen
             ]);
         }
-
     }
 }

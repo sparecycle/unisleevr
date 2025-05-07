@@ -19,7 +19,11 @@ it('creates a deck', function () {
             ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
         ],
         'commanders' => [
-            ['id' => 1, 'name' => 'Commander A', 'type' => 'Legendary Creature'],
+            [
+                'id' => 1,
+                'name' => 'Commander A',
+                'type' => 'Legendary Creature',
+            ],
             ['id' => 2, 'name' => 'Commander B', 'type' => 'Planeswalker'],
         ],
     ];
@@ -46,7 +50,9 @@ it('lists decks on the index route', function () {
     $user = User::factory()->create();
     $this->actingAs($user);
 
-    Deck::factory()->count(3)->create(['user_id' => $user->id]);
+    Deck::factory()
+        ->count(3)
+        ->create(['user_id' => $user->id]);
 
     $response = $this->get(route('decks.index'));
 
@@ -67,7 +73,11 @@ it('updates a deck', function () {
             ['id' => 2, 'name' => 'Card D', 'type' => 'Spell'],
         ],
         'commanders' => [
-            ['id' => 1, 'name' => 'Commander C', 'type' => 'Legendary Creature'],
+            [
+                'id' => 1,
+                'name' => 'Commander C',
+                'type' => 'Legendary Creature',
+            ],
             ['id' => 2, 'name' => 'Commander D', 'type' => 'Planeswalker'],
         ],
     ];

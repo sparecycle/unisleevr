@@ -1,5 +1,4 @@
-
-import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
+import { CardDataType, CardsWithDecks } from '@/types/mtg';
 import { router } from '@inertiajs/react';
 import { Dispatch, SetStateAction } from 'react';
 

@@ -1,6 +1,6 @@
 import { CardDataType, CardsWithDecks } from '@/types/mtg';
-import MTGCard from './MTGCard';
 import { isCardWithDecks } from '@/utilities/general';
+import MTGCard from './MTGCard';
 
 type Props = {
     cards: CardsWithDecks[] | CardDataType[];
@@ -28,7 +28,11 @@ const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
                             onDelete={() => {
                                 if (parentDelete) parentDelete(card);
                             }}
-                            decks={showDecks && isCardWithDecks(card) ? card.decks : []}
+                            decks={
+                                showDecks && isCardWithDecks(card)
+                                    ? card.decks
+                                    : []
+                            }
                         ></MTGCard>
                     </div>
                 ))}

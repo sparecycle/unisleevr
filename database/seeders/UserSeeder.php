@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-            'name' => 'Jordan',
-            'email' => 'jordan@addwonder.com',
-            'password' => bcrypt('password'),
-            ]
+                'name' => 'Jordan',
+                'email' => 'jordan@addwonder.com',
+                'password' => bcrypt('password'),
+            ],
         ];
         foreach ($users as $user) {
             User::updateOrCreate(

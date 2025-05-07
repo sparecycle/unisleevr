@@ -20,12 +20,18 @@ class DeckFactory extends Factory
         return [
             'name' => $this->faker->words(3, true), // Generate a random deck name
             'user_id' => User::factory(), // Associate with a user
-            'cards' => [ // Store cards as an array
+            'cards' => [
+                // Store cards as an array
                 ['id' => 1, 'name' => 'Card A', 'type' => 'Creature'],
                 ['id' => 2, 'name' => 'Card B', 'type' => 'Spell'],
             ],
-            'commanders' => [ // Store commanders as an array
-                ['id' => 1, 'name' => 'Commander A', 'type' => 'Legendary Creature'],
+            'commanders' => [
+                // Store commanders as an array
+                [
+                    'id' => 1,
+                    'name' => 'Commander A',
+                    'type' => 'Legendary Creature',
+                ],
                 ['id' => 2, 'name' => 'Commander B', 'type' => 'Planeswalker'],
             ],
         ];
