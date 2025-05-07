@@ -1,7 +1,6 @@
-import { Deck } from '@/types/deck';
+import { CardDataType, Deck } from '@/types/mtg';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
-import { CardDataType } from '../types/mtg';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
 import DeckCardSearch from './DeckCardSearch';

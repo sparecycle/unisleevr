@@ -1,8 +1,10 @@
 import ButtonShelf from '@/Components/ButtonShelf';
+import DangerButton from '@/Components/DangerButton';
 import DeckModalContent from '@/Components/DeckModalContent';
 import DeckTile from '@/Components/DeckTile';
 import Modal from '@/Components/Modal';
 import PageTitle from '@/Components/PageTitle';
+import SecondaryButton from '@/Components/SecondaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck, mtgColorStrings } from '@/types/mtg';
 import { debounce, getColorIdentityFromCommanders } from '@/utilities/general';
@@ -31,7 +33,7 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
             return { ...deck, color_identity: colorIdentity };
         });
     }, [decks.data]);
-
+    const [deletingDeck, setDeletingDeck] = useState<null | Deck>(null);
     const [isCreating, setIsCreating] = useState(false);
     const [activeDeck, setActiveDeck] = useState<null | Deck>(null);
     const [decksToDisplay, setDecksToDisplay] = useState<Deck[]>(
@@ -109,13 +111,18 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
     }, [decksToDisplay.length]);
 
     const handleOnDelete = (id: number) => {
+        setDeletingDeck(decksToDisplay.find((deck) => deck.id === id) || null);
+    };
+
+    const deleteDeck = (id: number) => {
         router.delete(route('decks.destroy', id), {
-            preserveScroll: true, // Prevents the page from scrolling to the top
+            preserveScroll: true,
             onSuccess: () => {
                 console.log(`Deck ${id} deleted successfully`);
                 setDecksToDisplay((prevDecks) =>
                     prevDecks.filter((deck) => deck.id !== id),
                 );
+                handleCloseModal();
             },
             onError: (errors) => {
                 console.error(errors);
@@ -153,6 +160,8 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
     const handleCloseModal = () => {
         setActiveDeck(null);
         setIsCreating(false);
+        setDeletingDeck(null);
+        console.log('Closing modal', activeDeck, isCreating, deletingDeck);
     };
 
     return (
@@ -196,9 +205,33 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
                 </div>
             </div>
             <Modal
-                show={activeDeck !== null || isCreating}
+                show={
+                    activeDeck !== null || isCreating || deletingDeck !== null
+                }
+                dynamicHeight={deletingDeck !== null}
                 onClose={() => handleCloseModal()}
             >
+                {deletingDeck && (
+                    <div className="flex h-full flex-col items-center justify-between">
+                        <p className="mb-4 text-center text-lg">
+                            Are you sure you want to delete "
+                            <span className="font-semibold">
+                                {deletingDeck.name}
+                            </span>
+                            "?
+                        </p>
+                        <div className="flex w-full justify-center gap-2">
+                            <DangerButton
+                                onClick={() => deleteDeck(deletingDeck.id)}
+                            >
+                                Delete
+                            </DangerButton>
+                            <SecondaryButton onClick={() => handleCloseModal()}>
+                                Cancel
+                            </SecondaryButton>
+                        </div>
+                    </div>
+                )}
                 {isCreating && (
                     <DeckModalContent
                         creating={isCreating}
