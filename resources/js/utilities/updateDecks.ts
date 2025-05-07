@@ -25,6 +25,7 @@ const updateDecks = (
         id: deck.id,
         name: deck.name,
         cards: actions[action](deck, card),
+        commanders: deck.commanders
     }));
     router.put(
         route('decks.update-batch'),
