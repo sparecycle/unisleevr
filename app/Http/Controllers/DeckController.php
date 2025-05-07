@@ -160,7 +160,7 @@ class DeckController extends Controller
                 return response()->json(['message' => 'Decks updated successfully']);
             }
 
-            return redirect(route('cards.index'))->with([
+            return redirect()->back()->with([
                 'success' => 'Decks updated successfully!',
             ]);
         } catch (\Exception $e) {

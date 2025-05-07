@@ -1,8 +1,9 @@
 import { CardDataType, CardsWithDecks } from '@/types/mtg';
 import MTGCard from './MTGCard';
+import { isCardWithDecks } from '@/utilities/general';
 
 type Props = {
-    cards: CardsWithDecks[];
+    cards: CardsWithDecks[] | CardDataType[];
     showDecks?: boolean;
     parentDelete?: (card: CardDataType | CardsWithDecks) => void | null;
 };
@@ -11,7 +12,7 @@ const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
         <>
             {cards
                 .sort((a, b) => a.name.localeCompare(b.name))
-                .map((card: CardsWithDecks) => (
+                .map((card) => (
                     <div key={`${card.id}`}>
                         <MTGCard
                             id={card.id}
@@ -27,7 +28,7 @@ const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
                             onDelete={() => {
                                 if (parentDelete) parentDelete(card);
                             }}
-                            decks={showDecks ? card.decks : []}
+                            decks={showDecks && isCardWithDecks(card) ? card.decks : []}
                         ></MTGCard>
                     </div>
                 ))}
