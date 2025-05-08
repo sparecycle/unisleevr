@@ -12,8 +12,12 @@ type Props = {
 export default function Deck({ deck }: Props) {
     const user = usePage().props.auth.user;
     const handleCardDelete = (card: CardsWithDecks | CardDataType) => {
-        console.log(deck);
-        updateDecks([deck], user.id, card, () => {}, 'remove');
+        updateDecks({
+            decks: [deck],
+            user_id: user.id,
+            card,
+            action: 'remove',
+        });
     };
     return (
         <AuthenticatedLayout header={<PageTitle>{deck.name}</PageTitle>}>
