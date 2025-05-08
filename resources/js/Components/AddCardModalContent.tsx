@@ -1,6 +1,6 @@
 import { Deck } from '@/types/deck';
 import { CardDataType } from '@/types/mtg';
-import updateDecks, {addCard} from '@/utilities/updateDecks';
+import updateDecks, { addCard } from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import useBreakpoint from 'use-breakpoint';
@@ -55,7 +55,9 @@ const AddCardModalContent = ({ decks, cardpool, modalClose }: Props) => {
             updateDecks({
                 decks: selectedDecks,
                 user_id: auth.user.id,
-                cards: selectedDecks.map(deck=>addCard(deck,selectedCard as CardDataType))[0],
+                cards: selectedDecks.map((deck) =>
+                    addCard(deck, selectedCard as CardDataType),
+                )[0],
                 parentSetter: setSubmitted,
             });
         } catch (error) {

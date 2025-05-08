@@ -1,5 +1,5 @@
 import { CardsWithDecks, Deck } from '@/types/mtg';
-import updateDecks,{removeCard} from '@/utilities/updateDecks';
+import updateDecks, { removeCard } from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Button from './Button';
@@ -39,8 +39,8 @@ const RemoveCardModalContent = ({ card, modalClose }: Props) => {
             updateDecks({
                 decks: selectedDecks,
                 user_id: auth.user.id,
-                cards: selectedDecks.map(deck=>removeCard(deck, card))[0],
-                parentSetter: setSubmitted
+                cards: selectedDecks.map((deck) => removeCard(deck, card))[0],
+                parentSetter: setSubmitted,
             });
         } catch (error) {
             console.error('One of the promises failed:', error);
