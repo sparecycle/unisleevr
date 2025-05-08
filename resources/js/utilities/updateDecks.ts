@@ -1,12 +1,13 @@
 import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
 import { router } from '@inertiajs/react';
+import { Dispatch, SetStateAction } from 'react';
 
 type UpdateDecks = {
     decks: Deck[];
     user_id: number;
     card?: CardDataType | CardsWithDecks;
     commanders?: CardDataType | CardsWithDecks;
-    parentSetter?: () => void;
+    parentSetter?: Dispatch<SetStateAction<boolean>>;
     action: 'add' | 'remove';
 };
 
