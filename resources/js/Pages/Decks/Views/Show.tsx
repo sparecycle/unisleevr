@@ -1,17 +1,22 @@
 import CardList from '@/Components/CardList';
-import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
+import { CardDataType, CardsWithDecks, Deck as DeckProps} from '@/types/mtg';
 import updateDecks from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
+import { useToast } from '@/Components/Toast/ToastContext';
 
 type Props = {
-    deck: Deck;
+    deck: DeckProps;
 };
 
 const Show = ({ deck }: Props) => {
     const user = usePage().props.auth.user;
+    const { openToast } = useToast();
     const handleCardDelete = (card: CardsWithDecks | CardDataType) => {
-        console.log(deck);
+        if(deck.cards.length > 1) {
         updateDecks([deck], user.id, card, () => {}, 'remove');
+        } else {
+           openToast('Deck needs at least one card.', 'error');
+        }
     };
     return (
         <div className="container mx-auto px-3 py-4">
