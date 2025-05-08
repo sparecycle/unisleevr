@@ -2,17 +2,20 @@ import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
 import { router } from '@inertiajs/react';
 import { Dispatch, SetStateAction } from 'react';
 
-const updateDecks = (
-    decks: Deck[],
-    user_id: number,
-    card: CardDataType | CardsWithDecks,
-    parentSetter?: Dispatch<SetStateAction<boolean>>,
-    action: 'add' | 'remove',
-) => {
+type UpdateDecks = {
+    decks: Deck[];
+    user_id: number;
+    card?: CardDataType | CardsWithDecks;
+    commanders?: CardDataType | CardsWithDecks;
+    parentSetter?: Dispatch<SetStateAction<boolean>>;
+    action: 'add' | 'remove';
+};
+
+const updateDecks = (args: UpdateDecks) => {
+    const { decks, user_id, card, parentSetter, action } = args;
     const add = (deck: Deck, card: CardDataType) => {
         return [...deck.cards, card];
     };
-
     const remove = (deck: Deck, card: CardDataType) => {
         return deck.cards.filter((c) => c.id !== card.id);
     };

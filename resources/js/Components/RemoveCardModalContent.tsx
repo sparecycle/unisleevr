@@ -36,13 +36,13 @@ const RemoveCardModalContent = ({ card, modalClose }: Props) => {
     const onSubmit = async () => {
         setSubmitting(true);
         try {
-            updateDecks(
-                selectedDecks,
-                auth.user.id,
-                card as CardsWithDecks,
-                setSubmitted,
-                'remove',
-            );
+            updateDecks({
+                decks: selectedDecks,
+                user_id: auth.user.id,
+                card: card as CardsWithDecks,
+                parentSetter: setSubmitted,
+                action: 'remove',
+            });
         } catch (error) {
             console.error('One of the promises failed:', error);
         }
