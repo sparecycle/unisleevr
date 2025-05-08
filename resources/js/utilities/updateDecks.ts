@@ -6,7 +6,7 @@ export const addCard = (deck: Deck, card: CardDataType | CardsWithDecks) => {
     return [...deck.cards, card];
 };
 
-export const removeRemove = (
+export const removeCard = (
     deck: Deck,
     card: CardDataType | CardsWithDecks,
 ) => {
