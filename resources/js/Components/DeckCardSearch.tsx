@@ -32,7 +32,9 @@ const DeckCardSearch = ({
                 !searchingForCommanders &&
                 !commanderColorIdentity.some((color) =>
                     card.colorIdentity?.includes(color),
-                );
+                ) &&
+                card.colorIdentity !== undefined &&
+                card.colorIdentity.length > 0;
             return { ...card, isInvalidColor };
         });
     }, [cards, commanderColorIdentity]);

@@ -126,16 +126,22 @@ const DeckModalContent = ({
     };
 
     useEffect(() => {
-        const allColorsFromCards = selectedCards.flatMap(
-            (card) => card.colorIdentity,
+        const allUniqueColorsFromCards = Array.from(
+            new Set(selectedCards.flatMap((card) => card.colorIdentity)),
         );
-        const invalidColorIdentity = !currentColorIdentity
-            .filter((color): color is mtgColorStrings => color !== undefined)
-            .some((color: mtgColorStrings) =>
-                allColorsFromCards.includes(color),
-            );
+        const areAnyCardColorsInvalid = allUniqueColorsFromCards.some(
+            (color) => !currentColorIdentity.includes(color),
+        );
+        const invalidColorIdentity =
+            allUniqueColorsFromCards.length > 0
+                ? areAnyCardColorsInvalid
+                : false;
 
-        if (invalidColorIdentity) {
+        if (
+            invalidColorIdentity &&
+            (isFormEdited || isEditing) &&
+            selectedCards.length > 0
+        ) {
             setError(
                 'cards',
                 "Selected cards do not match the deck's color identity",
@@ -143,7 +149,7 @@ const DeckModalContent = ({
         } else {
             clearErrors('cards');
         }
-    }, [selectedCards, currentColorIdentity]);
+    }, [selectedCards, currentColorIdentity, isEditing]);
 
     useEffect(() => {
         if (errors.name || errors.cards || errors.commanders) {
@@ -352,7 +358,14 @@ const DeckModalContent = ({
                                     Save
                                 </Button>
                             )}
-                            <ButtonLink href={`/decks/${deck?.id}`}>
+                            <ButtonLink
+                                href={`/decks/${deck?.id}`}
+                                disabled={processing || disableSubmitButton}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    onSubmit(e);
+                                }}
+                            >
                                 deck details
                             </ButtonLink>
                         </div>

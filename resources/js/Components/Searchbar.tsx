@@ -172,6 +172,14 @@ const Searchbar = ({
                         switch (e.key) {
                             case 'Enter':
                                 e.preventDefault();
+
+                                setUserSearchInput(
+                                    autoCompleteResults[highlightedIndex ?? 0],
+                                );
+                                !highlightedIndex
+                                    ? setHighlightedIndex(0)
+                                    : setHighlightedIndex(null);
+
                                 handleSubmitSearch(
                                     !highlightedIndex
                                         ? userSearchInput
