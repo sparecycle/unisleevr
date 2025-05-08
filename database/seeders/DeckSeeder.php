@@ -17,9 +17,15 @@ class DeckSeeder extends Seeder
         $users = User::all(); // Fetch all users
 
         $decks = [
-            ['name' => 'Verdant be thy name', 'user_email' => 'jordan@addwonder.com'],
+            [
+                'name' => 'Verdant be thy name',
+                'user_email' => 'jordan@addwonder.com',
+            ],
             ['name' => 'Wabbits', 'user_email' => 'jordan@addwonder.com'],
-            ['name' => 'Blessed Bounce', 'user_email' => 'jordan@addwonder.com'],
+            [
+                'name' => 'Blessed Bounce',
+                'user_email' => 'jordan@addwonder.com',
+            ],
         ];
 
         foreach ($decks as $deckData) {

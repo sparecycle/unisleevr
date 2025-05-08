@@ -1,4 +1,4 @@
-import { Deck, CardDataType, mtgColorStrings } from '@/types/mtg';
+import { CardDataType, Deck, mtgColorStrings } from '@/types/mtg';
 import { getColorIdentityFromCommanders } from '@/utilities/general';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';

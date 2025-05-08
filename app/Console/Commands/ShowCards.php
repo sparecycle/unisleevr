@@ -14,18 +14,32 @@ class ShowCards extends Command
     {
         $cards = DB::table('cards')->take(10)->get();
 
-        $this->info("Displaying the first 10 cards:");
-        $this->table(['id', 'name', 'type line', 'color identity','mana cost','power','toughness', 'oracle text'], $cards->map(function ($card) {
-            return [
-                $card->id,
-                $card->name,
-                $card->type_line,
-                $card->color_identity,
-                $card->mana_cost,
-                $card->power,
-                $card->toughness,
-                $card->oracle_text,
-            ];
-        })->toArray());
+        $this->info('Displaying the first 10 cards:');
+        $this->table(
+            [
+                'id',
+                'name',
+                'type line',
+                'color identity',
+                'mana cost',
+                'power',
+                'toughness',
+                'oracle text',
+            ],
+            $cards
+                ->map(function ($card) {
+                    return [
+                        $card->id,
+                        $card->name,
+                        $card->type_line,
+                        $card->color_identity,
+                        $card->mana_cost,
+                        $card->power,
+                        $card->toughness,
+                        $card->oracle_text,
+                    ];
+                })
+                ->toArray()
+        );
     }
 }

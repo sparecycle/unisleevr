@@ -9,13 +9,12 @@ type Props = {
     deck: DeckProps;
 };
 
-
 export default function Deck({ deck }: Props) {
-        const user = usePage().props.auth.user;
-    const handleCardDelete=(card:CardsWithDecks | CardDataType)=> {
-        console.log(deck)
-        updateDecks([deck],user.id, card,()=>{}, 'remove');
-    }
+    const user = usePage().props.auth.user;
+    const handleCardDelete = (card: CardsWithDecks | CardDataType) => {
+        console.log(deck);
+        updateDecks([deck], user.id, card, () => {}, 'remove');
+    };
     return (
         <AuthenticatedLayout header={<PageTitle>{deck.name}</PageTitle>}>
             <div className="container mx-auto px-3 py-4">
@@ -25,7 +24,11 @@ export default function Deck({ deck }: Props) {
                 </div>
                 <h2 className="text-lg font-semibold">Cards</h2>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <CardList cards={deck.cards} showDecks={false} parentDelete={handleCardDelete} />
+                    <CardList
+                        cards={deck.cards}
+                        showDecks={false}
+                        parentDelete={handleCardDelete}
+                    />
                 </div>
             </div>
         </AuthenticatedLayout>

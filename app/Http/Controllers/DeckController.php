@@ -19,9 +19,7 @@ class DeckController extends Controller
      */
     public function index(Request $request)
     {
-        $decks = Deck::query()
-            ->where('user_id', Auth::id())
-            ->paginate(24);
+        $decks = Deck::query()->where('user_id', Auth::id())->paginate(24);
 
         if ($request->wantsJson()) {
             return response()->json(['decks' => $decks]);
@@ -80,10 +78,12 @@ class DeckController extends Controller
         ]);
 
         // Redirect to the decks.index route with the updatedDeck in the session
-        return redirect()->route('decks.index')->with([
-            'success' => 'Deck updated successfully!',
-            'updatedDeck' => $deck, // Store the updated deck in the session
-        ]);
+        return redirect()
+            ->route('decks.index')
+            ->with([
+                'success' => 'Deck updated successfully!',
+                'updatedDeck' => $deck, // Store the updated deck in the session
+            ]);
     }
 
     /**
@@ -92,7 +92,7 @@ class DeckController extends Controller
     public function show(Deck $deck)
     {
         return Inertia::render('Decks/Show', [
-            'deck' => $deck
+            'deck' => $deck,
         ]);
     }
 
@@ -120,10 +120,12 @@ class DeckController extends Controller
         $deck->update($validated);
 
         // Redirect to the decks.index route with the updatedDeck in the session
-        return redirect()->route('decks.index')->with([
-            'success' => 'Deck updated successfully!',
-            'updatedDeck' => $deck, // Store the updated deck in the session
-        ]);
+        return redirect()
+            ->route('decks.index')
+            ->with([
+                'success' => 'Deck updated successfully!',
+                'updatedDeck' => $deck, // Store the updated deck in the session
+            ]);
     }
 
     public function updateDecks(Request $request)
@@ -150,28 +152,39 @@ class DeckController extends Controller
 
                 $deck->update([
                     'name' => $deckData['name'],
-                    'cards' => $deckData['cards']
+                    'cards' => $deckData['cards'],
                 ]);
             }
 
             DB::commit();
 
             if ($request->wantsJson()) {
-                return response()->json(['message' => 'Decks updated successfully']);
+                return response()->json([
+                    'message' => 'Decks updated successfully',
+                ]);
             }
 
-            return redirect()->back()->with([
-                'success' => 'Decks updated successfully!',
-            ]);
+            return redirect()
+                ->back()
+                ->with([
+                    'success' => 'Decks updated successfully!',
+                ]);
         } catch (\Exception $e) {
             // Rollback the transaction on error
             DB::rollBack();
 
             if ($request->wantsJson()) {
-                return response()->json(['error' => 'Failed to update decks: ' . $e->getMessage()], 422);
+                return response()->json(
+                    ['error' => 'Failed to update decks: ' . $e->getMessage()],
+                    422
+                );
             }
 
-            return redirect()->back()->withErrors(['error' => 'Failed to update decks: ' . $e->getMessage()]);
+            return redirect()
+                ->back()
+                ->withErrors([
+                    'error' => 'Failed to update decks: ' . $e->getMessage(),
+                ]);
         }
     }
     /**
