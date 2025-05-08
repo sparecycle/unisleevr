@@ -3,7 +3,6 @@ import { getColorIdentityFromCommanders } from '@/utilities/general';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
 import Button from './Button';
-import ButtonLink from './ButtonLink';
 import DeckCardSearch from './DeckCardSearch';
 import Input from './Input';
 import { useToast } from './Toast/ToastContext';
@@ -209,7 +208,7 @@ const DeckModalContent = ({
         onClose();
     };
 
-    const onSubmit = (e: FormEvent) => {
+    const onSubmit = (e: FormEvent, callback?: () => void) => {
         e.preventDefault();
         validate();
         if (errors.name || errors.cards || errors.commanders) {
@@ -234,6 +233,9 @@ const DeckModalContent = ({
                                 `Deck "${response.props.updatedDeck.name}" created`,
                                 'info',
                             );
+                        }
+                        if (callback) {
+                            callback();
                         }
                     } else {
                         console.warn(
@@ -261,6 +263,9 @@ const DeckModalContent = ({
                             `Deck "${response.props.updatedDeck.name}" updated`,
                             'info',
                         );
+                        if (callback) {
+                            callback();
+                        }
                     } else {
                         console.warn(
                             'Invalid or empty updatedDeck:',
@@ -358,16 +363,17 @@ const DeckModalContent = ({
                                     Save
                                 </Button>
                             )}
-                            <ButtonLink
-                                href={`/decks/${deck?.id}`}
+                            <Button
                                 disabled={processing || disableSubmitButton}
                                 onClick={(e) => {
-                                    e.preventDefault();
-                                    onSubmit(e);
+                                    e.preventDefault(); // Prevent default navigation
+                                    onSubmit(e, () => {
+                                        window.location.href = `/decks/${deck?.id}`; // Navigate to the href
+                                    }); // Wait for onSubmit to resolve
                                 }}
                             >
                                 deck details
-                            </ButtonLink>
+                            </Button>
                         </div>
                     )}
                 </div>
