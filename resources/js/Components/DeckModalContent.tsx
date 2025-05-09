@@ -339,6 +339,7 @@ const DeckModalContent = ({
                                 e.preventDefault(); // Prevent default button behavior
                                 onSubmit(e); // Trigger the form submission
                             }}
+                            disabled={processing || disableSubmitButton}
                         >
                             Create Deck
                         </Button>
@@ -366,10 +367,15 @@ const DeckModalContent = ({
                             <Button
                                 disabled={processing || disableSubmitButton}
                                 onClick={(e) => {
-                                    e.preventDefault(); // Prevent default navigation
-                                    onSubmit(e, () => {
+                                    // TO DO : refactor to use link
+                                    if (isEditing) {
+                                        e.preventDefault(); // Prevent default navigation
+                                        onSubmit(e, () => {
+                                            window.location.href = `/decks/${deck?.id}`; // Navigate to the href
+                                        }); // Wait for onSubmit to resolve
+                                    } else {
                                         window.location.href = `/decks/${deck?.id}`; // Navigate to the href
-                                    }); // Wait for onSubmit to resolve
+                                    }
                                 }}
                             >
                                 deck details
