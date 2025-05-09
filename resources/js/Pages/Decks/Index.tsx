@@ -148,11 +148,11 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
                     deck.id === updatedDeck.id ? updatedDeck : deck,
                 );
             } else {
-                // Append the new deck if it doesn't exist
+                // prepend the new deck if it doesn't exist
                 console.warn(
                     `Deck with id ${updatedDeck.id} not found. Appending to decksToDisplay.`,
                 );
-                return [...prevDecks, updatedDeck];
+                return [updatedDeck, ...prevDecks];
             }
         });
     };

@@ -3,7 +3,6 @@ import { getColorIdentityFromCommanders } from '@/utilities/general';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
 import Button from './Button';
-import ButtonLink from './ButtonLink';
 import DeckCardSearch from './DeckCardSearch';
 import Input from './Input';
 import { useToast } from './Toast/ToastContext';
@@ -126,16 +125,22 @@ const DeckModalContent = ({
     };
 
     useEffect(() => {
-        const allColorsFromCards = selectedCards.flatMap(
-            (card) => card.colorIdentity,
+        const allUniqueColorsFromCards = Array.from(
+            new Set(selectedCards.flatMap((card) => card.colorIdentity)),
         );
-        const invalidColorIdentity = !currentColorIdentity
-            .filter((color): color is mtgColorStrings => color !== undefined)
-            .some((color: mtgColorStrings) =>
-                allColorsFromCards.includes(color),
-            );
+        const areAnyCardColorsInvalid = allUniqueColorsFromCards.some(
+            (color) => !currentColorIdentity.includes(color),
+        );
+        const invalidColorIdentity =
+            allUniqueColorsFromCards.length > 0
+                ? areAnyCardColorsInvalid
+                : false;
 
-        if (invalidColorIdentity) {
+        if (
+            invalidColorIdentity &&
+            (isFormEdited || isEditing) &&
+            selectedCards.length > 0
+        ) {
             setError(
                 'cards',
                 "Selected cards do not match the deck's color identity",
@@ -143,7 +148,7 @@ const DeckModalContent = ({
         } else {
             clearErrors('cards');
         }
-    }, [selectedCards, currentColorIdentity]);
+    }, [selectedCards, currentColorIdentity, isEditing]);
 
     useEffect(() => {
         if (errors.name || errors.cards || errors.commanders) {
@@ -203,7 +208,7 @@ const DeckModalContent = ({
         onClose();
     };
 
-    const onSubmit = (e: FormEvent) => {
+    const onSubmit = (e: FormEvent, callback?: () => void) => {
         e.preventDefault();
         validate();
         if (errors.name || errors.cards || errors.commanders) {
@@ -228,6 +233,9 @@ const DeckModalContent = ({
                                 `Deck "${response.props.updatedDeck.name}" created`,
                                 'info',
                             );
+                        }
+                        if (callback) {
+                            callback();
                         }
                     } else {
                         console.warn(
@@ -255,6 +263,9 @@ const DeckModalContent = ({
                             `Deck "${response.props.updatedDeck.name}" updated`,
                             'info',
                         );
+                        if (callback) {
+                            callback();
+                        }
                     } else {
                         console.warn(
                             'Invalid or empty updatedDeck:',
@@ -328,6 +339,7 @@ const DeckModalContent = ({
                                 e.preventDefault(); // Prevent default button behavior
                                 onSubmit(e); // Trigger the form submission
                             }}
+                            disabled={processing || disableSubmitButton}
                         >
                             Create Deck
                         </Button>
@@ -352,9 +364,22 @@ const DeckModalContent = ({
                                     Save
                                 </Button>
                             )}
-                            <ButtonLink href={`/decks/${deck?.id}`}>
+                            <Button
+                                disabled={processing || disableSubmitButton}
+                                onClick={(e) => {
+                                    // TO DO : refactor to use link
+                                    if (isEditing) {
+                                        e.preventDefault(); // Prevent default navigation
+                                        onSubmit(e, () => {
+                                            window.location.href = `/decks/${deck?.id}`; // Navigate to the href
+                                        }); // Wait for onSubmit to resolve
+                                    } else {
+                                        window.location.href = `/decks/${deck?.id}`; // Navigate to the href
+                                    }
+                                }}
+                            >
                                 deck details
-                            </ButtonLink>
+                            </Button>
                         </div>
                     )}
                 </div>
