@@ -134,7 +134,7 @@ class DeckController extends Controller
             'decks' => 'required|array',
             'decks.*.id' => 'required|exists:decks,id',
             'decks.*.name' => 'required|string|max:255',
-            'decks.*.cards' => 'required|array|min:0',
+            'decks.*.cards' => 'array|min:0',
             'decks.*.commanders' => 'required|array|min:1|max:3',
         ]);
 
@@ -153,6 +153,7 @@ class DeckController extends Controller
                 $deck->update([
                     'name' => $deckData['name'],
                     'cards' => $deckData['cards'],
+                    'commanders' => $deckData['commanders'],
                 ]);
             }
 

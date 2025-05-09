@@ -9,6 +9,14 @@ export const addCard = (deck: Deck, card: CardDataType | CardsWithDecks) => {
 export const removeCard = (deck: Deck, card: CardDataType | CardsWithDecks) => {
     return deck.cards.filter((c) => c.id !== card.id);
 };
+
+export const addCommander = (deck: Deck, card: CardDataType | CardsWithDecks) => {
+    return [...deck.commanders, card];
+};
+
+export const removeCommander = (deck: Deck, card: CardDataType | CardsWithDecks) => {
+    return deck.commanders.filter((c) => c.id !== card.id);
+};
 type UpdateDecks = {
     decks: Deck[];
     user_id: number;
@@ -26,6 +34,7 @@ const updateDecks = (args: UpdateDecks) => {
         cards: !!cards ? cards : deck.cards,
         commanders: !!commanders ? commanders : deck.commanders,
     }));
+    console.log(updatedDecks)
     router.put(
         route('decks.update-batch'),
         { user_id: user_id, decks: updatedDecks },
@@ -33,7 +42,7 @@ const updateDecks = (args: UpdateDecks) => {
             preserveState: true,
             only: [],
             onSuccess: () => {
-                console.log(`Card added to decks`);
+                console.log(`Card updated to decks`);
                 if (parentSetter) {
                     parentSetter(true);
                 }

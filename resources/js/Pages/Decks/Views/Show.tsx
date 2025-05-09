@@ -1,7 +1,7 @@
 import CardList from '@/Components/CardList';
 import { useToast } from '@/Components/Toast/ToastContext';
 import { CardDataType, CardsWithDecks, Deck as DeckProps } from '@/types/mtg';
-import updateDecks, { removeCard } from '@/utilities/updateDecks';
+import updateDecks, { removeCard, removeCommander } from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 
 type Props = {
@@ -12,11 +12,11 @@ const Show = ({ deck }: Props) => {
     const user = usePage().props.auth.user;
     const { openToast } = useToast();
     const handleCommanderDelete = (card: CardsWithDecks | CardDataType) => {
-        if (deck.cards.length > 1) {
+        if (deck.commanders.length > 1) {
             updateDecks({
                 decks: [deck],
                 user_id: user.id,
-                commanders: removeCard(deck, card),
+                commanders: removeCommander(deck, card),
             });
         } else {
             openToast('Deck needs at least one Commander.', 'error');
