@@ -4,6 +4,7 @@ import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
 import Button from './Button';
 import DeckCardSearch from './DeckCardSearch';
+import DeckCommanderSearch from './DeckCommanderSearch';
 import Input from './Input';
 import { useToast } from './Toast/ToastContext';
 
@@ -314,13 +315,12 @@ const DeckModalContent = ({
                         )}
                     </div>
                 )}
-                <DeckCardSearch
+                <DeckCommanderSearch
                     isSearching={isEditing}
                     parentSetter={handleCommanderSelect}
                     cards={selectedCommanders}
                     processing={processing}
                     removeAction={removeCommander}
-                    searchingForCommanders={true}
                     commanderColorIdentity={currentColorIdentity}
                 />
                 <DeckCardSearch
@@ -329,7 +329,7 @@ const DeckModalContent = ({
                     cards={selectedCards}
                     processing={processing}
                     removeAction={removeCard}
-                    searchingForCommanders={false}
+                    colorValidation={true}
                     commanderColorIdentity={currentColorIdentity}
                 />
                 <div className="absolute bottom-4 shrink-0">
