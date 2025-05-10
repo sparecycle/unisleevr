@@ -9,7 +9,7 @@ type Props = {
     cards: CardDataType[];
     processing: boolean;
     removeAction: (card: CardDataType) => void;
-    searchingForCommanders: boolean;
+    colorValidation?: boolean;
     commanderColorIdentity: mtgColorStrings[];
 };
 
@@ -23,13 +23,13 @@ const DeckCardSearch = ({
     cards,
     processing,
     removeAction,
-    searchingForCommanders,
+    colorValidation = false,
     commanderColorIdentity,
 }: Props) => {
     const validateCardColors = useCallback(() => {
         return cards.map((card) => {
             const isInvalidColor =
-                !searchingForCommanders &&
+                colorValidation &&
                 !commanderColorIdentity.some((color) =>
                     card.colorIdentity?.includes(color),
                 ) &&
@@ -46,16 +46,9 @@ const DeckCardSearch = ({
                     autofocus={false}
                     parentSetter={parentSetter}
                     specificCard
-                    CTAText={
-                        searchingForCommanders ? 'Add Commander' : 'Add Card'
-                    }
-                    placeholderText={
-                        searchingForCommanders
-                            ? 'Add commanders to your deck'
-                            : 'Add cards to your deck'
-                    }
+                    CTAText={'Add Card'}
+                    placeholderText={'Add cards to your deck'}
                     cardsToExclude={cards}
-                    searchingForCommanders={searchingForCommanders}
                 ></Searchbar>
             )}
 
