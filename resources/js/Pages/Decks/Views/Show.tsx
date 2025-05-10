@@ -1,7 +1,10 @@
 import CardList from '@/Components/CardList';
 import { useToast } from '@/Components/Toast/ToastContext';
 import { CardDataType, CardsWithDecks, Deck as DeckProps } from '@/types/mtg';
-import updateDecks, { removeCard, removeCommander } from '@/utilities/updateDecks';
+import updateDecks, {
+    removeCard,
+    removeCommander,
+} from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 
 type Props = {
