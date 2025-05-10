@@ -1,6 +1,4 @@
-
 import { CardDataType, mtgColorStrings } from '@/types/mtg';
-import { useCallback } from 'react';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
 
@@ -32,11 +30,8 @@ const DeckCommanderSearch = ({
                     autofocus={false}
                     parentSetter={parentSetter}
                     specificCard
-                    CTAText={
-                        'Add Commander'                   }
-                    placeholderText={
-                        'Add commanders to your deck'
-                    }
+                    CTAText={'Add Commander'}
+                    placeholderText={'Add commanders to your deck'}
                     cardsToExclude={cards}
                 ></Searchbar>
             )}

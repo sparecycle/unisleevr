@@ -9,7 +9,7 @@ type Props = ComponentProps<'button'> & {
 const NametagButton = ({
     'aria-label': ariaLabel,
     disabled,
-    invalid=false,
+    invalid = false,
     onClick,
     children,
     showClose = false,
