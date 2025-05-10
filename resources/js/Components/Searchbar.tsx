@@ -16,6 +16,7 @@ type SearchbarProps = {
     placeholderText?: string;
     CTAText?: string;
     cardsToExclude?: CardDataType[];
+    searchingForCommanders?: boolean;
 };
 
 const Searchbar = ({
@@ -25,6 +26,7 @@ const Searchbar = ({
     placeholderText,
     CTAText,
     cardsToExclude,
+    searchingForCommanders = false
 }: SearchbarProps) => {
     const [userSearchInput, setUserSearchInput] = useState('');
     const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
