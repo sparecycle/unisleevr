@@ -32,6 +32,7 @@ const DeckModalContent = ({
         CardDataType[]
     >(deck?.commanders || []);
     const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
+    const [namedByUser, setNamedByUser] = useState(deck?.name ?? false); // Track if the deck is named by the user
     const initialCommanderColorIdentity =
         getColorIdentityFromCommanders(selectedCommanders);
     const [currentColorIdentity, setCurrentColorIdentity] = useState<
@@ -149,7 +150,7 @@ const DeckModalContent = ({
         } else {
             clearErrors('cards');
         }
-        catchUnNamedDeck();
+        nameUnNamedDeckWithCommanders();
     }, [selectedCards, currentColorIdentity, isEditing]);
 
     useEffect(() => {
@@ -198,13 +199,19 @@ const DeckModalContent = ({
         onClose();
     };
 
-    const catchUnNamedDeck = () => {
-        if (!data.name && data.commanders.length > 0) {
-            const commanderNames = data.commanders.map(
-                (commander: CardDataType) => commander.name,
-            );
-            const deckName = commanderNames.join(' // ');
-            setData('name', deckName);
+    const nameUnNamedDeckWithCommanders = () => {
+        if (data.commanders.length > 0 && !namedByUser) {
+            const commanderNames = data.commanders
+                .map((commander: CardDataType) => commander.name)
+                .join(' // ');
+
+            const isDeckNamedAfterCommanders = data.name === commanderNames;
+
+            if (!data.name) {
+                setData('name', commanderNames);
+            } else if (data.name && !isDeckNamedAfterCommanders) {
+                setData('name', commanderNames);
+            }
         }
     };
 
@@ -304,6 +311,7 @@ const DeckModalContent = ({
                                 className="block w-full rounded-lg border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                 onChange={(e) => {
                                     if (!isFormEdited) setIsFormEdited(true);
+                                    if (!namedByUser) setNamedByUser(true);
                                     setData('name', e.target.value);
                                 }}
                             />
