@@ -1,25 +1,25 @@
-import { CardDataType, CardsWithDecks, Deck } from '@/types/mtg';
+import { CardDataType, CardWithDecks, Deck } from '@/types/mtg';
 import { router } from '@inertiajs/react';
 import { Dispatch, SetStateAction } from 'react';
 
-export const addCard = (deck: Deck, card: CardDataType | CardsWithDecks) => {
+export const addCard = (deck: Deck, card: CardDataType | CardWithDecks) => {
     return [...deck.cards, card];
 };
 
-export const removeCard = (deck: Deck, card: CardDataType | CardsWithDecks) => {
+export const removeCard = (deck: Deck, card: CardDataType | CardWithDecks) => {
     return deck.cards.filter((c) => c.id !== card.id);
 };
 
 export const addCommander = (
     deck: Deck,
-    card: CardDataType | CardsWithDecks,
+    card: CardDataType | CardWithDecks,
 ) => {
     return [...deck.commanders, card];
 };
 
 export const removeCommander = (
     deck: Deck,
-    card: CardDataType | CardsWithDecks,
+    card: CardDataType | CardWithDecks,
 ) => {
     return deck.commanders.filter((c) => c.id !== card.id);
 };

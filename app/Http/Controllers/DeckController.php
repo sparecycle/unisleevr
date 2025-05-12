@@ -42,7 +42,7 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255', // Validate the name field
             'user_id' => 'required|integer|exists:users,id', // Validate the user_id field
-            'cards' => 'required|array|min:1', // Require cards to be a non-empty array
+            'cards' => 'array', // Require cards to be a non-empty array
             'commanders' => 'required|array|min:1|max:3', // Require commanders to be a non-empty array
         ]);
 
@@ -66,7 +66,7 @@ class DeckController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'user_id' => 'required|integer|exists:users,id',
-            'cards' => 'required|array|min:1',
+            'cards' => 'array',
             'commanders' => 'required|array|min:1|max:3',
         ]);
 
@@ -113,7 +113,7 @@ class DeckController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'cards' => 'required|array|min:0',
+            'cards' => 'array',
             'commanders' => 'required|array|min:1|max:3',
         ]);
 
@@ -134,7 +134,7 @@ class DeckController extends Controller
             'decks' => 'required|array',
             'decks.*.id' => 'required|exists:decks,id',
             'decks.*.name' => 'required|string|max:255',
-            'decks.*.cards' => 'array|min:0',
+            'decks.*.cards' => 'array',
             'decks.*.commanders' => 'required|array|min:1|max:3',
         ]);
 

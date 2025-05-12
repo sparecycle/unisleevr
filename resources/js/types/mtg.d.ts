@@ -22,7 +22,7 @@ export interface CardDataType {
     backCardData?: CardDataType;
 }
 
-export type CardsWithDecks = CardDataType & {
+export type CardWithDecks = CardDataType & {
     decks: Deck[] | undefined;
 };
 
@@ -32,7 +32,7 @@ export interface Deck {
     created_at: string;
     updated_at: string;
     user_id: number;
-    cards: CardDataType[];
-    commanders: CardDataType[];
+    cards: CardWithDecks[];
+    commanders: CardWithDecks[];
     color_identity: mtgColorStrings[];
 }

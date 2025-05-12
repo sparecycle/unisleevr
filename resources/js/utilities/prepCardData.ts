@@ -1,4 +1,4 @@
-import { CardDataType, CardsWithDecks, Deck } from '../types/mtg';
+import { CardDataType, CardWithDecks, Deck } from '../types/mtg';
 import { splitStringByHyphen, turnManaCostIntoArray } from './general';
 
 // currently an any because this takes the raw card data from scryfall.
@@ -64,7 +64,7 @@ export const prepCardDataForRender = (cardData: any[]): CardDataType[] | [] => {
 export const attachDeckRefsToParsedCards = (
     parsedCards: CardDataType[],
     decks: Deck[],
-): CardsWithDecks[] => {
+): CardWithDecks[] => {
     return parsedCards.map((card) => {
         const deckRefs = decks?.filter((deck) => {
             return deck.cards.some((deckCard) => deckCard.id === card.id);

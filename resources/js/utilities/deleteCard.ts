@@ -1,10 +1,10 @@
-import { CardDataType, CardsWithDecks } from '@/types/mtg';
+import { CardDataType, CardWithDecks } from '@/types/mtg';
 import { router } from '@inertiajs/react';
 import { Dispatch, SetStateAction } from 'react';
 
 const deleteCard = (
     user_id: number,
-    card: CardDataType | CardsWithDecks,
+    card: CardDataType | CardWithDecks,
     parentSetter?: Dispatch<SetStateAction<boolean>>,
 ) => {
     const updatedDecks = decks.map((deck) => ({
