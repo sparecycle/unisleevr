@@ -182,6 +182,13 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
             </div>
             <div className="container mx-auto px-3 py-4" ref={deckContainerRef}>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+                    {decksToDisplay.length === 0 && (
+                        <div className="flex h-full w-full items-center justify-center">
+                            <p className="text-center text-4xl font-bold">
+                                You need decks to create a card pool.
+                            </p>
+                        </div>
+                    )}
                     {decksToDisplay.length > 0 &&
                         decksToDisplay.map((deck, idx) => (
                             <DeckTile
@@ -200,7 +207,11 @@ export default function Decks({ decks, updatedDeck }: DecksProps) {
                     <DeckTile
                         isButton
                         buttonAction={() => setIsCreating(true)}
-                        title="Create a new deck"
+                        title={
+                            decksToDisplay.length === 0
+                                ? 'Start by creating a new deck!'
+                                : 'Create a new deck'
+                        }
                     />
                 </div>
             </div>

@@ -4,11 +4,12 @@ import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
 import Button from './Button';
 import DeckCardSearch from './DeckCardSearch';
+import DeckCommanderSearch from './DeckCommanderSearch';
 import Input from './Input';
 import { useToast } from './Toast/ToastContext';
 
 type DeckModalContentProps = {
-    deck: Deck;
+    deck?: Deck;
     creating?: boolean;
     onClose: () => void;
     onDeckUpdated?: (updatedDeck: Deck) => void; // Add the callback prop
@@ -31,6 +32,7 @@ const DeckModalContent = ({
         CardDataType[]
     >(deck?.commanders || []);
     const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
+    const [namedByUser, setNamedByUser] = useState(deck?.name ?? false); // Track if the deck is named by the user
     const initialCommanderColorIdentity =
         getColorIdentityFromCommanders(selectedCommanders);
     const [currentColorIdentity, setCurrentColorIdentity] = useState<
@@ -148,10 +150,11 @@ const DeckModalContent = ({
         } else {
             clearErrors('cards');
         }
+        nameUnNamedDeckWithCommanders();
     }, [selectedCards, currentColorIdentity, isEditing]);
 
     useEffect(() => {
-        if (errors.name || errors.cards || errors.commanders) {
+        if (errors.cards || errors.commanders) {
             setDisableSubmitButton(true);
         } else {
             setDisableSubmitButton(false);
@@ -159,16 +162,8 @@ const DeckModalContent = ({
     }, [errors]);
 
     const validate = () => {
-        if (!data.name) {
-            setError('name', 'Name is required');
-            return false;
-        }
         if (data.commanders.length === 0) {
             setError('commanders', 'At least one commander is required');
-            return false;
-        }
-        if (data.cards.length === 0) {
-            setError('cards', 'At least one card is required');
             return false;
         }
         if (data.commanders.length > 3) {
@@ -182,13 +177,9 @@ const DeckModalContent = ({
     };
 
     const renderErrors = () => {
-        console.log('errors', errors);
         if (!recentlySuccessful) {
             return (
                 <p>
-                    {errors.name && (
-                        <span className="text-red-500">{errors.name}</span>
-                    )}{' '}
                     {errors.cards && (
                         <span className="text-red-500">{errors.cards}</span>
                     )}{' '}
@@ -208,10 +199,86 @@ const DeckModalContent = ({
         onClose();
     };
 
-    const onSubmit = (e: FormEvent, callback?: () => void) => {
+    const nameUnNamedDeckWithCommanders = () => {
+        if (data.commanders.length > 0 && !namedByUser) {
+            const commanderNames = data.commanders
+                .map((commander: CardDataType) => commander.name)
+                .join(' // ');
+
+            const isDeckNamedAfterCommanders = data.name === commanderNames;
+
+            if (!data.name) {
+                setData('name', commanderNames);
+            } else if (data.name && !isDeckNamedAfterCommanders) {
+                setData('name', commanderNames);
+            }
+        }
+    };
+
+    const createDeck = (callback?: () => void) => {
+        post(route('decks.store'), {
+            data,
+            preserveScroll: true, // Prevents the page from scrolling to the top
+            onSuccess: (response) => {
+                if (isValidDeck(response.props.updatedDeck)) {
+                    if (onDeckUpdated) {
+                        onDeckUpdated(response.props.updatedDeck);
+                        openToast?.(
+                            `Deck "${response.props.updatedDeck.name}" created`,
+                            'info',
+                        );
+                    }
+                    if (callback) {
+                        callback();
+                    }
+                } else {
+                    console.warn(
+                        'Invalid or empty updatedDeck:',
+                        response.props.updatedDeck,
+                    );
+                }
+                closeForm();
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
+    };
+
+    const updateDeck = (callback?: () => void) => {
+        patch(route('decks.update', deck?.id), {
+            data,
+            preserveScroll: true,
+            onSuccess: (response) => {
+                if (isValidDeck(response.props.updatedDeck)) {
+                    if (onDeckUpdated) {
+                        onDeckUpdated(response.props.updatedDeck);
+                    }
+                    openToast?.(
+                        `Deck "${response.props.updatedDeck.name}" updated`,
+                        'info',
+                    );
+                    if (callback) {
+                        callback();
+                    }
+                } else {
+                    console.warn(
+                        'Invalid or empty updatedDeck:',
+                        response.props.updatedDeck,
+                    );
+                }
+                closeForm();
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
+    };
+
+    const onSubmit = async (e: FormEvent, callback?: () => void) => {
         e.preventDefault();
-        validate();
-        if (errors.name || errors.cards || errors.commanders) {
+        await validate();
+        if (errors.cards || errors.commanders) {
             console.log('Form has errors. Skipping submission.');
             return;
         }
@@ -221,63 +288,9 @@ const DeckModalContent = ({
             return;
         }
         if (creating) {
-            post(route('decks.store'), {
-                data,
-                preserveScroll: true, // Prevents the page from scrolling to the top
-                onSuccess: (response) => {
-                    if (isValidDeck(response.props.updatedDeck)) {
-                        console.log('created deck', response.props.updatedDeck); // Debugging log
-                        if (onDeckUpdated) {
-                            onDeckUpdated(response.props.updatedDeck);
-                            openToast?.(
-                                `Deck "${response.props.updatedDeck.name}" created`,
-                                'info',
-                            );
-                        }
-                        if (callback) {
-                            callback();
-                        }
-                    } else {
-                        console.warn(
-                            'Invalid or empty updatedDeck:',
-                            response.props.updatedDeck,
-                        );
-                    }
-                    closeForm();
-                },
-                onError: (errors) => {
-                    console.error(errors);
-                },
-            });
+            createDeck(callback);
         } else if (!creating) {
-            patch(route('decks.update', deck?.id), {
-                data,
-                preserveScroll: true,
-                onSuccess: (response) => {
-                    if (isValidDeck(response.props.updatedDeck)) {
-                        console.log('updated deck', response.props.updatedDeck); // Debugging log
-                        if (onDeckUpdated) {
-                            onDeckUpdated(response.props.updatedDeck);
-                        }
-                        openToast?.(
-                            `Deck "${response.props.updatedDeck.name}" updated`,
-                            'info',
-                        );
-                        if (callback) {
-                            callback();
-                        }
-                    } else {
-                        console.warn(
-                            'Invalid or empty updatedDeck:',
-                            response.props.updatedDeck,
-                        );
-                    }
-                    closeForm();
-                },
-                onError: (errors) => {
-                    console.error(errors);
-                },
-            });
+            updateDeck(callback);
         }
     };
 
@@ -298,6 +311,7 @@ const DeckModalContent = ({
                                 className="block w-full rounded-lg border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                 onChange={(e) => {
                                     if (!isFormEdited) setIsFormEdited(true);
+                                    if (!namedByUser) setNamedByUser(true);
                                     setData('name', e.target.value);
                                 }}
                             />
@@ -314,13 +328,12 @@ const DeckModalContent = ({
                         )}
                     </div>
                 )}
-                <DeckCardSearch
+                <DeckCommanderSearch
                     isSearching={isEditing}
                     parentSetter={handleCommanderSelect}
                     cards={selectedCommanders}
                     processing={processing}
                     removeAction={removeCommander}
-                    searchingForCommanders={true}
                     commanderColorIdentity={currentColorIdentity}
                 />
                 <DeckCardSearch
@@ -329,7 +342,7 @@ const DeckModalContent = ({
                     cards={selectedCards}
                     processing={processing}
                     removeAction={removeCard}
-                    searchingForCommanders={false}
+                    colorValidation={true}
                     commanderColorIdentity={currentColorIdentity}
                 />
                 <div className="absolute bottom-4 shrink-0">

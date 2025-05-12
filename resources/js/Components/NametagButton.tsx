@@ -3,13 +3,13 @@ import { IoIosClose } from 'react-icons/io';
 
 type Props = ComponentProps<'button'> & {
     showClose: boolean;
-    invalid: boolean;
+    invalid?: boolean;
 };
 
 const NametagButton = ({
     'aria-label': ariaLabel,
     disabled,
-    invalid,
+    invalid = false,
     onClick,
     children,
     showClose = false,
