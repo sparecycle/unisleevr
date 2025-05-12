@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { CardDataType, CardsWithDecks, mtgColorStrings } from '../types/mtg';
+import { CardDataType, CardWithDecks, mtgColorStrings } from '../types/mtg';
 
 export const splitStringByHyphen = (input: string): [string[], string[]] => {
     // Match words before and after the hyphen
@@ -95,7 +95,7 @@ export const getColorIdentityFromCommanders = (
 };
 
 export const isCardWithDecks = (
-    card: CardsWithDecks | CardDataType,
-): card is CardsWithDecks => {
+    card: CardWithDecks | CardDataType,
+): card is CardWithDecks => {
     return 'decks' in card;
 };

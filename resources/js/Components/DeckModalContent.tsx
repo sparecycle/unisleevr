@@ -89,7 +89,6 @@ const DeckModalContent = ({
         }
         setSelectedCommanders(uniqueOutput); // Update selectedCommanders instead of selectedCards
         setData('commanders', uniqueOutput); // Update commanders in the form state
-        catchUnNamedDeck();
     };
 
     const handleCardSelect = (results: CardDataType[] | []) => {
@@ -150,10 +149,11 @@ const DeckModalContent = ({
         } else {
             clearErrors('cards');
         }
+        catchUnNamedDeck();
     }, [selectedCards, currentColorIdentity, isEditing]);
 
     useEffect(() => {
-        if (errors.name || errors.cards || errors.commanders) {
+        if (errors.cards || errors.commanders) {
             setDisableSubmitButton(true);
         } else {
             setDisableSubmitButton(false);
@@ -161,17 +161,8 @@ const DeckModalContent = ({
     }, [errors]);
 
     const validate = () => {
-        if (!data.name) {
-            // setError('name', 'Name is required');
-            catchUnNamedDeck();
-            return false;
-        }
         if (data.commanders.length === 0) {
             setError('commanders', 'At least one commander is required');
-            return false;
-        }
-        if (data.cards.length === 0) {
-            setError('cards', 'At least one card is required');
             return false;
         }
         if (data.commanders.length > 3) {
@@ -185,13 +176,9 @@ const DeckModalContent = ({
     };
 
     const renderErrors = () => {
-        console.log('errors', errors);
         if (!recentlySuccessful) {
             return (
                 <p>
-                    {errors.name && (
-                        <span className="text-red-500">{errors.name}</span>
-                    )}{' '}
                     {errors.cards && (
                         <span className="text-red-500">{errors.cards}</span>
                     )}{' '}
@@ -212,20 +199,79 @@ const DeckModalContent = ({
     };
 
     const catchUnNamedDeck = () => {
-        if (deck && !deck.name && deck.commanders.length > 0) {
-            const commanderNames = deck.commanders.map(
+        if (!data.name && data.commanders.length > 0) {
+            const commanderNames = data.commanders.map(
                 (commander: CardDataType) => commander.name,
             );
-            const deckName = commanderNames.join('//');
+            const deckName = commanderNames.join(' // ');
             setData('name', deckName);
-            console.log('deck', deck); // Debugging log
         }
     };
 
-    const onSubmit = (e: FormEvent, callback?: () => void) => {
+    const createDeck = (callback?: () => void) => {
+        post(route('decks.store'), {
+            data,
+            preserveScroll: true, // Prevents the page from scrolling to the top
+            onSuccess: (response) => {
+                if (isValidDeck(response.props.updatedDeck)) {
+                    if (onDeckUpdated) {
+                        onDeckUpdated(response.props.updatedDeck);
+                        openToast?.(
+                            `Deck "${response.props.updatedDeck.name}" created`,
+                            'info',
+                        );
+                    }
+                    if (callback) {
+                        callback();
+                    }
+                } else {
+                    console.warn(
+                        'Invalid or empty updatedDeck:',
+                        response.props.updatedDeck,
+                    );
+                }
+                closeForm();
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
+    };
+
+    const updateDeck = (callback?: () => void) => {
+        patch(route('decks.update', deck?.id), {
+            data,
+            preserveScroll: true,
+            onSuccess: (response) => {
+                if (isValidDeck(response.props.updatedDeck)) {
+                    if (onDeckUpdated) {
+                        onDeckUpdated(response.props.updatedDeck);
+                    }
+                    openToast?.(
+                        `Deck "${response.props.updatedDeck.name}" updated`,
+                        'info',
+                    );
+                    if (callback) {
+                        callback();
+                    }
+                } else {
+                    console.warn(
+                        'Invalid or empty updatedDeck:',
+                        response.props.updatedDeck,
+                    );
+                }
+                closeForm();
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
+    };
+
+    const onSubmit = async (e: FormEvent, callback?: () => void) => {
         e.preventDefault();
-        validate();
-        if (errors.name || errors.cards || errors.commanders) {
+        await validate();
+        if (errors.cards || errors.commanders) {
             console.log('Form has errors. Skipping submission.');
             return;
         }
@@ -235,63 +281,9 @@ const DeckModalContent = ({
             return;
         }
         if (creating) {
-            post(route('decks.store'), {
-                data,
-                preserveScroll: true, // Prevents the page from scrolling to the top
-                onSuccess: (response) => {
-                    if (isValidDeck(response.props.updatedDeck)) {
-                        console.log('created deck', response.props.updatedDeck); // Debugging log
-                        if (onDeckUpdated) {
-                            onDeckUpdated(response.props.updatedDeck);
-                            openToast?.(
-                                `Deck "${response.props.updatedDeck.name}" created`,
-                                'info',
-                            );
-                        }
-                        if (callback) {
-                            callback();
-                        }
-                    } else {
-                        console.warn(
-                            'Invalid or empty updatedDeck:',
-                            response.props.updatedDeck,
-                        );
-                    }
-                    closeForm();
-                },
-                onError: (errors) => {
-                    console.error(errors);
-                },
-            });
+            createDeck(callback);
         } else if (!creating) {
-            patch(route('decks.update', deck?.id), {
-                data,
-                preserveScroll: true,
-                onSuccess: (response) => {
-                    if (isValidDeck(response.props.updatedDeck)) {
-                        console.log('updated deck', response.props.updatedDeck); // Debugging log
-                        if (onDeckUpdated) {
-                            onDeckUpdated(response.props.updatedDeck);
-                        }
-                        openToast?.(
-                            `Deck "${response.props.updatedDeck.name}" updated`,
-                            'info',
-                        );
-                        if (callback) {
-                            callback();
-                        }
-                    } else {
-                        console.warn(
-                            'Invalid or empty updatedDeck:',
-                            response.props.updatedDeck,
-                        );
-                    }
-                    closeForm();
-                },
-                onError: (errors) => {
-                    console.error(errors);
-                },
-            });
+            updateDeck(callback);
         }
     };
 
