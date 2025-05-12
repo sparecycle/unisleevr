@@ -9,7 +9,7 @@ import Input from './Input';
 import { useToast } from './Toast/ToastContext';
 
 type DeckModalContentProps = {
-    deck: Deck;
+    deck?: Deck;
     creating?: boolean;
     onClose: () => void;
     onDeckUpdated?: (updatedDeck: Deck) => void; // Add the callback prop
@@ -89,6 +89,7 @@ const DeckModalContent = ({
         }
         setSelectedCommanders(uniqueOutput); // Update selectedCommanders instead of selectedCards
         setData('commanders', uniqueOutput); // Update commanders in the form state
+        catchUnNamedDeck();
     };
 
     const handleCardSelect = (results: CardDataType[] | []) => {
@@ -161,7 +162,8 @@ const DeckModalContent = ({
 
     const validate = () => {
         if (!data.name) {
-            setError('name', 'Name is required');
+            // setError('name', 'Name is required');
+            catchUnNamedDeck();
             return false;
         }
         if (data.commanders.length === 0) {
@@ -207,6 +209,17 @@ const DeckModalContent = ({
     const closeForm = () => {
         reset();
         onClose();
+    };
+
+    const catchUnNamedDeck = () => {
+        if (deck && !deck.name && deck.commanders.length > 0) {
+            const commanderNames = deck.commanders.map(
+                (commander: CardDataType) => commander.name,
+            );
+            const deckName = commanderNames.join('//');
+            setData('name', deckName);
+            console.log('deck', deck); // Debugging log
+        }
     };
 
     const onSubmit = (e: FormEvent, callback?: () => void) => {
