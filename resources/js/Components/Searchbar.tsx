@@ -85,12 +85,7 @@ const Searchbar = ({
     };
 
     useEffect(() => {
-        if (cardsToExclude !== undefined && colors === undefined) {
-            setAutoCompleteResultsFiltered(autoCompleteResults);
-        } else if (
-            cardsToExclude !== undefined &&
-            colors !== undefined
-        ) {
+        if (cardsToExclude !== undefined && colors !== undefined) {
             const namedResultsPromises = autoCompleteResults.map(
                 async (result) => await scryfallNamedSearch(result),
             );
@@ -99,8 +94,9 @@ const Searchbar = ({
                     const colorFilteredResults: string[] = [];
                     resolvedResults.forEach((result) => {
                         if (
-                            result.color_identity.every((color: mtgColorStrings) =>
-                                colors.includes(color),
+                            result.color_identity.every(
+                                (color: mtgColorStrings) =>
+                                    colors.includes(color),
                             )
                         ) {
                             colorFilteredResults.push(result.name);
@@ -111,6 +107,8 @@ const Searchbar = ({
                 .catch((error) => {
                     console.error('Error fetching card data:', error);
                 });
+        } else {
+            setAutoCompleteResultsFiltered(autoCompleteResults);
         }
     }, [autoCompleteResults]);
 
