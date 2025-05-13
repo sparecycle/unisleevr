@@ -6,7 +6,7 @@ import {
 import { CardDataType, mtgColorStrings } from '@/types/mtg';
 import { debounce, useOutsideAlerter } from '@/utilities/general';
 import { prepCardDataForRender } from '@/utilities/prepCardData';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 
 type SearchbarProps = {
@@ -16,7 +16,7 @@ type SearchbarProps = {
     placeholderText?: string;
     CTAText?: string;
     cardsToExclude?: CardDataType[];
-    colorsToExclude?: mtgColorStrings[];
+    colors?: mtgColorStrings[];
 };
 
 const Searchbar = ({
@@ -26,15 +26,17 @@ const Searchbar = ({
     placeholderText,
     CTAText,
     cardsToExclude,
-    colorsToExclude,
+    colors,
 }: SearchbarProps) => {
     const [userSearchInput, setUserSearchInput] = useState('');
     const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
         [],
     );
-    const [colorFilteringResults, setColorFilteringResults] = useState<
-        CardDataType[] | null
-    >(!!colorsToExclude && colorsToExclude.length > 0 ? [] : null);
+    const [autoCompleteDetails, setAutoCompleteDetails] = useState<
+        CardDataType[] | []
+    >();
+    const [autoCompleteResultsFiltered, setAutoCompleteResultsFiltered] =
+        useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [highlightedIndex, setHighlightedIndex] = useState<number | null>(
@@ -81,6 +83,37 @@ const Searchbar = ({
         }
         debouncedFetchAutoComplete(searchQuery);
     };
+
+    useEffect(() => {
+        if (cardsToExclude !== undefined && colors === undefined) {
+            setAutoCompleteResultsFiltered(autoCompleteResults);
+        } else if (
+            cardsToExclude !== undefined &&
+            colors !== undefined
+        ) {
+            const namedResultsPromises = autoCompleteResults.map(
+                async (result) => await scryfallNamedSearch(result),
+            );
+            Promise.all(namedResultsPromises)
+                .then((resolvedResults) => {
+                    console.log(resolvedResults);
+                    const colorFilteredResults: string[] = [];
+                    resolvedResults.forEach((result) => {
+                        if (
+                            result.color_identity.every((color: mtgColorStrings) =>
+                                colors.includes(color),
+                            )
+                        ) {
+                            colorFilteredResults.push(result.name);
+                        }
+                    });
+                    setAutoCompleteResultsFiltered(colorFilteredResults);
+                })
+                .catch((error) => {
+                    console.error('Error fetching card data:', error);
+                });
+        }
+    }, [autoCompleteResults]);
 
     const debouncedFetchAutoComplete = debounce(async (searchQuery: string) => {
         try {
@@ -263,7 +296,7 @@ const Searchbar = ({
                     tabIndex={0}
                 >
                     <div className="sticky top-0 z-10 h-1 py-2 shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)]"></div>
-                    {autoCompleteResults.map(
+                    {autoCompleteResultsFiltered.map(
                         (result: string, index: number) => (
                             <li
                                 className={`cursor-pointer px-2 ${
