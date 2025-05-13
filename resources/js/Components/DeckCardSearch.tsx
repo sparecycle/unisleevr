@@ -23,6 +23,7 @@ const DeckCardSearch = ({
     commanderColorIdentity,
 }: Props) => {
     const validateCardColors = useCallback(() => {
+        if (!colorValidation) return cards;
         return cards.map((card) => {
             const isInvalidColor =
                 colorValidation &&
@@ -46,6 +47,7 @@ const DeckCardSearch = ({
                     placeholderText={'Add cards to your deck'}
                     cardsToExclude={cards}
                     colors={commanderColorIdentity}
+                    validateColor={colorValidation}
                 ></Searchbar>
             )}
 
