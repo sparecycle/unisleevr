@@ -38,23 +38,18 @@ export default function Decks({
     console.log('Updated deck data for decksToDisplay:', updatedDeck);
     console.log('Decks data:', decks.data);
 
-    const setCachedPairedCommanders = () => {
-        if (!localStorage.getItem('pairedCommanders')) {
+    const cachedPairedCommanders = useMemo(() => {
+        const storedPairedCommanders = localStorage.getItem('pairedCommanders');
+        if (!storedPairedCommanders) {
             localStorage.setItem(
                 'pairedCommanders',
                 JSON.stringify(pairedCommanders),
             );
             return pairedCommanders;
-        } else {
-            const cachedData = JSON.parse(localStorage.getItem('pairedCommanders') || '{}');
-            return {
-                allCards: cachedData.allCards || [],
-                categories: cachedData.categories || [],
-            };
         }
-    };
+        return JSON.parse(storedPairedCommanders);
+    }, [pairedCommanders]);
 
-    const cachedPairedCommanders = setCachedPairedCommanders();
 
     console.log('Cached paired commanders:', cachedPairedCommanders);
 
