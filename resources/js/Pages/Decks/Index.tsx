@@ -46,7 +46,11 @@ export default function Decks({
             );
             return pairedCommanders;
         } else {
-            return JSON.parse(localStorage.getItem('pairedCommanders') || '{}');
+            const cachedData = JSON.parse(localStorage.getItem('pairedCommanders') || '{}');
+            return {
+                allCards: cachedData.allCards || [],
+                categories: cachedData.categories || [],
+            };
         }
     };
 
