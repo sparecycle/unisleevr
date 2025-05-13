@@ -96,7 +96,6 @@ const Searchbar = ({
             );
             Promise.all(namedResultsPromises)
                 .then((resolvedResults) => {
-                    console.log(resolvedResults);
                     const colorFilteredResults: string[] = [];
                     resolvedResults.forEach((result) => {
                         if (
