@@ -342,7 +342,7 @@ const DeckModalContent = ({
                     cards={selectedCards}
                     processing={processing}
                     removeAction={removeCard}
-                    colorValidation={true}
+                    colorValidation={selectedCommanders.length > 0}
                     commanderColorIdentity={currentColorIdentity}
                 />
                 <div className="absolute bottom-4 shrink-0">
