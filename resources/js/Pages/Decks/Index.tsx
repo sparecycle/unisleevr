@@ -37,7 +37,22 @@ export default function Decks({
 }: DecksProps) {
     console.log('Updated deck data for decksToDisplay:', updatedDeck);
     console.log('Decks data:', decks.data);
-    console.log('Paired commanders:', pairedCommanders);
+
+    const setCachedPairedCommanders = () => {
+        if (!localStorage.getItem('pairedCommanders')) {
+            localStorage.setItem(
+                'pairedCommanders',
+                JSON.stringify(pairedCommanders),
+            );
+            return pairedCommanders;
+        } else {
+            return JSON.parse(localStorage.getItem('pairedCommanders') || '{}');
+        }
+    };
+
+    const cachedPairedCommanders = setCachedPairedCommanders();
+
+    console.log('Cached paired commanders:', cachedPairedCommanders);
 
     const decksWithColorIdentity = useMemo(() => {
         return decks.data.map((deck) => {
