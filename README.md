@@ -13,10 +13,10 @@
 generate dummy decks - php artisan deck:seedmany {userId} {count}
 generate paired-commanders.json - php artisan scryfall:fetch-paired-commanders
 
-Testing: 
+### Testing
 
-php artisan test PATH/TO/TESTFILE
-php artisan test tests/Feature/DeckControllerTest.php
+- `php artisan test PATH/TO/TESTFILE`
+- `php artisan test tests/Feature/DeckControllerTest.php`
 ```
 
 ## Pre-Installation
