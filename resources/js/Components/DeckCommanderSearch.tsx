@@ -11,19 +11,13 @@ type Props = {
     commanderColorIdentity: mtgColorStrings[];
 };
 
-type CardDataTypeWithInvalidColor = CardDataType & {
-    isInvalidColor: boolean;
-};
-
 const DeckCommanderSearch = ({
     isSearching,
     parentSetter,
     commanders,
     processing,
     removeAction,
-    commanderColorIdentity,
 }: Props) => {
-    console.log('DeckCommanderSearch', commanders, commanders.length >= 1);
     return (
         <>
             {isSearching && (

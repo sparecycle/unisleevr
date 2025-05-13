@@ -336,7 +336,7 @@ const DeckModalContent = ({
                     removeAction={removeCommander}
                     commanderColorIdentity={currentColorIdentity}
                 />
-                {/* <DeckCardSearch
+                <DeckCardSearch
                     isSearching={isEditing}
                     parentSetter={handleCardSelect}
                     cards={selectedCards}
@@ -344,7 +344,7 @@ const DeckModalContent = ({
                     removeAction={removeCard}
                     colorValidation={true}
                     commanderColorIdentity={currentColorIdentity}
-                /> */}
+                />
                 <div className="absolute bottom-4 shrink-0">
                     {creating ? (
                         <Button
