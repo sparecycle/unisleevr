@@ -3,7 +3,7 @@ import {
     scryfallNamedSearch,
     scryfallSearch,
 } from '@/api/Scryfall';
-import { CardDataType } from '@/types/mtg';
+import { CardDataType, mtgColorStrings } from '@/types/mtg';
 import { debounce, useOutsideAlerter } from '@/utilities/general';
 import { prepCardDataForRender } from '@/utilities/prepCardData';
 import { useRef, useState } from 'react';
@@ -16,6 +16,7 @@ type SearchbarProps = {
     placeholderText?: string;
     CTAText?: string;
     cardsToExclude?: CardDataType[];
+    colorsToExclude?: mtgColorStrings[];
 };
 
 const Searchbar = ({
@@ -25,11 +26,15 @@ const Searchbar = ({
     placeholderText,
     CTAText,
     cardsToExclude,
+    colorsToExclude,
 }: SearchbarProps) => {
     const [userSearchInput, setUserSearchInput] = useState('');
     const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
         [],
     );
+    const [colorFilteringResults, setColorFilteringResults] = useState<
+        CardDataType[] | null
+    >(!!colorsToExclude && colorsToExclude.length > 0 ? [] : null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [highlightedIndex, setHighlightedIndex] = useState<number | null>(
@@ -80,8 +85,25 @@ const Searchbar = ({
     const debouncedFetchAutoComplete = debounce(async (searchQuery: string) => {
         try {
             const data = await scryfallAutoComplete(searchQuery);
-            const filteredData = data.filter((result: string) => {
-                return !cardsToExclude?.some((card) => card.name === result);
+            const filteredData = data.filter(async (result: string) => {
+                const unselectedCard = !cardsToExclude?.some(
+                    (card) => card.name === result,
+                );
+                const cardData: CardDataType =
+                    await scryfallNamedSearch(result);
+                setColorFilteringResults((prevResults) => [
+                    ...prevResults!,
+                    cardData,
+                ]);
+                const inColorCard =
+                    colorFilteringResults!.filter(
+                        (filteredResult) =>
+                            filteredResult.name === result && colorsToExclude!.reduce(
+                                (acc, cv) => acc + cv,
+                                '',
+                            ) === filteredResult.colorIdentity,
+                    );
+                return unselectedCard && inColorCard;
             });
             setAutoCompleteResults(filteredData);
             setError(undefined);
