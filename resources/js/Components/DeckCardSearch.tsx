@@ -49,6 +49,7 @@ const DeckCardSearch = ({
                     CTAText={'Add Card'}
                     placeholderText={'Add cards to your deck'}
                     cardsToExclude={cards}
+                    colors={commanderColorIdentity}
                 ></Searchbar>
             )}
 
