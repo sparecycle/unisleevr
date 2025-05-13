@@ -12,8 +12,8 @@ import { router } from '@inertiajs/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 type pairedCommandersCategoryType = {
-    name: string;
-    cards: string[];
+    type: string;
+    cardIds: string[];
 };
 
 type DecksProps = {
