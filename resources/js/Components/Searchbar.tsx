@@ -32,9 +32,6 @@ const Searchbar = ({
     const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
         [],
     );
-    const [autoCompleteDetails, setAutoCompleteDetails] = useState<
-        CardDataType[] | []
-    >();
     const [autoCompleteResultsFiltered, setAutoCompleteResultsFiltered] =
         useState<string[]>([]);
     const [loading, setLoading] = useState(false);
