@@ -121,8 +121,8 @@ class FetchPairedCommanders extends Command
 
             // Add category with card IDs
             $categories[] = [
-                'type' => $category,
-                'cardIds' => array_map(fn($card) => $card['id'], $cards),
+                'name' => $category,
+                'cards' => array_map(fn($card) => $card['id'], $cards),
             ];
         }
 
