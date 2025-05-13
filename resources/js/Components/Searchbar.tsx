@@ -86,24 +86,7 @@ const Searchbar = ({
         try {
             const data = await scryfallAutoComplete(searchQuery);
             const filteredData = data.filter(async (result: string) => {
-                const unselectedCard = !cardsToExclude?.some(
-                    (card) => card.name === result,
-                );
-                const cardData: CardDataType =
-                    await scryfallNamedSearch(result);
-                setColorFilteringResults((prevResults) => [
-                    ...prevResults!,
-                    cardData,
-                ]);
-                const inColorCard =
-                    colorFilteringResults!.filter(
-                        (filteredResult) =>
-                            filteredResult.name === result && colorsToExclude!.reduce(
-                                (acc, cv) => acc + cv,
-                                '',
-                            ) === filteredResult.colorIdentity,
-                    );
-                return unselectedCard && inColorCard;
+                return !cardsToExclude?.some((card) => card.name === result);
             });
             setAutoCompleteResults(filteredData);
             setError(undefined);
