@@ -10,7 +10,10 @@
 ## useful commands
 
 ```
-php artisan deck:seedmany {userId} {count}
+generate dummy decks - php artisan deck:seedmany {userId} {count}
+generate paired-commanders.json - php artisan scryfall:fetch-paired-commanders
+
+Testing: 
 
 php artisan test PATH/TO/TESTFILE
 php artisan test tests/Feature/DeckControllerTest.php
