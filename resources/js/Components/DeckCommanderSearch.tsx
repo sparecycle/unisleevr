@@ -23,6 +23,7 @@ const DeckCommanderSearch = ({
     removeAction,
     commanderColorIdentity,
 }: Props) => {
+    console.log('DeckCommanderSearch', commanders, commanders.length >= 1);
     return (
         <>
             {isSearching && (
@@ -33,7 +34,7 @@ const DeckCommanderSearch = ({
                     CTAText={'Add Commander'}
                     placeholderText={'Add commanders to your deck'}
                     cardsToExclude={commanders}
-                    partenerSearch={commanders.length > 1}
+                    partnerSearch={commanders.length > 0}
                 ></Searchbar>
             )}
 

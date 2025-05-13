@@ -17,7 +17,7 @@ type SearchbarProps = {
     CTAText?: string;
     cardsToExclude?: CardDataType[];
     colors?: mtgColorStrings[];
-    partenerSearch?: boolean;
+    partnerSearch?: boolean;
 };
 
 const Searchbar = ({
@@ -85,7 +85,33 @@ const Searchbar = ({
 
     useEffect(() => {
         if (partnerSearch) {
-            setAutoCompleteResultsFiltered([]);
+            const cachedPairedCommanders =
+                localStorage.getItem('pairedCommanders');
+
+            let filteredAutoCompleteResults = autoCompleteResults;
+            if (cachedPairedCommanders) {
+                const parsedCachedPairedCommanders = JSON.parse(
+                    cachedPairedCommanders,
+                ).allCards;
+
+                const commanderNames = parsedCachedPairedCommanders.map(
+                    (commander: CardDataType) => commander.name,
+                );
+
+                filteredAutoCompleteResults =
+                    filteredAutoCompleteResults.filter((result: string) => {
+                        return commanderNames.includes(result);
+                    });
+            }
+
+            filteredAutoCompleteResults = filteredAutoCompleteResults.filter(
+                (result) => {
+                    return !cardsToExclude?.some(
+                        (card) => card.name === result,
+                    );
+                },
+            );
+            setAutoCompleteResultsFiltered(filteredAutoCompleteResults);
         } else if (cardsToExclude !== undefined && colors !== undefined) {
             const namedResultsPromises = autoCompleteResults.map(
                 async (result) => await scryfallNamedSearch(result),
@@ -210,7 +236,9 @@ const Searchbar = ({
                                 e.preventDefault();
 
                                 setUserSearchInput(
-                                    autoCompleteResults[highlightedIndex ?? 0],
+                                    autoCompleteResultsFiltered[
+                                        highlightedIndex ?? 0
+                                    ],
                                 );
                                 !highlightedIndex
                                     ? setHighlightedIndex(0)
@@ -219,12 +247,15 @@ const Searchbar = ({
                                 handleSubmitSearch(
                                     !highlightedIndex
                                         ? userSearchInput
-                                        : autoCompleteResults[highlightedIndex],
+                                        : autoCompleteResultsFiltered[
+                                              highlightedIndex
+                                          ],
                                 );
                                 break;
                             case 'Escape':
                                 setUserSearchInput('');
                                 setAutoCompleteResults([]);
+                                setAutoCompleteResultsFiltered([]);
                                 break;
                             case 'ArrowUp':
                                 e.preventDefault();
@@ -232,7 +263,8 @@ const Searchbar = ({
                                     newIndex =
                                         highlightedIndex > 0
                                             ? highlightedIndex - 1
-                                            : autoCompleteResults.length - 1;
+                                            : autoCompleteResultsFiltered.length -
+                                              1;
                                     setHighlightedIndex(newIndex);
                                     scrollToHighlightedIndex(newIndex);
                                 }
@@ -242,18 +274,18 @@ const Searchbar = ({
                                 newIndex =
                                     highlightedIndex !== null &&
                                     highlightedIndex <
-                                        autoCompleteResults.length - 1
+                                        autoCompleteResultsFiltered.length - 1
                                         ? highlightedIndex + 1
                                         : 0;
                                 setHighlightedIndex(newIndex);
                                 scrollToHighlightedIndex(newIndex);
                                 break;
                             case 'Tab':
-                                if (autoCompleteResults.length > 0) {
+                                if (autoCompleteResultsFiltered.length > 0) {
                                     e.preventDefault();
 
                                     setUserSearchInput(
-                                        autoCompleteResults[
+                                        autoCompleteResultsFiltered[
                                             highlightedIndex ?? 0
                                         ],
                                     );
@@ -279,7 +311,7 @@ const Searchbar = ({
 
             <div
                 className={`autocomplete-results rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
-                    autoCompleteResults.length > 0 ? 'block' : 'hidden'
+                    autoCompleteResultsFiltered.length > 0 ? 'block' : 'hidden'
                 }`}
                 style={{
                     position: 'relative',
