@@ -11,6 +11,11 @@ import { debounce, getColorIdentityFromCommanders } from '@/utilities/general';
 import { router } from '@inertiajs/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+type pairedCommandersCategoryType = {
+    name: string;
+    cards: string[];
+};
+
 type DecksProps = {
     decks: {
         data: Deck[];
@@ -19,10 +24,20 @@ type DecksProps = {
         total: number;
     };
     updatedDeck?: Deck; // Add updatedDeck to the props
+    pairedCommanders: {
+        allCards: any[];
+        categories: pairedCommandersCategoryType[];
+    };
 };
 
-export default function Decks({ decks, updatedDeck }: DecksProps) {
+export default function Decks({
+    decks,
+    updatedDeck,
+    pairedCommanders,
+}: DecksProps) {
     console.log('Updated deck data for decksToDisplay:', updatedDeck);
+    console.log('Decks data:', decks.data);
+    console.log('Paired commanders:', pairedCommanders);
 
     const decksWithColorIdentity = useMemo(() => {
         return decks.data.map((deck) => {

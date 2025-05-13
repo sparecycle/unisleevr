@@ -331,7 +331,7 @@ const DeckModalContent = ({
                 <DeckCommanderSearch
                     isSearching={isEditing}
                     parentSetter={handleCommanderSelect}
-                    cards={selectedCommanders}
+                    commanders={selectedCommanders}
                     processing={processing}
                     removeAction={removeCommander}
                     commanderColorIdentity={currentColorIdentity}

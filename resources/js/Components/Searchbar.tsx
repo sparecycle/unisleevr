@@ -17,6 +17,7 @@ type SearchbarProps = {
     CTAText?: string;
     cardsToExclude?: CardDataType[];
     colors?: mtgColorStrings[];
+    partenerSearch?: boolean;
 };
 
 const Searchbar = ({
@@ -27,6 +28,7 @@ const Searchbar = ({
     CTAText,
     cardsToExclude,
     colors,
+    partnerSearch,
 }: SearchbarProps) => {
     const [userSearchInput, setUserSearchInput] = useState('');
     const [autoCompleteResults, setAutoCompleteResults] = useState<string[]>(
@@ -82,7 +84,9 @@ const Searchbar = ({
     };
 
     useEffect(() => {
-        if (cardsToExclude !== undefined && colors !== undefined) {
+        if (partnerSearch) {
+            setAutoCompleteResultsFiltered([]);
+        } else if (cardsToExclude !== undefined && colors !== undefined) {
             const namedResultsPromises = autoCompleteResults.map(
                 async (result) => await scryfallNamedSearch(result),
             );
