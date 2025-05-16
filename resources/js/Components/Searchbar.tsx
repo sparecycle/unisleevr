@@ -193,7 +193,7 @@ const Searchbar = ({
                 <input
                     type="search"
                     id="default-search"
-                    className={`block w-full ${autoCompleteResults.length > 0 ? 'rounded-t-lg' : 'rounded-lg'} border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
+                    className={`block w-full ${autoCompleteResults.length > 0 || error || loading ? 'rounded-t-lg' : 'rounded-lg'} border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
                     placeholder={placeholderText ?? `Search for a card`}
                     min={3}
                     max={100}
@@ -275,7 +275,9 @@ const Searchbar = ({
 
             <div
                 className={`autocomplete-results absolute left-0 right-0 top-full z-50 max-h-[80px] overflow-scroll rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
-                    autoCompleteResults.length > 0 || error ? 'block' : 'hidden'
+                    autoCompleteResults.length > 0 || error || loading
+                        ? 'block'
+                        : 'hidden'
                 }`}
             >
                 <ul
