@@ -336,15 +336,18 @@ const DeckModalContent = ({
                     removeAction={removeCommander}
                     commanderColorIdentity={currentColorIdentity}
                 />
-                <DeckCardSearch
-                    isSearching={isEditing}
-                    parentSetter={handleCardSelect}
-                    cards={selectedCards}
-                    processing={processing}
-                    removeAction={removeCard}
-                    colorValidation={true}
-                    commanderColorIdentity={currentColorIdentity}
-                />
+                {selectedCommanders.length > 0 && (
+                    <DeckCardSearch
+                        isSearching={isEditing}
+                        parentSetter={handleCardSelect}
+                        cards={selectedCards}
+                        processing={processing}
+                        removeAction={removeCard}
+                        colorValidation={true}
+                        commanderColorIdentity={currentColorIdentity}
+                    />
+                )}
+
                 <div className="absolute bottom-4 shrink-0">
                     {creating ? (
                         <Button
