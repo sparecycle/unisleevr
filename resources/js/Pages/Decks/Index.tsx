@@ -11,6 +11,11 @@ import { debounce, getColorIdentityFromCommanders } from '@/utilities/general';
 import { router } from '@inertiajs/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+type pairedCommandersCategoryType = {
+    type: string;
+    cardIds: string[];
+};
+
 type DecksProps = {
     decks: {
         data: Deck[];
@@ -19,10 +24,34 @@ type DecksProps = {
         total: number;
     };
     updatedDeck?: Deck; // Add updatedDeck to the props
+    pairedCommanders: {
+        allCards: any[];
+        categories: pairedCommandersCategoryType[];
+    };
 };
 
-export default function Decks({ decks, updatedDeck }: DecksProps) {
+export default function Decks({
+    decks,
+    updatedDeck,
+    pairedCommanders,
+}: DecksProps) {
     console.log('Updated deck data for decksToDisplay:', updatedDeck);
+    console.log('Decks data:', decks.data);
+
+    const cachedPairedCommanders = useMemo(() => {
+        const storedPairedCommanders = localStorage.getItem('pairedCommanders');
+        if (!storedPairedCommanders) {
+            localStorage.setItem(
+                'pairedCommanders',
+                JSON.stringify(pairedCommanders),
+            );
+            return pairedCommanders;
+        }
+        return JSON.parse(storedPairedCommanders);
+    }, [pairedCommanders]);
+
+
+    console.log('Cached paired commanders:', cachedPairedCommanders);
 
     const decksWithColorIdentity = useMemo(() => {
         return decks.data.map((deck) => {

@@ -5,23 +5,18 @@ import Searchbar from './Searchbar';
 type Props = {
     isSearching: boolean;
     parentSetter: (value: CardDataType[] | []) => void;
-    cards: CardDataType[];
+    commanders: CardDataType[];
     processing: boolean;
     removeAction: (card: CardDataType) => void;
     commanderColorIdentity: mtgColorStrings[];
 };
 
-type CardDataTypeWithInvalidColor = CardDataType & {
-    isInvalidColor: boolean;
-};
-
 const DeckCommanderSearch = ({
     isSearching,
     parentSetter,
-    cards,
+    commanders,
     processing,
     removeAction,
-    commanderColorIdentity,
 }: Props) => {
     return (
         <>
@@ -32,26 +27,27 @@ const DeckCommanderSearch = ({
                     specificCard
                     CTAText={'Add Commander'}
                     placeholderText={'Add commanders to your deck'}
-                    cardsToExclude={cards}
+                    cardsToExclude={commanders}
+                    partnerSearch={commanders.length > 0}
                 ></Searchbar>
             )}
 
-            {cards.length > 0 && (
+            {commanders.length > 0 && (
                 <>
                     <ul className="flex max-h-[30vh] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
-                        {cards.map((card) => {
+                        {commanders.map((commander) => {
                             return (
                                 <li
-                                    key={`selectedcard-${card.id}`}
+                                    key={`selectedcard-${commander.id}`}
                                     className="m-1"
                                 >
                                     <NametagButton
-                                        aria-label={`remove ${card.name} from deck`}
+                                        aria-label={`remove ${commander.name} from deck`}
                                         disabled={processing || !isSearching}
-                                        onClick={() => removeAction(card)}
+                                        onClick={() => removeAction(commander)}
                                         showClose={processing || isSearching}
                                     >
-                                        {card.name}
+                                        {commander.name}
                                     </NametagButton>
                                 </li>
                             );
