@@ -47,6 +47,13 @@ const Searchbar = ({
         resetSearch();
     };
 
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => setError(undefined), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
+
     const resetSearch = () => {
         setUserSearchInput('');
         setAutoCompleteResults([]);
