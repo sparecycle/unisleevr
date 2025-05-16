@@ -21,8 +21,15 @@ class DeckController extends Controller
     {
         $decks = Deck::query()->where('user_id', Auth::id())->paginate(24);
 
+        // Read the paired_commanders.json file
+        $filePath = base_path('database/seeders/paired_commanders.json');
+        $pairedCommanders = file_exists($filePath) ? json_decode(file_get_contents($filePath), true) : ['allCards' => [], 'categories' => []];
+
         if ($request->wantsJson()) {
-            return response()->json(['decks' => $decks]);
+            return response()->json([
+                'decks' => $decks,
+                'pairedCommanders' => $pairedCommanders,
+            ]);
         }
         // Check if there is an updatedDeck in the session
         $updatedDeck = session('updatedDeck'); // Ensure updatedDeck is retrieved correctly
@@ -30,6 +37,7 @@ class DeckController extends Controller
         return Inertia::render('Decks/Index', [
             'decks' => $decks,
             'updatedDeck' => $updatedDeck, // Pass the updatedDeck as a prop
+            'pairedCommanders' => $pairedCommanders, // Pass pairedCommanders as a prop
         ]);
     }
 
