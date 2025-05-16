@@ -328,24 +328,29 @@ const DeckModalContent = ({
                         )}
                     </div>
                 )}
-                <DeckCommanderSearch
-                    isSearching={isEditing}
-                    parentSetter={handleCommanderSelect}
-                    cards={selectedCommanders}
-                    processing={processing}
-                    removeAction={removeCommander}
-                    commanderColorIdentity={currentColorIdentity}
-                />
-                {selectedCommanders.length > 0 && (
-                    <DeckCardSearch
+                <div className="relative z-0 w-full pb-4">
+                    <DeckCommanderSearch
                         isSearching={isEditing}
-                        parentSetter={handleCardSelect}
-                        cards={selectedCards}
+                        parentSetter={handleCommanderSelect}
+                        cards={selectedCommanders}
                         processing={processing}
-                        removeAction={removeCard}
-                        colorValidation={true}
+                        removeAction={removeCommander}
                         commanderColorIdentity={currentColorIdentity}
                     />
+                </div>
+
+                {selectedCommanders.length > 0 && (
+                    <div className="relative z-0 w-full pb-4">
+                        <DeckCardSearch
+                            isSearching={isEditing}
+                            parentSetter={handleCardSelect}
+                            cards={selectedCards}
+                            processing={processing}
+                            removeAction={removeCard}
+                            colorValidation={true}
+                            commanderColorIdentity={currentColorIdentity}
+                        />
+                    </div>
                 )}
 
                 <div className="absolute bottom-4 shrink-0">
@@ -356,6 +361,7 @@ const DeckModalContent = ({
                                 onSubmit(e); // Trigger the form submission
                             }}
                             disabled={processing || disableSubmitButton}
+                            className="border border-solid border-black bg-zinc-900 px-3 py-2"
                         >
                             Create Deck
                         </Button>
@@ -364,7 +370,7 @@ const DeckModalContent = ({
                             <Button
                                 onClick={() => setIsEditing(!isEditing)}
                                 disabled={processing}
-                                className="border border-solid border-black bg-black px-3 py-2"
+                                className="border border-solid border-black bg-zinc-900 px-3 py-2"
                             >
                                 {!isEditing ? 'edit' : 'cancel'}
                             </Button>
@@ -375,13 +381,14 @@ const DeckModalContent = ({
                                         onSubmit(e); // Trigger the form submission
                                     }}
                                     disabled={processing || disableSubmitButton}
-                                    className="border border-solid border-black bg-black px-3 py-2"
+                                    className="border border-solid border-black bg-zinc-900 px-3 py-2"
                                 >
                                     Save
                                 </Button>
                             )}
                             <Button
                                 disabled={processing || disableSubmitButton}
+                                className="border border-solid border-black bg-zinc-900 px-3 py-2"
                                 onClick={(e) => {
                                     // TO DO : refactor to use link
                                     if (isEditing) {

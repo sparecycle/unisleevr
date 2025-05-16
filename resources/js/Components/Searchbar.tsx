@@ -274,22 +274,23 @@ const Searchbar = ({
             </div>
 
             <div
-                className={`autocomplete-results rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
-                    autoCompleteResults.length > 0 ? 'block' : 'hidden'
+                className={`autocomplete-results absolute left-0 right-0 top-full z-50 max-h-[80px] overflow-scroll rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
+                    autoCompleteResults.length > 0 || error ? 'block' : 'hidden'
                 }`}
-                style={{
-                    position: 'relative',
-                    zIndex: 10,
-                    maxHeight: '20vh',
-                    overflowY: 'auto',
-                }}
             >
                 <ul
                     ref={listRef}
-                    className="autocomplete-results-list z-99 relative w-auto rounded-b-lg bg-zinc-800/50"
+                    className="autocomplete-results-list z-99 relative w-auto rounded-b-lg bg-zinc-800"
                     tabIndex={0}
                 >
                     <div className="sticky top-0 z-10 h-1 py-2 shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)]"></div>
+                    {loading && <li>Loading results...</li>}
+                    {error && (
+                        <li className="text-center text-red-500">
+                            <span>{error}</span>
+                        </li>
+                    )}
+
                     {autoCompleteResultsFiltered.map(
                         (result: string, index: number) => (
                             <li
@@ -309,12 +310,6 @@ const Searchbar = ({
                     )}
                 </ul>
             </div>
-            {error && (
-                <div>
-                    <span>{error}</span>
-                </div>
-            )}
-            {loading && <div>Loading results...</div>}
         </form>
     );
 };
