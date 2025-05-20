@@ -323,7 +323,7 @@ const Searchbar = ({
             </div>
 
             <div
-                className={`autocomplete-results absolute left-0 right-0 top-full z-50 max-h-[80px] overflow-scroll rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
+                className={`autocomplete-results absolute left-0 right-0 top-full z-50 max-h-[80px] overflow-scroll overflow-x-clip rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
                     autoCompleteResultsFiltered.length > 0 || error || loading
                         ? 'block'
                         : 'hidden'
