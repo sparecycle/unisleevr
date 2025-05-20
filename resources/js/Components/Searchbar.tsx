@@ -51,6 +51,13 @@ const Searchbar = ({
         resetSearch();
     };
 
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => setError(undefined), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
+
     const resetSearch = () => {
         setUserSearchInput('');
         setAutoCompleteResults([]);
@@ -229,7 +236,7 @@ const Searchbar = ({
                 <input
                     type="search"
                     id="default-search"
-                    className={`block w-full ${autoCompleteResults.length > 0 ? 'rounded-t-lg' : 'rounded-lg'} border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
+                    className={`block w-full ${autoCompleteResults.length > 0 || error || loading ? 'rounded-t-lg' : 'rounded-lg'} border border-zinc-300 bg-zinc-50 p-4 ps-10 text-sm text-zinc-900 focus:border-zinc-500 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400 dark:focus:border-blue-500 dark:focus:ring-blue-500`}
                     placeholder={placeholderText ?? `Search for a card`}
                     min={3}
                     max={100}
@@ -316,22 +323,25 @@ const Searchbar = ({
             </div>
 
             <div
-                className={`autocomplete-results rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
-                    autoCompleteResultsFiltered.length > 0 ? 'block' : 'hidden'
+                className={`autocomplete-results absolute left-0 right-0 top-full z-50 max-h-[80px] overflow-scroll overflow-x-clip rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
+                    autoCompleteResultsFiltered.length > 0 || error || loading
+                        ? 'block'
+                        : 'hidden'
                 }`}
-                style={{
-                    position: 'relative',
-                    zIndex: 10,
-                    maxHeight: '20vh',
-                    overflowY: 'auto',
-                }}
             >
                 <ul
                     ref={listRef}
-                    className="autocomplete-results-list z-99 relative w-auto rounded-b-lg bg-zinc-800/50"
+                    className="autocomplete-results-list z-99 relative w-auto rounded-b-lg bg-zinc-800"
                     tabIndex={0}
                 >
                     <div className="sticky top-0 z-10 h-1 py-2 shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)]"></div>
+                    {loading && <li>Loading results...</li>}
+                    {error && (
+                        <li className="text-center text-red-500">
+                            <span>{error}</span>
+                        </li>
+                    )}
+
                     {autoCompleteResultsFiltered.map(
                         (result: string, index: number) => (
                             <li
@@ -351,12 +361,6 @@ const Searchbar = ({
                     )}
                 </ul>
             </div>
-            {error && (
-                <div>
-                    <span>{error}</span>
-                </div>
-            )}
-            {loading && <div>Loading results...</div>}
         </form>
     );
 };
