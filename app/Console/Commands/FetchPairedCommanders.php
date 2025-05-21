@@ -37,7 +37,8 @@ class FetchPairedCommanders extends Command
             'doctorsCompanion' => 'oracle:"doctor\'s companion"',
             'companion' => 'oracle:companion keyword:companion',
             'backgrounds' => 'type:background type:enchantment type:legendary',
-            'timeLordDoctors' => 'type:legendary type:creature t:doctor t:"time lord"',
+            'timeLordDoctors' =>
+                'type:legendary type:creature t:doctor t:"time lord"',
         ];
 
         // Create URLs with properly encoded query parameters
@@ -49,7 +50,8 @@ class FetchPairedCommanders extends Command
                 ['+', ':', '"', "'"],
                 rawurlencode($query)
             );
-            $urls[$key] = 'https://api.scryfall.com/cards/search?q=' . $encodedQuery;
+            $urls[$key] =
+                'https://api.scryfall.com/cards/search?q=' . $encodedQuery;
         }
 
         // Fetch all data

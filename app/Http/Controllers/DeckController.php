@@ -23,7 +23,9 @@ class DeckController extends Controller
 
         // Read the paired_commanders.json file
         $filePath = base_path('database/seeders/paired_commanders.json');
-        $pairedCommanders = file_exists($filePath) ? json_decode(file_get_contents($filePath), true) : ['allCards' => [], 'categories' => []];
+        $pairedCommanders = file_exists($filePath)
+            ? json_decode(file_get_contents($filePath), true)
+            : ['allCards' => [], 'categories' => []];
 
         if ($request->wantsJson()) {
             return response()->json([
