@@ -20,7 +20,8 @@ export default function Welcome({
     return (
         <>
             <Head title="Welcome" />
-            <div className="relative min-h-screen bg-zinc-50 text-black/50 dark:bg-black dark:text-white/50">
+            <div className="relative min-h-screen flex flex-col bg-zinc-900">
+                <header className="text-white sticky flex justify-between items-center m-3 rounded-md h-12 p-4 bg-black">header</header>
                 <main className=""></main>
 
                 <footer className="py-16 text-center text-sm text-black dark:text-white/70">
