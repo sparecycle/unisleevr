@@ -151,7 +151,7 @@ const Show = ({ deck }: Props) => {
         return true;
     };
 
-    const renderErrors = () => {
+    const renderCardErrors = () => {
         if (!recentlySuccessful) {
             return (
                 <p>
@@ -259,8 +259,7 @@ const Show = ({ deck }: Props) => {
     return (
         <div className="container mx-auto flex pt-2">
             <div className="flex w-full grow flex-col items-center gap-4 py-4 pb-16">
-                {renderErrors()}
-                {isEditing ? (
+                {isEditing && (
                     <form
                         onSubmit={onSubmit}
                         className="flex w-full flex-col items-center gap-4"
@@ -279,16 +278,10 @@ const Show = ({ deck }: Props) => {
                             />
                         </div>
                     </form>
-                ) : (
-                    <div>
-                        {deck && deck.name && user.id === deck.user_id ? (
-                            <>{deck.name}</>
-                        ) : (
-                            <p className="text-zinc-500">
-                                No deck selected or no permission to edit
-                            </p>
-                        )}
-                    </div>
+                )}
+                <h2 className="text-lg font-semibold">Commanders</h2>
+                {errors.commanders && (
+                    <p className="text-red-500">{errors.commanders}</p>
                 )}
                 <div className="relative z-0 w-full pb-4">
                     <DeckCommanderSearch
@@ -302,6 +295,8 @@ const Show = ({ deck }: Props) => {
                     />
                 </div>
 
+                <h2 className="text-lg font-semibold">Cards</h2>
+                {errors.cards && <p className="text-red-500">{errors.cards}</p>}
                 {selectedCommanders.length > 0 && (
                     <div className="relative z-0 w-full pb-4">
                         <DeckCardSearch
