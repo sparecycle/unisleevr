@@ -38,6 +38,7 @@ const DeckCardSearch = ({
             return { ...card, isInvalidColor };
         });
     }, [cards, commanderColorIdentity]);
+
     const cardsToDisplay = validateCardColors();
     return (
         <div className="relative z-0 flex w-full flex-col">

@@ -111,23 +111,7 @@ const Show = ({ deck }: Props) => {
         setSelectedCards(uniqueOutput);
         setData('cards', uniqueOutput); // Update cards in the form state
     };
-
-    const _removeCard = (card: CardDataType) => {
-        if (!isFormEdited) setIsFormEdited(true);
-        const updatedCards = selectedCards.filter((c) => c.id !== card.id);
-        setSelectedCards(updatedCards);
-        setData('cards', updatedCards);
-    };
-
-    const _removeCommander = (card: CardDataType) => {
-        if (!isFormEdited) setIsFormEdited(true);
-        const updatedCommanders = selectedCommanders.filter(
-            (c) => c.id !== card.id,
-        );
-        setSelectedCommanders(updatedCommanders);
-        setData('commanders', updatedCommanders);
-    };
-
+    
     useEffect(() => {
         const allUniqueColorsFromCards = Array.from(
             new Set(selectedCards.flatMap((card) => card.colorIdentity)),
@@ -245,6 +229,14 @@ const Show = ({ deck }: Props) => {
 
     const handleCommanderDelete = (card: CardWithDecks | CardDataType) => {
         if (deck.commanders.length > 1) {
+            if (!isFormEdited) setIsFormEdited(true);
+
+            const updatedCommanders = selectedCommanders.filter(
+                (c) => c.id !== card.id,
+            );
+
+            setSelectedCommanders(updatedCommanders);
+
             updateDecks({
                 decks: [deck],
                 user_id: user.id,
@@ -255,6 +247,13 @@ const Show = ({ deck }: Props) => {
         }
     };
     const handleCardDelete = (card: CardWithDecks | CardDataType) => {
+
+        if (!isFormEdited) setIsFormEdited(true);
+
+        const updatedCards = selectedCards.filter((c) => c.id !== card.id);
+
+        setSelectedCards(updatedCards);
+
         updateDecks({
             decks: [deck],
             user_id: user.id,
@@ -301,7 +300,7 @@ const Show = ({ deck }: Props) => {
                         parentSetter={handleCommanderSelect}
                         commanders={selectedCommanders}
                         processing={processing}
-                        removeAction={_removeCommander}
+                        removeAction={handleCommanderDelete}
                         commanderColorIdentity={currentColorIdentity}
                         cardVisualization={true}
                     />
@@ -314,7 +313,7 @@ const Show = ({ deck }: Props) => {
                             parentSetter={handleCardSelect}
                             cards={selectedCards}
                             processing={processing}
-                            removeAction={_removeCard}
+                            removeAction={handleCardDelete}
                             colorValidation={selectedCommanders.length > 0}
                             cardVisualization={true}
                             commanderColorIdentity={currentColorIdentity}
