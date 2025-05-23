@@ -52,7 +52,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
                 <div className="my-4">
                     <ButtonShelf buttons={buttons} />
                 </div>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
                     {parsedCardsWithDeckRefs.length > 0 &&
                         parsedCardsWithDeckRefs && (
                             <CardList

@@ -28,15 +28,16 @@ type UpdateDecks = {
     user_id: number;
     cards?: CardDataType[] | undefined;
     commanders?: CardDataType[] | undefined;
+    name?: string;
     parentSetter?: Dispatch<SetStateAction<boolean>>;
 };
 
-const updateDecks = (args: UpdateDecks) => {
+const updateDecks = (args: UpdateDecks, callBack?: () => void) => {
     const { decks, user_id, cards, commanders, parentSetter } = args;
 
     const updatedDecks = decks.map((deck) => ({
         id: deck.id,
-        name: deck.name,
+        name: !!args.name ? args.name : deck.name,
         cards: !!cards ? cards : deck.cards,
         commanders: !!commanders ? commanders : deck.commanders,
     }));
@@ -46,11 +47,15 @@ const updateDecks = (args: UpdateDecks) => {
         { user_id: user_id, decks: updatedDecks },
         {
             preserveState: true,
+            preserveScroll: true,
             only: [],
             onSuccess: () => {
                 console.log(`Card updated to decks`);
                 if (parentSetter) {
                     parentSetter(true);
+                }
+                if (callBack) {
+                    callBack();
                 }
             },
             onError: (errors) => {
