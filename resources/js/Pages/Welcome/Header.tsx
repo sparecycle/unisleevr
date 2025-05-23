@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import { Slant as Hamburger } from 'hamburger-react';
 import { useState } from 'react';
 
@@ -14,7 +15,9 @@ const Header = () => {
             <div className="absolute left-0 top-[72px] mx-3 mb-3 h-[calc(100vh-84px)] w-[calc(100%-24px)] rounded-md bg-black p-4">
                 <nav>
                     <ul>
-                        <li className="text-white">menu item one</li>
+                        <li className="text-white">
+                            <Link href={route('login')}>Login</Link>
+                        </li>
                         <li className="text-white">menu item one</li>
                     </ul>
                 </nav>
