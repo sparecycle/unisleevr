@@ -111,7 +111,7 @@ const Show = ({ deck }: Props) => {
         setSelectedCards(uniqueOutput);
         setData('cards', uniqueOutput); // Update cards in the form state
     };
-    
+
     useEffect(() => {
         const allUniqueColorsFromCards = Array.from(
             new Set(selectedCards.flatMap((card) => card.colorIdentity)),
@@ -247,7 +247,6 @@ const Show = ({ deck }: Props) => {
         }
     };
     const handleCardDelete = (card: CardWithDecks | CardDataType) => {
-
         if (!isFormEdited) setIsFormEdited(true);
 
         const updatedCards = selectedCards.filter((c) => c.id !== card.id);
@@ -262,7 +261,7 @@ const Show = ({ deck }: Props) => {
     };
     return (
         <div className="container mx-auto flex pt-2">
-            <div className="flex w-full grow flex-col items-center gap-4 py-4">
+            <div className="flex w-full grow flex-col items-center gap-4 py-4 pb-16">
                 {renderErrors()}
                 {isEditing ? (
                     <form
@@ -321,15 +320,8 @@ const Show = ({ deck }: Props) => {
                     </div>
                 )}
 
-                <div className="relative shrink-0">
+                <div className="fixed bottom-0 z-10 w-full shrink-0 bg-zinc-900 py-2">
                     <div className="flex items-center justify-center gap-2">
-                        <Button
-                            onClick={() => setIsEditing(!isEditing)}
-                            disabled={processing}
-                            className="border border-solid border-black bg-zinc-900 px-3 py-2"
-                        >
-                            {!isEditing ? 'edit' : 'cancel'}
-                        </Button>
                         {isEditing && (
                             <Button
                                 onClick={(e) => {
@@ -339,9 +331,16 @@ const Show = ({ deck }: Props) => {
                                 disabled={processing || disableSubmitButton}
                                 className="border border-solid border-black bg-zinc-900 px-3 py-2"
                             >
-                                Save
+                                Save Deck Changes
                             </Button>
                         )}
+                        <Button
+                            onClick={() => setIsEditing(!isEditing)}
+                            disabled={processing}
+                            className="border border-solid border-black bg-zinc-900 px-3 py-2"
+                        >
+                            {!isEditing ? 'Edit Deck' : 'Cancel'}
+                        </Button>
                     </div>
                 </div>
             </div>
