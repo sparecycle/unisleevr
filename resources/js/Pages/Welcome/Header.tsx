@@ -3,10 +3,10 @@ import { Slant as Hamburger } from 'hamburger-react';
 import { useState } from 'react';
 
 type Props = {
-    auth
-}
+    auth;
+};
 
-const Header = ({auth}:Props) => {
+const Header = ({ auth }: Props) => {
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
@@ -19,13 +19,18 @@ const Header = ({auth}:Props) => {
             <div className="absolute left-0 top-[72px] mx-3 mb-3 h-[calc(100vh-84px)] w-[calc(100%-24px)] rounded-md bg-black p-4">
                 <nav>
                     <ul>
-                        <li className="text-white">
-                            <Link href={route('decks.index')}>Decks</Link>
-                        </li>
-                        <li className="text-white">
-                            <Link href={route('login')}>Login</Link>
-                        </li>
-                        <li className="text-white">menu item one</li>
+                        {auth.user ? (
+                            <li className="text-white">
+                                <Link href={route('decks.index')}>Decks</Link>
+                            </li>
+                        ) : (
+                            <>
+                                <li className="text-white">
+                                    <Link href={route('login')}>Login</Link>
+                                </li>
+                                <li className="text-white">menu item one</li>
+                            </>
+                        )}
                     </ul>
                 </nav>
             </div>
