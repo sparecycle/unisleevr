@@ -60,16 +60,6 @@ const Show = ({ deck }: Props) => {
         commanders: selectedCommanders,
     });
 
-    const isValidDeck = (deck: any): deck is Deck => {
-        return (
-            deck &&
-            typeof deck.id === 'number' &&
-            typeof deck.name === 'string' &&
-            typeof deck.created_at === 'string' &&
-            typeof deck.updated_at === 'string'
-        );
-    };
-
     useEffect(() => {
         const newCommanderColorIdentity =
             getColorIdentityFromCommanders(selectedCommanders);
@@ -179,35 +169,36 @@ const Show = ({ deck }: Props) => {
         return null;
     };
 
-    const closeForm = () => {
-        reset();
-    };
-
     const updateDeck = () => {
-        patch(route('decks.update', deck?.id), {
-            data,
-            preserveScroll: true,
-            onSuccess: (response) => {
-                if (isValidDeck(response.props.updatedDeck)) {
-                    if (onDeckUpdated) {
-                        onDeckUpdated(response.props.updatedDeck);
-                    }
-                    openToast?.(
-                        `Deck "${response.props.updatedDeck.name}" updated`,
-                        'info',
-                    );
-                } else {
-                    console.warn(
-                        'Invalid or empty updatedDeck:',
-                        response.props.updatedDeck,
-                    );
-                }
-                closeForm();
+        updateDecks(
+            {
+                decks: [deck],
+                user_id: user.id,
+                commanders: selectedCommanders,
+                cards: selectedCards,
+                name: namedByUser ? data.name : deck.name,
             },
-            onError: (errors) => {
-                console.error(errors);
+            () => {
+                openToast?.(`Deck "${deck.name}" updated`, 'info');
             },
-        });
+        );
+        // patch(route('decks.update', deck?.id), {
+        //     data,
+        //     preserveScroll: true,
+        //     onSuccess: (response) => {
+        //         console.log('Deck updated successfully:', response);
+
+        //     // openToast?.(
+        //     //     `Deck "${response.props.updatedDeck.name}" updated`,
+        //     //     'info',
+        //     // );
+        //         reset();
+        //         setIsEditing(false);
+        //     },
+        //     onError: (errors) => {
+        //         console.error(errors);
+        //     },
+        // });
     };
 
     const onSubmit = async (e: FormEvent) => {
@@ -219,7 +210,8 @@ const Show = ({ deck }: Props) => {
         }
         if (!isFormEdited) {
             console.log('Form has not been edited. Skipping submission.');
-            closeForm();
+            reset();
+            setIsEditing(false);
             return;
         }
         updateDeck();
@@ -253,11 +245,16 @@ const Show = ({ deck }: Props) => {
 
         setSelectedCards(updatedCards);
 
-        updateDecks({
-            decks: [deck],
-            user_id: user.id,
-            cards: removeCard(deck, card),
-        });
+        updateDecks(
+            {
+                decks: [deck],
+                user_id: user.id,
+                cards: removeCard(deck, card),
+            },
+            () => {
+                openToast?.(`"${card.name}" removed`, 'info');
+            },
+        );
     };
     return (
         <div className="container mx-auto flex pt-2">
@@ -320,7 +317,7 @@ const Show = ({ deck }: Props) => {
                     </div>
                 )}
 
-                <div className="fixed bottom-0 z-10 w-full shrink-0 bg-zinc-900 py-2">
+                <div className="fixed bottom-0 z-10 w-full shrink-0 bg-zinc-900 py-4">
                     <div className="flex items-center justify-center gap-2">
                         {isEditing && (
                             <Button
