@@ -20,6 +20,7 @@ export interface CardDataType {
     power?: string;
     toughness?: string;
     backCardData?: CardDataType;
+    isInvalidColor?: boolean;
 }
 
 export type CardWithDecks = CardDataType & {

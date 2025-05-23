@@ -1,13 +1,17 @@
-import CardList from '@/Components/CardList';
 import { useToast } from '@/Components/Toast/ToastContext';
-import { CardDataType, CardWithDecks ,Deck as DeckProps, mtgColorStrings } from '@/types/mtg';
+import {
+    CardDataType,
+    CardWithDecks,
+    Deck as DeckProps,
+    mtgColorStrings,
+} from '@/types/mtg';
 import { getColorIdentityFromCommanders } from '@/utilities/general';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
 import Button from '../../../Components/Button';
-import Input from '../../../Components/Input';
 import DeckCardSearch from '../../../Components/DeckCardSearch';
 import DeckCommanderSearch from '../../../Components/DeckCommanderSearch';
+import Input from '../../../Components/Input';
 
 import updateDecks, {
     removeCard,
@@ -148,7 +152,6 @@ const Show = ({ deck }: Props) => {
         } else {
             clearErrors('cards');
         }
-        nameUnNamedDeckWithCommanders();
     }, [selectedCards, currentColorIdentity, isEditing]);
 
     useEffect(() => {
@@ -196,53 +199,7 @@ const Show = ({ deck }: Props) => {
         reset();
     };
 
-    const nameUnNamedDeckWithCommanders = () => {
-        if (data.commanders.length > 0 && !namedByUser) {
-            const commanderNames = data.commanders
-                .map((commander: CardDataType) => commander.name)
-                .join(' // ');
-
-            const isDeckNamedAfterCommanders = data.name === commanderNames;
-
-            if (!data.name) {
-                setData('name', commanderNames);
-            } else if (data.name && !isDeckNamedAfterCommanders) {
-                setData('name', commanderNames);
-            }
-        }
-    };
-
-    const createDeck = (callback?: () => void) => {
-        post(route('decks.store'), {
-            data,
-            preserveScroll: true, // Prevents the page from scrolling to the top
-            onSuccess: (response) => {
-                if (isValidDeck(response.props.updatedDeck)) {
-                    if (onDeckUpdated) {
-                        onDeckUpdated(response.props.updatedDeck);
-                        openToast?.(
-                            `Deck "${response.props.updatedDeck.name}" created`,
-                            'info',
-                        );
-                    }
-                    if (callback) {
-                        callback();
-                    }
-                } else {
-                    console.warn(
-                        'Invalid or empty updatedDeck:',
-                        response.props.updatedDeck,
-                    );
-                }
-                closeForm();
-            },
-            onError: (errors) => {
-                console.error(errors);
-            },
-        });
-    };
-
-    const updateDeck = (callback?: () => void) => {
+    const updateDeck = () => {
         patch(route('decks.update', deck?.id), {
             data,
             preserveScroll: true,
@@ -255,9 +212,6 @@ const Show = ({ deck }: Props) => {
                         `Deck "${response.props.updatedDeck.name}" updated`,
                         'info',
                     );
-                    if (callback) {
-                        callback();
-                    }
                 } else {
                     console.warn(
                         'Invalid or empty updatedDeck:',
@@ -272,7 +226,7 @@ const Show = ({ deck }: Props) => {
         });
     };
 
-    const onSubmit = async (e: FormEvent, callback?: () => void) => {
+    const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
         await validate();
         if (errors.cards || errors.commanders) {
@@ -284,14 +238,8 @@ const Show = ({ deck }: Props) => {
             closeForm();
             return;
         }
-        if (creating) {
-            createDeck(callback);
-        } else if (!creating) {
-            updateDeck(callback);
-        }
+        updateDeck();
     };
-
-
 
     // ------------------------
 
@@ -314,8 +262,7 @@ const Show = ({ deck }: Props) => {
         });
     };
     return (
-        <div>
-            <div className="flex h-full pt-2">
+        <div className="container mx-auto flex pt-2">
             <div className="flex w-full grow flex-col items-center gap-4 py-4">
                 {renderErrors()}
                 {isEditing ? (
@@ -356,6 +303,7 @@ const Show = ({ deck }: Props) => {
                         processing={processing}
                         removeAction={_removeCommander}
                         commanderColorIdentity={currentColorIdentity}
+                        cardVisualization={true}
                     />
                 </div>
 
@@ -368,71 +316,53 @@ const Show = ({ deck }: Props) => {
                             processing={processing}
                             removeAction={_removeCard}
                             colorValidation={selectedCommanders.length > 0}
+                            cardVisualization={true}
                             commanderColorIdentity={currentColorIdentity}
                         />
                     </div>
                 )}
 
                 <div className="relative shrink-0">
-                        <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
+                        <Button
+                            onClick={() => setIsEditing(!isEditing)}
+                            disabled={processing}
+                            className="border border-solid border-black bg-zinc-900 px-3 py-2"
+                        >
+                            {!isEditing ? 'edit' : 'cancel'}
+                        </Button>
+                        {isEditing && (
                             <Button
-                                onClick={() => setIsEditing(!isEditing)}
-                                disabled={processing}
-                                className="border border-solid border-black bg-zinc-900 px-3 py-2"
-                            >
-                                {!isEditing ? 'edit' : 'cancel'}
-                            </Button>
-                            {isEditing && (
-                                <Button
-                                    onClick={(e) => {
-                                        e.preventDefault(); // Prevent default button behavior
-                                        onSubmit(e); // Trigger the form submission
-                                    }}
-                                    disabled={processing || disableSubmitButton}
-                                    className="border border-solid border-black bg-zinc-900 px-3 py-2"
-                                >
-                                    Save
-                                </Button>
-                            )}
-                            <Button
+                                onClick={(e) => {
+                                    e.preventDefault(); // Prevent default button behavior
+                                    onSubmit(e); // Trigger the form submission
+                                }}
                                 disabled={processing || disableSubmitButton}
                                 className="border border-solid border-black bg-zinc-900 px-3 py-2"
-                                onClick={(e) => {
-                                    // TO DO : refactor to use link
-                                    if (isEditing) {
-                                        e.preventDefault(); // Prevent default navigation
-                                        onSubmit(e, () => {
-                                            window.location.href = `/decks/${deck?.id}`; // Navigate to the href
-                                        }); // Wait for onSubmit to resolve
-                                    } else {
-                                        window.location.href = `/decks/${deck?.id}`; // Navigate to the href
-                                    }
-                                }}
                             >
-                                deck details
+                                Save
                             </Button>
-                        </div>
+                        )}
+                    </div>
                 </div>
             </div>
+            {/* <div className="container mx-auto px-3 py-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <CardList
+                        cards={deck.commanders}
+                        parentDelete={handleCommanderDelete}
+                    />
+                </div>
+                <h2 className="text-lg font-semibold">Cards</h2>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <CardList
+                        cards={deck.cards}
+                        showDecks={false}
+                        parentDelete={handleCardDelete}
+                    />
+                </div>
+            </div> */}
         </div>
-        <div className="container mx-auto px-3 py-4">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <CardList
-                    cards={deck.commanders}
-                    parentDelete={handleCommanderDelete}
-                />
-            </div>
-            <h2 className="text-lg font-semibold">Cards</h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <CardList
-                    cards={deck.cards}
-                    showDecks={false}
-                    parentDelete={handleCardDelete}
-                />
-            </div>
-        </div>
-        </div>
-        
     );
 };
 

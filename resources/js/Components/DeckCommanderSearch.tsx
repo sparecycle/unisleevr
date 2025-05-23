@@ -1,4 +1,5 @@
 import { CardDataType, mtgColorStrings } from '@/types/mtg';
+import CardList from './CardList';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
 
@@ -9,6 +10,7 @@ type Props = {
     processing: boolean;
     removeAction: (card: CardDataType) => void;
     commanderColorIdentity: mtgColorStrings[];
+    cardVisualization?: boolean;
 };
 
 const DeckCommanderSearch = ({
@@ -17,6 +19,7 @@ const DeckCommanderSearch = ({
     commanders,
     processing,
     removeAction,
+    cardVisualization,
 }: Props) => {
     return (
         <div className="relative z-0 flex w-full flex-col">
@@ -34,7 +37,7 @@ const DeckCommanderSearch = ({
                 </div>
             )}
 
-            {commanders.length > 0 && (
+            {!cardVisualization && commanders.length > 0 && (
                 <ul className="z-0 flex max-h-[30vh] min-h-[3.6rem] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
                     {commanders.map((commander) => {
                         return (
@@ -54,6 +57,11 @@ const DeckCommanderSearch = ({
                         );
                     })}
                 </ul>
+            )}
+            {cardVisualization && commanders.length > 0 && (
+                <div className="z-0 grid w-full grid-cols-1 gap-4 overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2 md:grid-cols-2 lg:grid-cols-4">
+                    <CardList cards={commanders} parentDelete={removeAction} />
+                </div>
             )}
         </div>
     );
