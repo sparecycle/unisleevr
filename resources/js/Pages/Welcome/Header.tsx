@@ -2,7 +2,11 @@ import { Link } from '@inertiajs/react';
 import { Slant as Hamburger } from 'hamburger-react';
 import { useState } from 'react';
 
-const Header = () => {
+type Props = {
+    auth
+}
+
+const Header = ({auth}:Props) => {
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>

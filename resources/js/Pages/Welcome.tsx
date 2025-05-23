@@ -11,7 +11,7 @@ export default function Welcome({
         <>
             <Head title="Welcome" />
             <div className="relative flex min-h-screen flex-col bg-zinc-900">
-                <Header />
+                <Header auth={auth} />
                 <main className=""></main>
 
                 <footer className="py-16 text-center text-sm text-black dark:text-white/70">
