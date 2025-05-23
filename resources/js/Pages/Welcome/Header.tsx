@@ -28,7 +28,11 @@ const Header = ({ auth }: Props) => {
                                 <li className="text-white">
                                     <Link href={route('login')}>Login</Link>
                                 </li>
-                                <li className="text-white">menu item one</li>
+                                <li className="text-white">
+                                    <Link href={route('register')}>
+                                        Register
+                                    </Link>
+                                </li>
                             </>
                         )}
                     </ul>
