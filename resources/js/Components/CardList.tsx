@@ -7,19 +7,28 @@ type Props = {
     showDecks?: boolean;
     parentDelete?: (card: CardDataType | CardWithDecksType) => void | null;
     deleteDisabled?: boolean;
+    invalidCards?: string[];
 };
 const CardList = ({
     cards,
     showDecks = false,
     parentDelete,
     deleteDisabled,
+    invalidCards,
 }: Props) => {
     return (
         <>
             {cards
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((card) => (
-                    <div key={`${card.id}`}>
+                    <div
+                        key={`${card.id}`}
+                        className={
+                            invalidCards?.includes(card.id)
+                                ? 'rounded-mtg border border-2 border-red-800'
+                                : ''
+                        }
+                    >
                         <MTGCard
                             id={card.id}
                             imgUris={card.imgUris}
@@ -32,7 +41,8 @@ const CardList = ({
                             toughness={card.toughness}
                             backCardData={card.backCardData}
                             onDelete={
-                                deleteDisabled
+                                deleteDisabled &&
+                                !invalidCards?.includes(card.id)
                                     ? undefined
                                     : () => {
                                           if (parentDelete) parentDelete(card);

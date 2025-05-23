@@ -76,12 +76,15 @@ const DeckCardSearch = ({
                     })}
                 </ul>
             )}
-            {cardVisualization && cardsToDisplay.length > 0 && (
+            {cardVisualization && cards.length > 0 && (
                 <div className="z-0 grid w-full grid-cols-1 gap-4 overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
                     <CardList
-                        cards={cardsToDisplay}
+                        cards={cards}
                         parentDelete={removeAction}
                         deleteDisabled={processing || !isSearching}
+                        invalidCards={cardsToDisplay.flatMap((card) =>
+                            card.isInvalidColor ? [card.id] : [],
+                        )}
                     />
                 </div>
             )}
