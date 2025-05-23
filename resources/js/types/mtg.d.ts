@@ -23,7 +23,7 @@ export interface CardDataType {
     isInvalidColor?: boolean;
 }
 
-export type CardWithDecks = CardDataType & {
+export type CardWithDecksType = CardDataType & {
     decks: Deck[] | undefined;
 };
 

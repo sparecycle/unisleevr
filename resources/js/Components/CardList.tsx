@@ -1,13 +1,19 @@
-import { CardDataType, CardWithDecks } from '@/types/mtg';
+import { CardDataType, CardWithDecksType } from '@/types/mtg';
 import { isCardWithDecks } from '@/utilities/general';
 import MTGCard from './MTGCard';
 
 type Props = {
-    cards: CardWithDecks[] | CardDataType[];
+    cards: CardWithDecksType[] | CardDataType[];
     showDecks?: boolean;
-    parentDelete?: (card: CardDataType | CardWithDecks) => void | null;
+    parentDelete?: (card: CardDataType | CardWithDecksType) => void | null;
+    deleteDisabled?: boolean;
 };
-const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
+const CardList = ({
+    cards,
+    showDecks = false,
+    parentDelete,
+    deleteDisabled,
+}: Props) => {
     return (
         <>
             {cards
@@ -25,9 +31,13 @@ const CardList = ({ cards, showDecks = false, parentDelete }: Props) => {
                             power={card.power}
                             toughness={card.toughness}
                             backCardData={card.backCardData}
-                            onDelete={() => {
-                                if (parentDelete) parentDelete(card);
-                            }}
+                            onDelete={
+                                deleteDisabled
+                                    ? undefined
+                                    : () => {
+                                          if (parentDelete) parentDelete(card);
+                                      }
+                            }
                             decks={
                                 showDecks && isCardWithDecks(card)
                                     ? card.decks

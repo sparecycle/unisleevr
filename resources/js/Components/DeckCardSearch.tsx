@@ -81,6 +81,7 @@ const DeckCardSearch = ({
                     <CardList
                         cards={cardsToDisplay}
                         parentDelete={removeAction}
+                        deleteDisabled={processing || !isSearching}
                     />
                 </div>
             )}
