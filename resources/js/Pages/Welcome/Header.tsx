@@ -16,6 +16,9 @@ const Header = () => {
                 <nav>
                     <ul>
                         <li className="text-white">
+                            <Link href={route('decks.index')}>Decks</Link>
+                        </li>
+                        <li className="text-white">
                             <Link href={route('login')}>Login</Link>
                         </li>
                         <li className="text-white">menu item one</li>
