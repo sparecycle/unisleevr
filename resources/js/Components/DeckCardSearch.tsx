@@ -28,18 +28,40 @@ const DeckCardSearch = ({
     const validateCardColors = useCallback(() => {
         if (!colorValidation) return cards;
         return cards.map((card) => {
-            const isInvalidColor =
+            const colorIdentityArray: mtgColorStrings[] = Array.isArray(
+                card.colorIdentity,
+            )
+                ? card.colorIdentity
+                : [];
+
+            const isMissingCommanderColor =
                 colorValidation &&
                 !commanderColorIdentity.some((color) =>
-                    card.colorIdentity?.includes(color),
-                ) &&
-                card.colorIdentity !== undefined &&
-                card.colorIdentity.length > 0;
+                    colorIdentityArray.includes(color),
+                );
+
+            const isColorlessCard = colorIdentityArray.length === 0;
+
+            const containsAnyInvalidColor =
+                colorIdentityArray.some(
+                    (color: mtgColorStrings) =>
+                        !commanderColorIdentity.includes(color),
+                ) ?? false;
+
+            const isInvalidColor =
+                isColorlessCard ||
+                containsAnyInvalidColor ||
+                (isMissingCommanderColor && !isColorlessCard);
+
+            console.log(
+                `Card: ${card.name}, isInvalidColor: ${isInvalidColor}, colorIdentity: ${colorIdentityArray}, commanderColorIdentity: ${commanderColorIdentity}`,
+            );
             return { ...card, isInvalidColor };
         });
     }, [cards, commanderColorIdentity]);
 
     const cardsToDisplay = validateCardColors();
+    console.log('cardsToDisplay', cardsToDisplay);
     return (
         <div className="relative z-0 flex w-full flex-col">
             {isSearching && (
