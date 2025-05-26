@@ -53,15 +53,12 @@ const DeckCardSearch = ({
                 containsAnyInvalidColor ||
                 (isMissingCommanderColor && !isColorlessCard);
 
-            console.log(
-                `Card: ${card.name}, isInvalidColor: ${isInvalidColor}, colorIdentity: ${colorIdentityArray}, commanderColorIdentity: ${commanderColorIdentity}`,
-            );
             return { ...card, isInvalidColor };
         });
     }, [cards, commanderColorIdentity]);
 
     const cardsToDisplay = validateCardColors();
-    console.log('cardsToDisplay', cardsToDisplay);
+
     return (
         <div className="relative z-0 flex w-full flex-col">
             {isSearching && (
