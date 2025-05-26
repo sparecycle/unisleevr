@@ -25,7 +25,7 @@ type Props = {
 const Show = ({ deck }: Props) => {
     const user = usePage().props.auth.user;
     const { openToast } = useToast();
-    const [isEditing, setIsEditing] = useState(true);
+    const [isEditing, setIsEditing] = useState(false);
     const [disableSubmitButton, setDisableSubmitButton] = useState(false);
     const [selectedCards, setSelectedCards] = useState<CardDataType[]>(
         deck?.cards || [],
@@ -34,31 +34,20 @@ const Show = ({ deck }: Props) => {
         CardDataType[]
     >(deck?.commanders || []);
     const [isFormEdited, setIsFormEdited] = useState(false); // Track form edits
-    const [namedByUser, setNamedByUser] = useState(deck?.name ?? false); // Track if the deck is named by the user
+    const [namedByUser, setNamedByUser] = useState(Boolean(deck?.name)); // Track if the deck is named by the user
     const initialCommanderColorIdentity =
         getColorIdentityFromCommanders(selectedCommanders);
     const [currentColorIdentity, setCurrentColorIdentity] = useState<
         mtgColorStrings[]
     >(initialCommanderColorIdentity);
 
-    const {
-        data,
-        setData,
-        patch,
-        post,
-        processing,
-        clearErrors,
-        reset,
-        errors,
-        setError,
-        wasSuccessful,
-        recentlySuccessful,
-    } = useForm({
-        name: deck?.name || undefined,
-        user_id: user.id,
-        cards: selectedCards,
-        commanders: selectedCommanders,
-    });
+    const { data, setData, processing, clearErrors, reset, errors, setError } =
+        useForm({
+            name: deck?.name || undefined,
+            user_id: user.id,
+            cards: selectedCards,
+            commanders: selectedCommanders,
+        });
 
     useEffect(() => {
         const newCommanderColorIdentity =
@@ -151,24 +140,6 @@ const Show = ({ deck }: Props) => {
         return true;
     };
 
-    const renderCardErrors = () => {
-        if (!recentlySuccessful) {
-            return (
-                <p>
-                    {errors.cards && (
-                        <span className="text-red-500">{errors.cards}</span>
-                    )}{' '}
-                    {errors.commanders && (
-                        <span className="text-red-500">
-                            {errors.commanders}
-                        </span>
-                    )}
-                </p>
-            );
-        }
-        return null;
-    };
-
     const updateDeck = () => {
         updateDecks(
             {
@@ -179,32 +150,17 @@ const Show = ({ deck }: Props) => {
                 name: namedByUser ? data.name : deck.name,
             },
             () => {
+                setIsEditing(false);
                 openToast?.(`Deck "${deck.name}" updated`, 'info');
             },
         );
-        // patch(route('decks.update', deck?.id), {
-        //     data,
-        //     preserveScroll: true,
-        //     onSuccess: (response) => {
-        //         console.log('Deck updated successfully:', response);
-
-        //     // openToast?.(
-        //     //     `Deck "${response.props.updatedDeck.name}" updated`,
-        //     //     'info',
-        //     // );
-        //         reset();
-        //         setIsEditing(false);
-        //     },
-        //     onError: (errors) => {
-        //         console.error(errors);
-        //     },
-        // });
     };
 
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        await validate();
-        if (errors.cards || errors.commanders) {
+        const isValid = await validate();
+
+        if (!isValid) {
             console.log('Form has errors. Skipping submission.');
             return;
         }
@@ -216,8 +172,6 @@ const Show = ({ deck }: Props) => {
         }
         updateDeck();
     };
-
-    // ------------------------
 
     const handleCommanderDelete = (card: CardWithDecks | CardDataType) => {
         if (deck.commanders.length > 1) {
@@ -336,22 +290,6 @@ const Show = ({ deck }: Props) => {
                     </div>
                 </div>
             </div>
-            {/* <div className="container mx-auto px-3 py-4">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <CardList
-                        cards={deck.commanders}
-                        parentDelete={handleCommanderDelete}
-                    />
-                </div>
-                <h2 className="text-lg font-semibold">Cards</h2>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <CardList
-                        cards={deck.cards}
-                        showDecks={false}
-                        parentDelete={handleCardDelete}
-                    />
-                </div>
-            </div> */}
         </div>
     );
 };
