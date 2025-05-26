@@ -174,7 +174,7 @@ const Show = ({ deck }: Props) => {
     };
 
     const handleCommanderDelete = (card: CardWithDecks | CardDataType) => {
-        if (deck.commanders.length > 1) {
+        if (selectedCommanders.length > 1) {
             if (!isFormEdited) setIsFormEdited(true);
 
             const updatedCommanders = selectedCommanders.filter(
