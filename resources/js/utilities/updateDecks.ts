@@ -37,7 +37,7 @@ const updateDecks = (args: UpdateDecks, callBack?: () => void) => {
 
     const updatedDecks = decks.map((deck) => ({
         id: deck.id,
-        name: !!args.name ? args.name : deck.name,
+        name: args.name || deck.name,
         cards: !!cards ? cards : deck.cards,
         commanders: !!commanders ? commanders : deck.commanders,
     }));
