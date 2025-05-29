@@ -285,6 +285,7 @@ const DeckModalContent = ({
         if (!isFormEdited) {
             console.log('Form has not been edited. Skipping submission.');
             closeForm();
+            callback?.();
             return;
         }
         if (creating) {
