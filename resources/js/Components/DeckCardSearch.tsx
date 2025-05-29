@@ -49,7 +49,6 @@ const DeckCardSearch = ({
                 ) ?? false;
 
             const isInvalidColor =
-                isColorlessCard ||
                 containsAnyInvalidColor ||
                 (isMissingCommanderColor && !isColorlessCard);
 
