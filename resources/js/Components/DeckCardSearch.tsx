@@ -1,5 +1,6 @@
 import { CardDataType, mtgColorStrings } from '@/types/mtg';
 import { useCallback } from 'react';
+import CardList from './CardList';
 import NametagButton from './NametagButton';
 import Searchbar from './Searchbar';
 
@@ -11,6 +12,7 @@ type Props = {
     removeAction: (card: CardDataType) => void;
     colorValidation?: boolean;
     commanderColorIdentity: mtgColorStrings[];
+    cardVisualization?: boolean;
 };
 
 const DeckCardSearch = ({
@@ -21,21 +23,41 @@ const DeckCardSearch = ({
     removeAction,
     colorValidation = false,
     commanderColorIdentity,
+    cardVisualization = false,
 }: Props) => {
     const validateCardColors = useCallback(() => {
         if (!colorValidation) return cards;
         return cards.map((card) => {
-            const isInvalidColor =
+            const colorIdentityArray: mtgColorStrings[] = Array.isArray(
+                card.colorIdentity,
+            )
+                ? card.colorIdentity
+                : [];
+
+            const isMissingCommanderColor =
                 colorValidation &&
                 !commanderColorIdentity.some((color) =>
-                    card.colorIdentity?.includes(color),
-                ) &&
-                card.colorIdentity !== undefined &&
-                card.colorIdentity.length > 0;
+                    colorIdentityArray.includes(color),
+                );
+
+            const isColorlessCard = colorIdentityArray.length === 0;
+
+            const containsAnyInvalidColor =
+                colorIdentityArray.some(
+                    (color: mtgColorStrings) =>
+                        !commanderColorIdentity.includes(color),
+                ) ?? false;
+
+            const isInvalidColor =
+                containsAnyInvalidColor ||
+                (isMissingCommanderColor && !isColorlessCard);
+
             return { ...card, isInvalidColor };
         });
     }, [cards, commanderColorIdentity]);
+
     const cardsToDisplay = validateCardColors();
+
     return (
         <div className="relative z-0 flex w-full flex-col">
             {isSearching && (
@@ -53,7 +75,7 @@ const DeckCardSearch = ({
                 </div>
             )}
 
-            {cardsToDisplay.length > 0 && (
+            {!cardVisualization && cardsToDisplay.length > 0 && (
                 <ul className="z-0 flex max-h-[30vh] min-h-[3.6rem] w-full flex-wrap overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2">
                     {cardsToDisplay.map((card) => {
                         return (
@@ -71,6 +93,18 @@ const DeckCardSearch = ({
                         );
                     })}
                 </ul>
+            )}
+            {cardVisualization && cards.length > 0 && (
+                <div className="z-0 grid w-full grid-cols-1 gap-4 overflow-y-auto rounded-md border border-solid border-zinc-800 bg-zinc-900 p-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+                    <CardList
+                        cards={cards}
+                        parentDelete={removeAction}
+                        deleteDisabled={processing || !isSearching}
+                        invalidCards={cardsToDisplay.flatMap((card) =>
+                            card.isInvalidColor ? [card.id] : [],
+                        )}
+                    />
+                </div>
             )}
         </div>
     );
