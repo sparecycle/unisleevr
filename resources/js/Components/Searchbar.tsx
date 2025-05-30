@@ -3,6 +3,7 @@ import {
     scryfallNamedSearch,
     scryfallSearch,
 } from '@/api/Scryfall';
+import { ColorDivider } from '@/Components/ColorDivider';
 import { CardDataType, mtgColorStrings } from '@/types/mtg';
 import { debounce, useOutsideAlerter } from '@/utilities/general';
 import { prepCardDataForRender } from '@/utilities/prepCardData';
@@ -334,8 +335,23 @@ const Searchbar = ({
                     className="autocomplete-results-list z-99 relative w-auto rounded-b-lg bg-zinc-800"
                     tabIndex={0}
                 >
-                    <div className="sticky top-0 z-10 h-1 py-2 shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)]"></div>
-                    {loading && <li>Loading results...</li>}
+                    <div className="sticky top-0 z-10 mb-2 shadow-[0_0_10px_0_rgba(0,0,0,1)]">
+                        <ColorDivider colorIdentity={colors || []} />
+                    </div>
+                    {!error && !loading && partnerSearch && (
+                        <li className="text-center text-xs font-semibold text-zinc-500">
+                            <span>filtering for partners:</span>
+                        </li>
+                    )}
+                    {!error && !loading && colors && colors.length > 0 && (
+                        <li className="text-center text-xs font-semibold text-zinc-500">
+                            <span>
+                                filtering by colors: {colors.join(', ')}
+                            </span>
+                        </li>
+                    )}
+                    {!error && loading && <li>Loading results...</li>}
+
                     {error && (
                         <li className="text-center text-red-500">
                             <span>{error}</span>
