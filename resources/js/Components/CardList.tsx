@@ -16,6 +16,13 @@ const CardList = ({
     deleteDisabled,
     invalidCards,
 }: Props) => {
+    const handleDelete = (card: CardWithDecksType | CardDataType) => {
+        if (deleteDisabled && !invalidCards?.includes(card.id)) {
+            return undefined;
+        } else {
+            if (parentDelete) parentDelete(card);
+        }
+    };
     return (
         <>
             {cards
@@ -25,7 +32,7 @@ const CardList = ({
                         key={`${card.id}`}
                         className={
                             invalidCards?.includes(card.id)
-                                ? 'rounded-mtg border border-2 border-red-800'
+                                ? 'rounded-mtg border border-2 border-solid border-red-800'
                                 : ''
                         }
                     >
@@ -40,14 +47,7 @@ const CardList = ({
                             power={card.power}
                             toughness={card.toughness}
                             backCardData={card.backCardData}
-                            onDelete={
-                                deleteDisabled &&
-                                !invalidCards?.includes(card.id)
-                                    ? undefined
-                                    : () => {
-                                          if (parentDelete) parentDelete(card);
-                                      }
-                            }
+                            onDelete={() => handleDelete(card)}
                             decks={
                                 showDecks && isCardWithDecks(card)
                                     ? card.decks
