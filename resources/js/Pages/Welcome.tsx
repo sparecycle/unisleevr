@@ -1,6 +1,7 @@
 import { PageProps } from '@/types';
 import { Head } from '@inertiajs/react';
 import Header from './Welcome/Header';
+import Hero from './Welcome/Hero';
 
 export default function Welcome({
     auth,
@@ -10,9 +11,11 @@ export default function Welcome({
     return (
         <>
             <Head title="Welcome" />
-            <div className="relative flex min-h-screen w-full overflow-x-clip flex-col bg-zinc-900">
+            <div className="relative flex min-h-screen w-full flex-col overflow-x-clip bg-zinc-900">
                 <Header auth={auth} />
-                <main className=""></main>
+                <main>
+                    <Hero />
+                </main>
 
                 <footer className="py-16 text-center text-sm text-black dark:text-white/70">
                     Laravel v{laravelVersion} (PHP v{phpVersion})
