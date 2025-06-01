@@ -37,7 +37,7 @@ const MTGCard = ({
             <div className="card-actions group absolute z-10 aspect-[2.5/3.5] w-full content-center">
                 {onDelete && (
                     <button
-                        className={`btn btn-primary transition-rotate absolute right-0 top-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black group-hover:opacity-100 lg:opacity-0`}
+                        className={`btn btn-primary transition-rotate absolute right-0 top-0 rounded-full border-none bg-black/50 p-1 duration-200 ease-in-out hover:bg-black`}
                         onClick={onDelete}
                     >
                         <MdDeleteForever className="h-12 w-12 md:h-10 md:w-10 lg:h-6 lg:w-6" />
