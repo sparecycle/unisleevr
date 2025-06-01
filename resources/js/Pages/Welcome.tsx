@@ -10,7 +10,7 @@ export default function Welcome({
     return (
         <>
             <Head title="Welcome" />
-            <div className="relative flex min-h-screen flex-col bg-zinc-900">
+            <div className="relative flex min-h-screen w-full overflow-x-clip flex-col bg-zinc-900">
                 <Header auth={auth} />
                 <main className=""></main>
 
