@@ -1,11 +1,14 @@
 import { ReactNode } from 'react';
 
 type Props = {
+    className?: string;
     children: ReactNode;
 };
 
-const Section = ({ children }: Props) => {
-    return <section>{children}</section>;
+const Section = ({ className, children }: Props) => {
+    return (
+        <section className={`py-8 text-white ${className}`}>{children}</section>
+    );
 };
 
 export default Section;
