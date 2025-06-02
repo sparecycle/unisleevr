@@ -4,6 +4,7 @@ import Header from './Welcome/Header';
 import Hero from './Welcome/Hero';
 import Problem from './Welcome/Problem';
 import Solution from './Welcome/Solution';
+import UseCase from './Welcome/UseCase';
 
 export default function Welcome({
     auth,
@@ -31,6 +32,7 @@ export default function Welcome({
                     <Hero />
                     <Problem />
                     <Solution />
+                    <UseCase />
                 </main>
 
                 <footer className="py-16 text-center text-sm text-black dark:text-white/70">
