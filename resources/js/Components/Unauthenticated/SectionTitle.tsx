@@ -6,7 +6,9 @@ type Props = {
 };
 const SectionTitle = ({ children, className }: Props) => {
     return (
-        <h2 className={`font-title text-2xl font-semibold uppercase ${className}`}>
+        <h2
+            className={`font-title text-2xl font-semibold uppercase ${className}`}
+        >
             {children}
         </h2>
     );
