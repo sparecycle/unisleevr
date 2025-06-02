@@ -21,3 +21,4 @@ const Hero = () => {
 };
 
 export default Hero;
+//TODO: Animation of Card angled towards the distance, one point perspective, animation that is like a sheen across the card, possibly showing the faces of popular commanders over a particular staple, Cyclonic Rift?
