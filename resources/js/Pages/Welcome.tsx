@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/react';
 import Header from './Welcome/Header';
 import Hero from './Welcome/Hero';
 import Problem from './Welcome/Problem';
+import Solution from './Welcome/Solution';
 
 export default function Welcome({
     auth,
@@ -29,6 +30,7 @@ export default function Welcome({
                 <main>
                     <Hero />
                     <Problem />
+                    <Solution />
                 </main>
 
                 <footer className="py-16 text-center text-sm text-black dark:text-white/70">
