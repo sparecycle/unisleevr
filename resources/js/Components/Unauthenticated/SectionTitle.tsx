@@ -4,7 +4,7 @@ type Props = {
     children: ReactNode;
 };
 const SectionTitle = ({ children }: Props) => {
-    return <h2 className="text-xl">{children}</h2>;
+    return <h2 className="font-title text-2xl font-semibold uppercase">{children}</h2>;
 };
 
 export default SectionTitle;
