@@ -1,6 +1,6 @@
 const HeroCard = () => {
     return (
-        <div className="absolute bottom-0 left-1/2 z-0 w-2/3 -translate-x-1/2">
+        <div className="absolute -bottom-14 left-1/2 z-0 w-2/3 -translate-x-1/2">
             <div className="z-0 perspective-near transform-3d">
                 <div className="rotate-x-42">
                     <div className="rounded-mtg overflow-hidden text-white">
