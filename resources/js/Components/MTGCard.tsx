@@ -68,7 +68,7 @@ const MTGCard = ({
             className={`card group/card relative aspect-[2.5/3.5] w-full overflow-hidden rounded-mtg shadow-md`}
         >
             <div
-                className={`overlay absolute top-0 z-10 flex h-full w-full flex-col items-center justify-center rounded-mtg bg-zinc-900/90 duration-150 ease-in-out ${displayDecks ? 'left-0 opacity-100' : 'left-[-100%] opacity-0'}`}
+                className={`overlay absolute top-0 z-10 flex h-full w-full flex-col items-center justify-center rounded-mtg bg-zinc-900/90 duration-150 ease-in-out ${displayDecks ? 'left-0 opacity-100' : '-left-full opacity-0'}`}
             >
                 <button
                     className="btn btn-primary absolute right-0 top-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black"

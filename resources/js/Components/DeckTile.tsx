@@ -69,7 +69,7 @@ const DeckTile = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <div className="overcard duration-250 absolute left-0 top-0 z-10 flex h-full w-full flex-col rounded-md bg-zinc-200 shadow-lg transition-transform focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:translate-x-[-5px] active:translate-y-[-5px] group-hover/deck-tile:z-20 group-hover/deck-tile:translate-x-[-15px] group-hover/deck-tile:translate-y-[-15px] dark:bg-zinc-950 dark:active:bg-zinc-800 dark:group-hover/deck-tile:bg-zinc-900">
+            <div className="overcard duration-250 absolute left-0 top-0 z-10 flex h-full w-full flex-col rounded-md bg-zinc-200 shadow-lg transition-transform focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:translate-x-[-5px] active:translate-y-[-5px] group-hover/deck-tile:z-20 group-hover/deck-tile:translate-x-[-15px] group-hover/deck-tile:translate-y-[-15px] dark:bg-zinc-950 dark:active:bg-zinc-800 dark:group-hover/deck-tile:bg-zinc-900">
                 {isButton && (
                     <DeckTileButtonContent
                         title={title}

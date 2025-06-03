@@ -59,7 +59,7 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
 
     return (
         <>
-            <div ref={buttonShelfRef} className="bookmark h-[1px] w-full"></div>
+            <div ref={buttonShelfRef} className="bookmark h-px w-full"></div>
             <div
                 className={`buttonShelfWrapper duration-350 flex w-full justify-center transition-transform ${fixShelf ? 'fixed -top-[100px] left-0 z-50 translate-y-[100px] bg-black py-4' : 'relative'}`}
             >

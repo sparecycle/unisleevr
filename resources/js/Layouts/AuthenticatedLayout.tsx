@@ -50,7 +50,7 @@ export default function Authenticated({
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-zinc-500 transition duration-150 ease-in-out hover:text-zinc-700 focus:outline-none dark:bg-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-300"
+                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-zinc-500 transition duration-150 ease-in-out hover:text-zinc-700 focus:outline-hidden dark:bg-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-300"
                                             >
                                                 {user.name}
 
@@ -95,7 +95,7 @@ export default function Authenticated({
                                         (previousState) => !previousState,
                                     )
                                 }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-zinc-400 transition duration-150 ease-in-out hover:bg-zinc-100 hover:text-zinc-500 focus:bg-zinc-100 focus:text-zinc-500 focus:outline-none dark:text-zinc-500 dark:hover:bg-zinc-900 dark:hover:text-zinc-400 dark:focus:bg-zinc-900 dark:focus:text-zinc-400"
+                                className="inline-flex items-center justify-center rounded-md p-2 text-zinc-400 transition duration-150 ease-in-out hover:bg-zinc-100 hover:text-zinc-500 focus:bg-zinc-100 focus:text-zinc-500 focus:outline-hidden dark:text-zinc-500 dark:hover:bg-zinc-900 dark:hover:text-zinc-400 dark:focus:bg-zinc-900 dark:focus:text-zinc-400"
                             >
                                 <svg
                                     className="h-6 w-6"
@@ -179,7 +179,7 @@ export default function Authenticated({
             </nav>
 
             {header && (
-                <header className="bg-white shadow dark:bg-zinc-800">
+                <header className="bg-white shadow-sm dark:bg-zinc-800">
                     <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
                         {header}
                     </div>

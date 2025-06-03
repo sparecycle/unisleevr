@@ -3,7 +3,7 @@ import Title from '@/Components/Unauthenticated/HeroTitle';
 const Hero = () => {
     return (
         <section className="relative h-[75vh]">
-            <div className="container relative z-[2] mx-auto flex h-full flex-col items-center justify-center gap-3 px-4 text-center text-white">
+            <div className="container relative z-2 mx-auto flex h-full flex-col items-center justify-center gap-3 px-4 text-center text-white">
                 <Title>One Card, Many Decks</Title>
                 <div className="w-5/6">
                     <p className="text-base leading-6">

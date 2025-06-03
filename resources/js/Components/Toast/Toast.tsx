@@ -40,7 +40,7 @@ export const Toast = ({ msg, type, close }: ToastProps) => {
     }, [close]);
 
     const toastBaseClass =
-        'toast flex min-w-[200px] justify-between rounded p-2 text-lg text-white transition-transform duration-200 ease-in-out';
+        'toast flex min-w-[200px] justify-between rounded-sm p-2 text-lg text-white transition-transform duration-200 ease-in-out';
 
     const toastTypeClass = {
         success: 'bg-green-700 border border-green-500',
@@ -85,7 +85,7 @@ export const ToastProvider = ({ children }: ToastProviderPropertiesType) => {
         <>
             <ToastContext.Provider value={contextValue}>
                 {children}
-                <div className="toast-container fixed right-0 top-0 z-[9999] flex flex-col gap-2 p-4 pt-8">
+                <div className="toast-container fixed right-0 top-0 z-9999 flex flex-col gap-2 p-4 pt-8">
                     {toasts &&
                         toasts.map((toast) => (
                             <Toast
