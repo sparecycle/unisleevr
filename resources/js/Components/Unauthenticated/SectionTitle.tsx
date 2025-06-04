@@ -14,7 +14,7 @@ const SectionTitle = ({ children, className, eyebrow }: Props) => {
                 </div>
             )}
             <h2
-                className={`font-title text-[1.6rem] font-semibold uppercase ${className}`}
+                className={`font-title text-[1.65rem] font-semibold uppercase ${className}`}
             >
                 {children}
             </h2>
