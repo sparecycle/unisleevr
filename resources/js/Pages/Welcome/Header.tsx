@@ -17,7 +17,7 @@ const Header = ({ auth }: Props) => {
                 </div>
             </header>
             <div
-                className={`absolute top-[72px] z-10 mx-3 mb-3 h-[calc(100vh-84px)] w-[calc(100%-24px)] rounded-md bg-black p-4 ${open ? 'left-0' : 'left-full'}`}
+                className={`absolute top-[72px] z-10 mx-3 mb-3 h-[calc(100vh-84px)] w-[calc(100%-24px)] rounded-md bg-black p-4 transition-[left] ${open ? 'left-0' : 'left-full'}`}
             >
                 <nav>
                     <ul>
