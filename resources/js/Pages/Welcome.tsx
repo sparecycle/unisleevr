@@ -1,5 +1,6 @@
 import { PageProps } from '@/types';
 import { Head } from '@inertiajs/react';
+import BottomCta from './Welcome/BottomCta';
 import Header from './Welcome/Header';
 import Hero from './Welcome/Hero';
 import Problem from './Welcome/Problem';
@@ -33,6 +34,7 @@ export default function Welcome({
                     <Problem />
                     <Solution />
                     <UseCase />
+                    <BottomCta />
                 </main>
 
                 <footer className="py-16 text-center text-sm text-black dark:text-white/70">
