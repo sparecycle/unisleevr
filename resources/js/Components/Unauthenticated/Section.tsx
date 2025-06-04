@@ -8,7 +8,7 @@ type Props = {
 const Section = ({ className, children }: Props) => {
     return (
         <section className={`py-16 text-white ${className}`}>
-            <div className="container mx-auto flex flex-col gap-3 px-4">
+            <div className="container mx-auto flex flex-col gap-2 px-4">
                 {children}
             </div>
         </section>
