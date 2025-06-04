@@ -4,7 +4,9 @@ import SectionTitle from '@/Components/Unauthenticated/SectionTitle';
 const Problem = () => {
     return (
         <Section className="min-h-1/2 bg-zinc-700">
-            <SectionTitle>Where's My Rhystic Study?</SectionTitle>
+            <SectionTitle eyebrow="Never buy another staple again">
+                Where's My Rhystic Study?
+            </SectionTitle>
             <p>Many decks. One expensive card. Endless compromises.</p>
             <ul className="my-3 list-disc pl-5">
                 <li>Sick of keeping track of which deck has that card?</li>

@@ -16,7 +16,7 @@ const BottomCta = () => {
                     placeholder="Your Email"
                     className="grow"
                 />
-                <button className="font-title rounded-md bg-rose-700 px-4 text-lg font-medium uppercase">
+                <button className="font-title rounded-md bg-rose-600 px-4 text-lg font-medium uppercase">
                     Join the Waitlist
                 </button>
             </form>

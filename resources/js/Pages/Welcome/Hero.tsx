@@ -12,7 +12,7 @@ const Hero = () => {
                     </p>
                 </div>
                 <div className="py-2">
-                    <button className="font-title rounded-md bg-rose-700 px-6 py-2 text-lg font-medium uppercase">
+                    <button className="font-title rounded-md bg-rose-600 px-6 py-2 text-lg font-medium uppercase">
                         Join the Waitlist
                     </button>
                 </div>
