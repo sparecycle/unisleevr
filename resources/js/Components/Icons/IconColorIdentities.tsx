@@ -10,7 +10,7 @@ const PipWrapper = ({ children }: PipWrapperProps) => {
     return <div className="aspect-square w-1/3">{children}</div>;
 };
 
-const IconGuilds = () => {
+const IconColorIdentities = () => {
     return (
         <div className="relative aspect-square">
             <PipWrapper>
@@ -26,4 +26,4 @@ const IconGuilds = () => {
     );
 };
 
-export default IconGuilds;
+export default IconColorIdentities;
