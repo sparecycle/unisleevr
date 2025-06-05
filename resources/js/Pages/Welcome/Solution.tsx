@@ -1,3 +1,4 @@
+import IconCardSearch from '@/Components/Icons/IconCardSearch';
 import IconText from '@/Components/Unauthenticated/IconText';
 import Paragraph from '@/Components/Unauthenticated/Paragraph';
 import Section from '@/Components/Unauthenticated/Section';
@@ -17,7 +18,10 @@ const Solution = () => {
                     </Paragraph>
                 </div>
                 <div className="w-1/2 p-6">
-                    <IconText text="Auto-detect shared cards across decks" />
+                    <IconText
+                        icon={<IconCardSearch />}
+                        text="Auto-detect shared cards across decks"
+                    />
                 </div>
                 <div className="w-1/2 p-6">
                     <IconText text="Create an easy pull list before game night" />
