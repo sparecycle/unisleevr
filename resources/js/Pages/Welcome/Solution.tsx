@@ -1,4 +1,5 @@
 import IconCardSearch from '@/Components/Icons/IconCardSearch';
+import IconList from '@/Components/Icons/IconList';
 import IconText from '@/Components/Unauthenticated/IconText';
 import Paragraph from '@/Components/Unauthenticated/Paragraph';
 import Section from '@/Components/Unauthenticated/Section';
@@ -24,7 +25,10 @@ const Solution = () => {
                     />
                 </div>
                 <div className="w-1/2 p-6">
-                    <IconText text="Create an easy pull list before game night" />
+                    <IconText
+                        icon={<IconList />}
+                        text="Create an easy pull list before game night"
+                    />
                 </div>
                 <div className="w-1/2 p-6">
                     <IconText text="See at a glance how many decks a card is in" />
