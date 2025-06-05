@@ -10,7 +10,7 @@ const IconText = ({ icon, text }: Props) => {
             {icon && (
                 <div
                     className={
-                        'flex h-12 w-12 items-center justify-center [&_path]:fill-white [&_svg]:max-h-full [&_svg]:max-w-full'
+                        'flex h-12 w-12 items-center justify-center [&_path]:fill-white [&_rect]:stroke-white [&_svg]:max-h-full [&_svg]:max-w-full'
                     }
                 >
                     {icon}
