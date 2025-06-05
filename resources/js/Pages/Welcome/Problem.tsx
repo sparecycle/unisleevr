@@ -1,3 +1,4 @@
+import ListItem from '@/Components/Unauthenticated/ListItem';
 import Paragraph from '@/Components/Unauthenticated/Paragraph';
 import Section from '@/Components/Unauthenticated/Section';
 import SectionTitle from '@/Components/Unauthenticated/SectionTitle';
@@ -12,9 +13,13 @@ const Problem = () => {
                 Many decks. One expensive card. Endless compromises.
             </Paragraph>
             <ul className="my-3 list-disc pl-5">
-                <li>Sick of keeping track of which deck has that card?</li>
-                <li>Tired of buying the same card over and over again?</li>
-                <li>Are your proxies out of control?</li>
+                <ListItem>
+                    Sick of keeping track of which deck has that card?
+                </ListItem>
+                <ListItem>
+                    Tired of buying the same card over and over again?
+                </ListItem>
+                <ListItem>Are your proxies out of control?</ListItem>
             </ul>
         </Section>
     );
