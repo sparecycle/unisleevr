@@ -23,12 +23,14 @@ const Solution = () => {
                 <SectionTitle className="w-full text-center">
                     Smarter Deckbuilding Starts Here
                 </SectionTitle>
-                <div className="w-full text-center">
-                    <Paragraph>
-                        Build smarter with a tool that tracks which cards are
-                        shared between decks — and helps you decide where they
-                        go before game night.
-                    </Paragraph>
+                <div className="mx-auto w-full text-center">
+                    <div className="mx-auto w-full lg:w-3/5">
+                        <Paragraph>
+                            Build smarter with a tool that tracks which cards
+                            are shared between decks — and helps you decide
+                            where they go before game night.
+                        </Paragraph>
+                    </div>
                 </div>
                 <Column>
                     <IconText
