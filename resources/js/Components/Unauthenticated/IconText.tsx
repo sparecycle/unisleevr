@@ -6,8 +6,8 @@ type Props = {
 };
 const IconText = ({ icon, text }: Props) => {
     return (
-        <div className="flex flex-col gap-2 text-center text-sm">
-            {icon && icon}
+        <div className="flex flex-col items-center gap-2 text-center text-sm">
+            {icon && <div className={'w-12 [&_path]:fill-white'}>{icon}</div>}
             <p className="text-base">{text}</p>
         </div>
     );
