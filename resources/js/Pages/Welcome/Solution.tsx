@@ -1,4 +1,5 @@
 import IconText from '@/Components/Unauthenticated/IconText';
+import Paragraph from '@/Components/Unauthenticated/Paragraph';
 import Section from '@/Components/Unauthenticated/Section';
 import SectionTitle from '@/Components/Unauthenticated/SectionTitle';
 const Solution = () => {
@@ -9,11 +10,11 @@ const Solution = () => {
                     Smarter Deckbuilding Starts Here
                 </SectionTitle>
                 <div className="w-full text-center">
-                    <p>
+                    <Paragraph>
                         Build smarter with a tool that tracks which cards are
                         shared between decks — and helps you decide where they
                         go before game night.
-                    </p>
+                    </Paragraph>
                 </div>
                 <div className="w-1/2 p-6">
                     <IconText text="Auto-detect shared cards across decks" />
