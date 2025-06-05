@@ -4,10 +4,15 @@ import IconIsland from './IconIsland';
 import IconMountain from './IconMountain';
 
 type PipWrapperProps = {
+    className?: string;
     children: ReactNode;
 };
-const PipWrapper = ({ children }: PipWrapperProps) => {
-    return <div className="aspect-square w-1/3">{children}</div>;
+const PipWrapper = ({ className, children }: PipWrapperProps) => {
+    return (
+        <div className={`aspect-square w-1/3 ${className ? className : ''}`}>
+            {children}
+        </div>
+    );
 };
 
 const IconColorIdentities = () => {
