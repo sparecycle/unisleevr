@@ -6,6 +6,16 @@ import IconText from '@/Components/Unauthenticated/IconText';
 import Paragraph from '@/Components/Unauthenticated/Paragraph';
 import Section from '@/Components/Unauthenticated/Section';
 import SectionTitle from '@/Components/Unauthenticated/SectionTitle';
+import { ReactNode } from 'react';
+
+type ColumnProps = {
+    children: ReactNode;
+};
+
+const Column = ({ children }: ColumnProps) => {
+    return <div className="w-1/2 p-6 lg:w-1/4 lg:py-10">{children}</div>;
+};
+
 const Solution = () => {
     return (
         <Section>
@@ -20,30 +30,30 @@ const Solution = () => {
                         go before game night.
                     </Paragraph>
                 </div>
-                <div className="w-1/2 p-6">
+                <Column>
                     <IconText
                         icon={<IconCardSearch />}
                         text="Auto-detect shared cards across decks"
                     />
-                </div>
-                <div className="w-1/2 p-6">
+                </Column>
+                <Column>
                     <IconText
                         icon={<IconList />}
                         text="Create an easy pull list before game night"
                     />
-                </div>
-                <div className="w-1/2 p-6">
+                </Column>
+                <Column>
                     <IconText
                         icon={<IconCardDecks />}
                         text="See at a glance how many decks a card is in"
                     />
-                </div>
-                <div className="w-1/2 p-6">
+                </Column>
+                <Column>
                     <IconText
                         icon={<IconColorIdentities />}
                         text="Automatic color identity checks when you swap commanders."
                     />
-                </div>
+                </Column>
             </div>
         </Section>
     );
