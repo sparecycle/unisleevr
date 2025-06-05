@@ -1,5 +1,6 @@
 import IconCardDecks from '@/Components/Icons/IconCardDecks';
 import IconCardSearch from '@/Components/Icons/IconCardSearch';
+import IconGuilds from '@/Components/Icons/IconGuilds';
 import IconList from '@/Components/Icons/IconList';
 import IconText from '@/Components/Unauthenticated/IconText';
 import Paragraph from '@/Components/Unauthenticated/Paragraph';
@@ -38,7 +39,10 @@ const Solution = () => {
                     />
                 </div>
                 <div className="w-1/2 p-6">
-                    <IconText text="Automatic color identity checks when you swap commanders." />
+                    <IconText
+                        icon={<IconGuilds />}
+                        text="Automatic color identity checks when you swap commanders."
+                    />
                 </div>
             </div>
         </Section>
