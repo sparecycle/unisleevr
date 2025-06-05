@@ -1,10 +1,45 @@
+import { heroCards } from '@/constants';
+import { randFromRange } from '@/utilities/general';
+import { useEffect, useState } from 'react';
+
 const HeroCard = () => {
+    const [currentHeroCard, setCurrentHeroCard] = useState(
+        heroCards[randFromRange(0, heroCards.length - 1) as number],
+    );
+    const [shineActive, setShineActive] = useState(false);
+
+    const getNextHeroCard = () => {
+        const nextIndex = heroCards.indexOf(currentHeroCard) + 1;
+        if (nextIndex >= heroCards.length) {
+            return heroCards[0];
+        }
+        return heroCards[nextIndex];
+    };
+
+    // Change hero card every 5 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentHeroCard(getNextHeroCard());
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [currentHeroCard]);
+
+    // Trigger shine animation on card change
+    useEffect(() => {
+        setShineActive(false);
+        // Timeout ensures reflow so animation can restart
+        const timeout = setTimeout(() => setShineActive(true), 10);
+        return () => clearTimeout(timeout);
+    }, [currentHeroCard]);
+
     return (
         <div className="absolute -bottom-14 left-1/2 z-0 w-2/3 -translate-x-1/2">
             <div className="z-0 perspective-near transform-3d">
                 <div className="rotate-x-42">
-                    <div className="hero-card-wrapper rounded-mtg relative overflow-hidden text-white">
-                        <img src="https://cards.scryfall.io/large/front/c/9/c94079dd-023a-41b2-9004-95bbb0e41267.jpg?1593814137" />
+                    <div
+                        className={`hero-card-wrapper rounded-mtg relative overflow-hidden text-white ${shineActive ? 'shine-animate' : ''}`}
+                    >
+                        <img src={currentHeroCard.img} />
                     </div>
                 </div>
             </div>
