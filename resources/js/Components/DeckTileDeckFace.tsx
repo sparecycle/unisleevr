@@ -1,4 +1,4 @@
-import { mtgColors } from '@/constants';
+import { ColorDivider } from '@/Components/ColorDivider';
 import { CardDataType, Deck } from '@/types/mtg';
 import { Dispatch, SetStateAction } from 'react';
 import { MdDeleteForever } from 'react-icons/md';
@@ -95,20 +95,7 @@ const DeckTileDeckFace = ({
                 className="deck-tile-body z-1 absolute bottom-0 left-0 flex h-auto w-full flex-wrap items-center justify-center rounded-b-md bg-zinc-900 p-0 pb-2 text-white shadow-md transition-transform duration-200 ease-in-out group-hover/deck-tile:bg-zinc-900/80"
                 onClick={() => activeSetter && activeSetter(deck)}
             >
-                <div className="color-divider flex h-[3px] w-full">
-                    {deck.color_identity?.map((color: string) => (
-                        <div
-                            key={`deck-color-${color}`}
-                            style={{
-                                backgroundColor:
-                                    mtgColors.hex[
-                                        color as keyof typeof mtgColors.hex
-                                    ],
-                            }}
-                            className="h-full w-full"
-                        ></div>
-                    ))}
-                </div>
+                <ColorDivider colorIdentity={deck.color_identity || []} />
                 <div className="w-full pt-1 text-center">
                     <h4 className="deck-tile-title hyphen-manual w-full text-wrap px-2 text-center font-bold">
                         {title.length > maxTitleLength
