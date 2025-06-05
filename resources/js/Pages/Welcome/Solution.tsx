@@ -1,3 +1,4 @@
+import IconCardDecks from '@/Components/Icons/IconCardDecks';
 import IconCardSearch from '@/Components/Icons/IconCardSearch';
 import IconList from '@/Components/Icons/IconList';
 import IconText from '@/Components/Unauthenticated/IconText';
@@ -31,7 +32,10 @@ const Solution = () => {
                     />
                 </div>
                 <div className="w-1/2 p-6">
-                    <IconText text="See at a glance how many decks a card is in" />
+                    <IconText
+                        icon={<IconCardDecks />}
+                        text="See at a glance how many decks a card is in"
+                    />
                 </div>
                 <div className="w-1/2 p-6">
                     <IconText text="Automatic color identity checks when you swap commanders." />
