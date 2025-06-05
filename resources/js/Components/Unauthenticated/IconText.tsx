@@ -8,7 +8,7 @@ const IconText = ({ icon, text }: Props) => {
     return (
         <div className="flex flex-col gap-2 text-center text-sm">
             {icon && icon}
-            {text}
+            <p className="text-base">{text}</p>
         </div>
     );
 };
