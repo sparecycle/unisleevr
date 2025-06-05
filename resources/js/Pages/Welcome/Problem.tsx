@@ -1,3 +1,4 @@
+import Paragraph from '@/Components/Unauthenticated/Paragraph';
 import Section from '@/Components/Unauthenticated/Section';
 import SectionTitle from '@/Components/Unauthenticated/SectionTitle';
 
@@ -7,7 +8,9 @@ const Problem = () => {
             <SectionTitle eyebrow="Never buy another staple again">
                 Where's My Rhystic Study?
             </SectionTitle>
-            <p>Many decks. One expensive card. Endless compromises.</p>
+            <Paragraph>
+                Many decks. One expensive card. Endless compromises.
+            </Paragraph>
             <ul className="my-3 list-disc pl-5">
                 <li>Sick of keeping track of which deck has that card?</li>
                 <li>Tired of buying the same card over and over again?</li>
