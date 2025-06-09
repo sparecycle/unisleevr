@@ -1,8 +1,26 @@
 import Card from '@/Components/Unauthenticated/HeroCard';
 import Title from '@/Components/Unauthenticated/HeroTitle';
+
 const Hero = () => {
     return (
         <section className="relative h-[75vh] overflow-hidden">
+            {/* 3D cubes background */}
+            <div className="pointer-events-none absolute inset-0 z-0">
+                <div className="cube-bg-grid -ml-[32px] grid h-full w-full grid-cols-5 grid-rows-6 gap-x-25 gap-y-30">
+                    {Array.from({ length: 28 }).map((_, i) => (
+                        <div key={i} className="cube-3d mx-auto my-auto">
+                            <div className="cube-3d-inner">
+                                <div className="cube-3d-face front"></div>
+                                <div className="cube-3d-face back"></div>
+                                <div className="cube-3d-face right"></div>
+                                <div className="cube-3d-face left"></div>
+                                <div className="cube-3d-face top"></div>
+                                <div className="cube-3d-face bottom"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
             <div className="relative z-2 container mx-auto flex h-full flex-col items-center justify-center gap-3 px-4 text-center text-white">
                 <Title>One Card, Many Decks</Title>
                 <div className="w-5/6">

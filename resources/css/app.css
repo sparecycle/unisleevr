@@ -45,17 +45,21 @@
         height: 100%;
         background: linear-gradient(
             290deg,
-            rgba(254, 252, 232, 0) 20%,
-            rgba(254, 252, 232, 1) 40%,
-            rgba(254, 252, 232, 1) 60%,
-            rgba(254, 252, 232, 0) 80%
+            rgba(185, 215, 215, 0) 20%,
+            rgba(165, 235, 235, 0.7) 30%,
+            rgba(120, 165, 225, 0.8) 40%,
+            rgba(185, 105, 220, 0.8) 50%,
+            rgba(225, 90, 165, 0.8) 60%,
+            rgba(235, 235, 115, 0.7) 70%,
+            rgba(130, 235, 235, 0.7) 80%,
+            rgba(185, 215, 215, 0) 81%
         );
         background-size: 100% 1600%;
     }
 }
 
 .hero-card-wrapper.shine-animate:after {
-  animation: shine .75s ease;
+    animation: shine 0.75s ease;
 }
 
 @keyframes shine {
@@ -65,4 +69,64 @@
     100% {
         background-position: 0% 100%;
     }
+}
+
+
+/* 3D Cube styles */
+.cube-bg-grid {
+    pointer-events: none;
+    opacity: 1; /* More subtle background cubes */
+}
+
+.cube-3d {
+    width: 100px;
+    height: 100px;
+    perspective: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cube-3d-inner {
+    width: 64px;
+    height: 76.8px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: cube-rotate 24s linear infinite;
+}
+.cube-3d-face {
+    position: absolute;
+    width: 64px;
+    height: 76.8px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    opacity: 0.9;
+    box-shadow: 0 2px 8px #18181b44;
+}
+.cube-3d-face.top,
+.cube-3d-face.bottom {
+    width: 64px;
+    height: 64px;
+}
+.cube-3d-face.top {
+    width: 64px;
+    height: 64px;
+    background: #232326;
+    /* Move down by 6.4px */
+    transform: rotateX(90deg) translateZ(38.4px) translateZ(-6.4px);
+}
+.cube-3d-face.bottom {
+    width: 64px;
+    height: 64px;
+    background: #232326;
+    /* Move up by 6.4px */
+    transform: rotateX(-90deg) translateZ(38.4px) translateZ(6.4px);
+}
+.cube-3d-face.right  { transform: rotateY(90deg) translateZ(32px); background: #222226; }
+.cube-3d-face.left   { transform: rotateY(-90deg) translateZ(32px); background: #222226; }
+.cube-3d-face.front  { transform: translateZ(32px); }
+.cube-3d-face.back   { transform: rotateY(180deg) translateZ(32px); background: #232326; }
+
+@keyframes cube-rotate {
+    0%   { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
 }
