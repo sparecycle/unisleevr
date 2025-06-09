@@ -19,16 +19,19 @@ const HeroCard = () => {
     // Change hero card every 5 seconds
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentHeroCard(getNextHeroCard());
+            // Trigger shine animation
+            setShineActive(true);
+            // Update current hero card after a short delay to allow shine animation to play a little to hide the transition
+            setTimeout(() => {
+                setCurrentHeroCard(getNextHeroCard());
+            }, 100);
         }, 5000);
         return () => clearInterval(interval);
     }, [currentHeroCard]);
 
-    // Trigger shine animation on card change
     useEffect(() => {
-        setShineActive(false);
         // Timeout ensures reflow so animation can restart
-        const timeout = setTimeout(() => setShineActive(true), 10);
+        const timeout = setTimeout(() => setShineActive(false), 1000);
         return () => clearTimeout(timeout);
     }, [currentHeroCard]);
 

@@ -55,14 +55,11 @@
 }
 
 .hero-card-wrapper.shine-animate:after {
-  animation: shine 5s ease;
+  animation: shine .75s ease;
 }
 
 @keyframes shine {
     0% {
-        background-position: 0% 0%;
-    }
-    80% {
         background-position: 0% 0%;
     }
     100% {
