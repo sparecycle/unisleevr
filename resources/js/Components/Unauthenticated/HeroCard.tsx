@@ -36,9 +36,9 @@ const HeroCard = () => {
     }, [currentHeroCard]);
 
     return (
-        <div className="absolute -bottom-14 left-1/2 z-0 w-2/3 -translate-x-1/2">
+        <div className="absolute -bottom-14 left-1/2 z-0 w-5/7 -translate-x-1/2">
             <div className="z-0 perspective-near transform-3d">
-                <div className="rotate-x-28">
+                <div className="rotate-x-25">
                     <div
                         className={`hero-card-wrapper rounded-mtg relative overflow-hidden text-white ${shineActive ? 'shine-animate' : ''}`}
                     >
