@@ -130,3 +130,7 @@
     0%   { transform: rotateX(0deg) rotateY(0deg); }
     100% { transform: rotateX(360deg) rotateY(360deg); }
 }
+
+.cube-3d-stagger {
+    transform: translateY(50px); /* 50px is half of your .cube-3d height (100px) */
+}

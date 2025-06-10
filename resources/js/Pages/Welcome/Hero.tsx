@@ -6,9 +6,15 @@ const Hero = () => {
         <section className="relative h-[75vh] overflow-hidden">
             {/* 3D cubes background */}
             <div className="pointer-events-none absolute inset-0 z-0">
-                <div className="cube-bg-grid -ml-[32px] grid h-full w-full grid-cols-5 grid-rows-6 gap-x-25 gap-y-30">
+                <div className="cube-bg-grid -mt-[30px] -ml-[32px] grid h-full w-full grid-cols-5 grid-rows-6 gap-x-25 gap-y-30">
                     {Array.from({ length: 28 }).map((_, i) => (
-                        <div key={i} className="cube-3d mx-auto my-auto">
+                        <div
+                            key={i}
+                            className={
+                                'cube-3d mx-auto my-auto' +
+                                ((i % 5) % 2 === 1 ? ' cube-3d-stagger' : '')
+                            }
+                        >
                             <div className="cube-3d-inner">
                                 <div className="cube-3d-face front"></div>
                                 <div className="cube-3d-face back"></div>
@@ -21,7 +27,7 @@ const Hero = () => {
                     ))}
                 </div>
             </div>
-            <div className="relative z-2 container mx-auto flex h-full flex-col items-center justify-center gap-3 px-4 text-center text-white">
+            <div className="relative z-2 container mx-auto flex h-full flex-col items-center gap-3 px-4 pt-[20vh] text-center text-white">
                 <Title>One Card, Many Decks</Title>
                 <div className="w-5/6">
                     <p className="text-base leading-6">
