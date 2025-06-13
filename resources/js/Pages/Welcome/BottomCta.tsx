@@ -10,13 +10,9 @@ const BottomCta = () => {
                 Get the latest news. Join our founding playgroup. Get early
                 access.
             </p>
-            <form className="flex w-full items-stretch gap-x-2">
-                <TextInput
-                    type="email"
-                    placeholder="Your Email"
-                    className="grow"
-                />
-                <button className="font-title rounded-md bg-rose-600 px-4 text-lg font-medium uppercase">
+            <form className="flex w-full flex-col items-stretch gap-x-2 gap-y-4">
+                <TextInput type="email" placeholder="Your Email" />
+                <button className="font-title rounded-md bg-rose-600 px-4 py-1.5 text-lg font-medium uppercase">
                     Join the Waitlist
                 </button>
             </form>
