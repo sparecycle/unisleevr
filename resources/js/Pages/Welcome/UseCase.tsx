@@ -4,7 +4,7 @@ import TitleText from '@/Components/Unauthenticated/TitleText';
 
 const UseCase = () => {
     return (
-        <Section className="bg-zinc-700">
+        <Section>
             <SectionTitle eyebrow="For new and experienced players alike">
                 Brew Without Limits
             </SectionTitle>

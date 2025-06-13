@@ -4,7 +4,7 @@ import SectionTitle from '@/Components/Unauthenticated/SectionTitle';
 
 const Problem = () => {
     return (
-        <Section className="min-h-1/2 bg-zinc-700">
+        <Section className="min-h-1/2">
             <SectionTitle eyebrow="Never buy duplicates again.">
                 Where's My Rhystic Study?
             </SectionTitle>
