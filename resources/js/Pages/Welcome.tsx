@@ -9,9 +9,7 @@ import UseCase from './Welcome/UseCase';
 
 export default function Welcome({
     auth,
-    laravelVersion,
     unisleevrVersion,
-    phpVersion,
 }: PageProps<{
     laravelVersion: string;
     unisleevrVersion: string;
