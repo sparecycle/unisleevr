@@ -27,8 +27,8 @@ const Solution = () => {
                     <div className="mx-auto w-full lg:w-3/5">
                         <Paragraph>
                             Build smarter with a tool that tracks which cards
-                            are shared between decks and helps you decide
-                            where they go before game night.
+                            are shared between decks and helps you decide where
+                            they go before game night.
                         </Paragraph>
                     </div>
                 </div>
