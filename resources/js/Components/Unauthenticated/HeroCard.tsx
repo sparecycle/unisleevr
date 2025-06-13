@@ -36,7 +36,7 @@ const HeroCard = () => {
     }, [currentHeroCard]);
 
     return (
-        <div className="absolute -bottom-14 left-1/2 z-0 w-5/7 -translate-x-1/2">
+        <div className="absolute -bottom-14 left-1/2 z-0 w-5/7 -translate-x-1/2 md:w-1/2">
             <div className="z-0 perspective-near transform-3d">
                 <div className="rotate-x-25">
                     <div
