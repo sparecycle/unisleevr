@@ -6,8 +6,8 @@ const Hero = () => {
         <section className="relative h-[75vh] overflow-hidden">
             {/* 3D cubes background */}
             <div className="pointer-events-none absolute inset-0 z-0">
-                <div className="cube-bg-grid -mt-[30px] -ml-[32px] grid h-full w-full grid-cols-5 grid-rows-6 gap-x-25 gap-y-30">
-                    {Array.from({ length: 28 }).map((_, i) => (
+                <div className="cube-bg-grid -mt-[30px] -ml-[32px] grid h-full w-full grid-cols-5 grid-rows-6 gap-x-25 gap-y-30 md:-mt-0 md:grid-cols-8 md:grid-rows-8 md:gap-x-20 md:gap-y-24">
+                    {Array.from({ length: 50 }).map((_, i) => (
                         <div
                             key={i}
                             className={

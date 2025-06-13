@@ -85,7 +85,7 @@ export const ToastProvider = ({ children }: ToastProviderPropertiesType) => {
         <>
             <ToastContext.Provider value={contextValue}>
                 {children}
-                <div className="toast-container fixed right-0 top-0 z-9999 flex flex-col gap-2 p-4 pt-8">
+                <div className="toast-container fixed top-0 right-0 z-9999 flex flex-col gap-2 p-4 pt-8">
                     {toasts &&
                         toasts.map((toast) => (
                             <Toast
