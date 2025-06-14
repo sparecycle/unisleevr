@@ -11,7 +11,9 @@ type WrapperProps = {
 
 const Wrapper = ({ children }: WrapperProps) => {
     return (
-        <div className="flex w-full items-center justify-start">{children}</div>
+        <div className="flex w-full items-center justify-start md:w-[calc(50%-16px)]">
+            {children}
+        </div>
     );
 };
 
@@ -28,12 +30,12 @@ const UseCase = () => {
                     arm and a leg. Build first, reconcile later.
                 </p>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-y-2">
+            <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
                 <Wrapper>
                     <TitleText
                         title={'Streamline Your Buylist'}
                         text={
-                            'See what you actually need to buy — and what you already own across decks.'
+                            'See what you actually need to buy and what you already own across decks.'
                         }
                         className={titleTextClasses}
                     />
@@ -42,7 +44,7 @@ const UseCase = () => {
                     <TitleText
                         title={'Brew Variants with Ease'}
                         text={
-                            'Build multiple takes on the same commander or archetype without duplicating effort — or cards.'
+                            'Build multiple takes on the same commander or archetype without duplicating effort or cards.'
                         }
                         className={titleTextClasses}
                     />
@@ -51,7 +53,7 @@ const UseCase = () => {
                     <TitleText
                         title={'See What’s Recyclable'}
                         text={
-                            'Find cards that are underused or used in just one deck — and reassign them to new builds.'
+                            'Find cards that are underused or used in just one deck and reassign them to new builds.'
                         }
                         className={titleTextClasses}
                     />
