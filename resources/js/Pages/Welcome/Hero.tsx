@@ -36,7 +36,7 @@ const Hero = () => {
                     </p>
                 </div>
                 <div className="py-2">
-                    <button className="font-title leadigng-5 rounded-md border-1 border-white bg-black px-6 py-2 text-lg font-medium uppercase">
+                    <button className="font-title rounded-md border-1 border-white bg-black px-6 py-2 text-lg leading-9 font-medium uppercase">
                         Start Building
                     </button>
                 </div>
