@@ -11,7 +11,7 @@ type WrapperProps = {
 
 const Wrapper = ({ children }: WrapperProps) => {
     return (
-        <div className="flex w-full items-center justify-start md:w-[calc(50%-16px)]">
+        <div className="flex w-full items-center justify-start px-3 md:w-1/2">
             {children}
         </div>
     );
@@ -30,7 +30,7 @@ const UseCase = () => {
                     arm and a leg. Build first, reconcile later.
                 </p>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
+            <div className="-mx-3 flex flex-wrap items-center justify-center gap-y-2">
                 <Wrapper>
                     <TitleText
                         title={'Streamline Your Buylist'}
