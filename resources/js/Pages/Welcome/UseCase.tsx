@@ -1,6 +1,19 @@
 import Section from '@/Components/Unauthenticated/Section';
 import SectionTitle from '@/Components/Unauthenticated/SectionTitle';
 import TitleText from '@/Components/Unauthenticated/TitleText';
+import { ReactNode } from 'react';
+
+const titleTextClasses: string = 'items-start !text-left';
+
+type WrapperProps = {
+    children: ReactNode;
+};
+
+const Wrapper = ({ children }: WrapperProps) => {
+    return (
+        <div className="flex w-full items-center justify-start">{children}</div>
+    );
+};
 
 const UseCase = () => {
     return (
@@ -16,40 +29,40 @@ const UseCase = () => {
                 </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-y-2">
-                <div className="flex w-full items-center justify-start">
+                <Wrapper>
                     <TitleText
                         title={'Streamline Your Buylist'}
                         text={
                             'See what you actually need to buy — and what you already own across decks.'
                         }
-                        className="items-start !text-left"
+                        className={titleTextClasses}
                     />
-                </div>
-                <div className="flex w-full items-center justify-start">
+                </Wrapper>
+                <Wrapper>
                     <TitleText
                         title={'Brew Variants with Ease'}
                         text={
                             'Build multiple takes on the same commander or archetype without duplicating effort — or cards.'
                         }
-                        className="items-start !text-left"
+                        className={titleTextClasses}
                     />
-                </div>
-                <div className="flex w-full items-center justify-start">
+                </Wrapper>
+                <Wrapper>
                     <TitleText
                         title={'See What’s Recyclable'}
                         text={
                             'Find cards that are underused or used in just one deck — and reassign them to new builds.'
                         }
-                        className="items-start !text-left"
+                        className={titleTextClasses}
                     />
-                </div>
-                <div className="flex w-full items-center justify-start">
+                </Wrapper>
+                <Wrapper>
                     <TitleText
                         title={'Check Your Power Level'}
                         text={'Get a Rule-0 snapshot of your deck.'}
-                        className="items-start !text-left"
+                        className={titleTextClasses}
                     />
-                </div>
+                </Wrapper>
             </div>
         </Section>
     );
