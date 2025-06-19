@@ -1,42 +1,13 @@
+import { CubeBg } from '@/Components/CubeBg';
 import Card from '@/Components/Unauthenticated/HeroCard';
 import Title from '@/Components/Unauthenticated/HeroTitle';
 
 const Hero = () => {
-    // measure the width of the screen and set the number of cubes to render based on that
-    const screenWidth = window.innerWidth;
-    const isMediumOrLarger = screenWidth >= 768; // Adjust this value based on your design breakpoints
-
-    const cubesToRender = isMediumOrLarger ? Math.ceil(screenWidth / 10) : 30; // Adjust the divisor to control density
-
-    // adjust the number of columns to 10 at medium breakpoint and above
-    const columns = isMediumOrLarger ? 14 : 5;
-
     return (
         <section className="relative flex h-[75vh] w-full overflow-hidden">
             {/* 3D cubes background */}
             <div className="pointer-events-none absolute inset-0 z-0 flex h-full w-full items-center justify-center overflow-hidden">
-                <div className="cube-bg-grid -mt-[30px] -ml-[32px] grid h-full w-full grid-cols-5 grid-rows-6 gap-x-25 gap-y-30 md:-mt-0 md:grid-cols-8 md:grid-rows-8 md:gap-x-20 md:gap-y-24">
-                    {Array.from({ length: cubesToRender }).map((_, i) => (
-                        <div
-                            key={i}
-                            className={
-                                'cube-3d mx-auto my-auto' +
-                                ((i % columns) % 2 === 1
-                                    ? ' cube-3d-stagger'
-                                    : '')
-                            }
-                        >
-                            <div className="cube-3d-inner">
-                                <div className="cube-3d-face front"></div>
-                                <div className="cube-3d-face back"></div>
-                                <div className="cube-3d-face right"></div>
-                                <div className="cube-3d-face left"></div>
-                                <div className="cube-3d-face top"></div>
-                                <div className="cube-3d-face bottom"></div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <CubeBg />
             </div>
             <div className="relative z-2 mx-auto flex h-full w-full flex-col items-center justify-center md:container md:flex-row md:items-center md:justify-start">
                 <div className="z-2 flex h-full flex-col items-center justify-start gap-3 pt-[15vh] text-center text-white sm:pt-[5vh] md:w-full md:items-start md:justify-center md:pt-0 md:text-left">
