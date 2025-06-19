@@ -13,22 +13,24 @@ type ColumnProps = {
 };
 
 const Column = ({ children }: ColumnProps) => {
-    return <div className="w-1/2 p-6 lg:w-1/4 lg:py-10">{children}</div>;
+    return (
+        <div className="w-1/2 p-6 md:w-1/3 lg:w-1/4 lg:py-10">{children}</div>
+    );
 };
 
 const Solution = () => {
     return (
         <Section>
-            <div className="container mx-auto flex flex-wrap gap-y-3">
+            <div className="container mx-auto flex flex-wrap justify-center gap-y-3">
                 <SectionTitle className="w-full text-center">
                     Smarter Deckbuilding Starts Here
                 </SectionTitle>
-                <div className="mx-auto w-full text-center">
+                <div className="mx-auto w-full text-center md:mb-6">
                     <div className="mx-auto w-full lg:w-3/5">
                         <Paragraph>
                             Build smarter with a tool that tracks which cards
-                            are shared between decks — and helps you decide
-                            where they go before game night.
+                            are shared between decks and helps you decide where
+                            they go before game night.
                         </Paragraph>
                     </div>
                 </div>

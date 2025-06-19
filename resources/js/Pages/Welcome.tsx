@@ -9,9 +9,12 @@ import UseCase from './Welcome/UseCase';
 
 export default function Welcome({
     auth,
-    laravelVersion,
-    phpVersion,
-}: PageProps<{ laravelVersion: string; phpVersion: string }>) {
+    unisleevrVersion,
+}: PageProps<{
+    laravelVersion: string;
+    unisleevrVersion: string;
+    phpVersion: string;
+}>) {
     return (
         <>
             <Head>
@@ -38,7 +41,7 @@ export default function Welcome({
                 </main>
 
                 <footer className="py-16 text-center text-sm text-black dark:text-white/70">
-                    Laravel v{laravelVersion} (PHP v{phpVersion})
+                    Unisleevr v{unisleevrVersion}
                 </footer>
             </div>
         </>
