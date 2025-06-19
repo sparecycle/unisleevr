@@ -91,7 +91,7 @@
     height: 76.8px;
     position: relative;
     transform-style: preserve-3d;
-    animation: cube-rotate 24s linear infinite;
+    animation: cube-rotate-relative 24s linear infinite;
 }
 .cube-3d-face {
     position: absolute;
@@ -126,9 +126,15 @@
 .cube-3d-face.front  { transform: translateZ(32px); }
 .cube-3d-face.back   { transform: rotateY(180deg) translateZ(32px); background: #232326; }
 
-@keyframes cube-rotate {
-    0%   { transform: rotateX(0deg) rotateY(0deg); }
-    100% { transform: rotateX(360deg) rotateY(360deg); }
+
+@keyframes cube-rotate-relative {
+    0% {
+        transform: rotateX(var(--initial-rotate-x, 0deg)) rotateY(var(--initial-rotate-y, 0deg));
+    }
+    100% {
+        transform: rotateX(calc(var(--initial-rotate-x, 0deg) + 360deg))
+                   rotateY(calc(var(--initial-rotate-y, 0deg) + 360deg));
+    }
 }
 
 .cube-3d-stagger {
