@@ -8,8 +8,9 @@ export const CubeBg = () => {
 
     useEffect(() => {
         const handleResize = () => setScreenWidth(window.innerWidth);
-        window.addEventListener('resize', debounce(handleResize, 100));
-        return () => window.removeEventListener('resize', handleResize);
+        const debouncedHandleResize = debounce(handleResize, 100);
+        window.addEventListener('resize', debouncedHandleResize);
+        return () => window.removeEventListener('resize', debouncedHandleResize);
     }, []);
 
     const isMediumOrLarger = screenWidth >= 768;
