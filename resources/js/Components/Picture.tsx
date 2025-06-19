@@ -48,7 +48,7 @@ const Picture = ({
     const extension = getExtension(src);
 
     return (
-        <picture className={className}>
+        <picture>
             <source
                 media={`(min-width: ${breakpoints?.large}px)`}
                 srcSet={`${baseName}-${sizes?.ultra}${extension}`}
@@ -72,7 +72,7 @@ const Picture = ({
             <img
                 src={`${baseName}-${sizes?.mobile}${extension}`}
                 alt={alt}
-                className="h-auto w-full"
+                className={`h-auto w-full ${className}`}
                 loading={loading}
                 fetchPriority={fetchPriority}
             />
