@@ -15,7 +15,7 @@ const Section = ({ className, children, useBackground, background }: Props) => {
             <div className="container mx-auto flex flex-col gap-2 px-4">
                 {children}
             </div>
-            {useBackground && <>background</>}
+            {useBackground && <>{ background }</>}
         </section>
     );
 };
