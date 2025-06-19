@@ -2,6 +2,7 @@ import IconCardDecks from '@/Components/Icons/IconCardDecks';
 import IconCardSearch from '@/Components/Icons/IconCardSearch';
 import IconColorIdentities from '@/Components/Icons/IconColorIdentities';
 import IconList from '@/Components/Icons/IconList';
+import Picture from '@/Components/Picture';
 import IconText from '@/Components/Unauthenticated/IconText';
 import Paragraph from '@/Components/Unauthenticated/Paragraph';
 import Section from '@/Components/Unauthenticated/Section';
@@ -20,7 +21,23 @@ const Column = ({ children }: ColumnProps) => {
 
 const Solution = () => {
     return (
-        <Section>
+        <Section
+            useBackground={true}
+            background={
+                <Picture
+                    src="images/piles.jpg"
+                    alt="Piles of Magic Cards"
+                    sizes={{
+                        mobile: '320w',
+                        tablet: '640w',
+                        small: '1024w',
+                        desktop: '1920w',
+                        large: '2560w',
+                        ultra: '3840w',
+                    }}
+                />
+            }
+        >
             <div className="container mx-auto flex flex-wrap justify-center gap-y-3">
                 <SectionTitle className="w-full text-center">
                     Smarter Deckbuilding Starts Here
