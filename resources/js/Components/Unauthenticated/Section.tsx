@@ -10,9 +10,9 @@ type Props = {
 const Section = ({ className, children, useBackground, background }: Props) => {
     return (
         <section
-            className={`relative py-16 text-white lg:py-24 xl:py-24 ${className}`}
+            className={`relative overflow-hidden py-16 text-white lg:py-24 xl:py-24 ${className}`}
         >
-            <div className="container mx-auto flex flex-col gap-2 px-4">
+            <div className="relative z-10 container mx-auto flex flex-col gap-2 px-4">
                 {children}
             </div>
             {useBackground && <>{background}</>}
