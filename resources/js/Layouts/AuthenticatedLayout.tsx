@@ -26,7 +26,6 @@ export default function Authenticated({
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-zinc-800 dark:text-zinc-200" />
                                 </Link>
                             </div>
-
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
                                     href={route('decks.index')}
@@ -50,12 +49,12 @@ export default function Authenticated({
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-zinc-500 transition duration-150 ease-in-out hover:text-zinc-700 focus:outline-hidden dark:bg-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-300"
+                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm leading-4 font-medium text-zinc-500 transition duration-150 ease-in-out hover:text-zinc-700 focus:outline-hidden dark:bg-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-300"
                                             >
                                                 {user.name}
 
                                                 <svg
-                                                    className="-me-0.5 ms-2 h-4 w-4"
+                                                    className="ms-2 -me-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
@@ -137,7 +136,7 @@ export default function Authenticated({
                         ' sm:hidden'
                     }
                 >
-                    <div className="space-y-1 pb-3 pt-2">
+                    <div className="space-y-1 pt-2 pb-3">
                         <ResponsiveNavLink
                             href={route('decks.index')}
                             active={route().current('decks.index')}
@@ -152,7 +151,7 @@ export default function Authenticated({
                         </ResponsiveNavLink>
                     </div>
 
-                    <div className="border-t border-zinc-200 pb-1 pt-4 dark:border-zinc-600">
+                    <div className="border-t border-zinc-200 pt-4 pb-1 dark:border-zinc-600">
                         <div className="px-4">
                             <div className="text-base font-medium text-zinc-800 dark:text-zinc-200">
                                 {user.name}
