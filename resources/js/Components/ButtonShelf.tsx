@@ -67,7 +67,7 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
                     {keyedButtons.map((button) => (
                         <PrimaryButton
                             key={`${button.key}`}
-                            className={`btn col-span-2 md:col-span-1`}
+                            className={`btn col-span-2 md:col-span-1 md:max-w-1/4`}
                             aria-label={button.label}
                             onClick={button.action ?? button.action}
                             format={button.link ? 'link' : 'button'}

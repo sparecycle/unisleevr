@@ -9,11 +9,13 @@
     --radius-mtg: 0.71rem;
 
     --font-sans:
-        Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        'Roboto Mono', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
     --font-title:
-        Genos, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        'Roboto Mono', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
 }
 
 /*
@@ -71,7 +73,6 @@
     }
 }
 
-
 /* 3D Cube styles */
 .cube-bg-grid {
     pointer-events: none;
@@ -121,22 +122,35 @@
     /* Move up by 6.4px */
     transform: rotateX(-90deg) translateZ(38.4px) translateZ(6.4px);
 }
-.cube-3d-face.right  { transform: rotateY(90deg) translateZ(32px); background: #222226; }
-.cube-3d-face.left   { transform: rotateY(-90deg) translateZ(32px); background: #222226; }
-.cube-3d-face.front  { transform: translateZ(32px); }
-.cube-3d-face.back   { transform: rotateY(180deg) translateZ(32px); background: #232326; }
-
+.cube-3d-face.right {
+    transform: rotateY(90deg) translateZ(32px);
+    background: #222226;
+}
+.cube-3d-face.left {
+    transform: rotateY(-90deg) translateZ(32px);
+    background: #222226;
+}
+.cube-3d-face.front {
+    transform: translateZ(32px);
+}
+.cube-3d-face.back {
+    transform: rotateY(180deg) translateZ(32px);
+    background: #232326;
+}
 
 @keyframes cube-rotate-relative {
     0% {
-        transform: rotateX(var(--initial-rotate-x, 0deg)) rotateY(var(--initial-rotate-y, 0deg));
+        transform: rotateX(var(--initial-rotate-x, 0deg))
+            rotateY(var(--initial-rotate-y, 0deg));
     }
     100% {
         transform: rotateX(calc(var(--initial-rotate-x, 0deg) + 360deg))
-                   rotateY(calc(var(--initial-rotate-y, 0deg) + 360deg));
+            rotateY(calc(var(--initial-rotate-y, 0deg) + 360deg));
     }
 }
 
 .cube-3d-stagger {
-    transform: translateY(50px); /* 50px is half of your .cube-3d height (100px) */
+    transform: translateY(
+        50px
+    ); /* 50px is half of your .cube-3d height (100px) */
 }

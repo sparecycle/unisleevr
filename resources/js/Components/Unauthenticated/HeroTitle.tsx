@@ -5,7 +5,7 @@ type Props = {
 };
 const HeroTitle = ({ children }: Props) => {
     return (
-        <h1 className="font-title text-3xl leading-10 font-semibold uppercase md:text-5xl">
+        <h1 className="font-title text-3xl font-semibold tracking-tight uppercase md:text-5xl">
             {children}
         </h1>
     );
