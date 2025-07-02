@@ -25,7 +25,11 @@ const Hero = () => {
                         </p>
                     </div>
                     <div className="py-2">
-                        <PrimaryButton className="font-title">
+                        <PrimaryButton
+                            className="font-title"
+                            format="link"
+                            href="/register"
+                        >
                             Start Building
                         </PrimaryButton>
                     </div>
