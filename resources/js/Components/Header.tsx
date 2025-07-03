@@ -12,7 +12,7 @@ const Header = ({ auth }: Props) => {
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
-            <div className="sticky z-10 m-3 flex h-12 items-center justify-between rounded-md bg-black bg-zinc-900 p-3 text-white">
+            <div className="sticky z-10 m-3 mt-0 flex h-12 items-center justify-between rounded-md bg-black bg-zinc-900 p-3 text-white">
                 <nav className="flex h-full w-auto">
                     <Link
                         href="/"
