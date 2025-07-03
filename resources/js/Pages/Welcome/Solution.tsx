@@ -35,6 +35,13 @@ const Solution = () => {
                         large: '2560w',
                         ultra: '3840w',
                     }}
+                    breakpoints={{
+                        mobile: 640,
+                        tablet: 1024,
+                        small: 1920,
+                        desktop: 2560,
+                        large: 3840,
+                    }}
                     className={
                         'absolute top-1/2 left-1/2 z-[0] -translate-x-1/2 -translate-y-1/2'
                     }
