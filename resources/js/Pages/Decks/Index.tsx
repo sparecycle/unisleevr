@@ -50,7 +50,6 @@ export default function Decks({
         return JSON.parse(storedPairedCommanders);
     }, [pairedCommanders]);
 
-
     console.log('Cached paired commanders:', cachedPairedCommanders);
 
     const decksWithColorIdentity = useMemo(() => {

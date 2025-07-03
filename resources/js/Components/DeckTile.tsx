@@ -69,7 +69,7 @@ const DeckTile = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <div className="overcard duration-250 absolute left-0 top-0 z-10 flex h-full w-full flex-col rounded-md bg-zinc-200 shadow-lg transition-transform focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:translate-x-[-5px] active:translate-y-[-5px] group-hover/deck-tile:z-20 group-hover/deck-tile:translate-x-[-15px] group-hover/deck-tile:translate-y-[-15px] dark:bg-zinc-950 dark:active:bg-zinc-800 dark:group-hover/deck-tile:bg-zinc-900">
+            <div className="overcard absolute top-0 left-0 z-10 flex h-full w-full flex-col rounded-md bg-zinc-200 shadow-lg transition-transform duration-250 group-hover/deck-tile:z-20 group-hover/deck-tile:translate-x-[-15px] group-hover/deck-tile:translate-y-[-15px] focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden active:translate-x-[-5px] active:translate-y-[-5px] dark:bg-zinc-950 dark:group-hover/deck-tile:bg-zinc-900 dark:active:bg-zinc-800">
                 {isButton && (
                     <DeckTileButtonContent
                         title={title}
@@ -85,14 +85,14 @@ const DeckTile = ({
                     />
                 )}
             </div>
-            <div className="undercard-wrapper absolute left-0 top-0 z-0 h-full w-full rounded-md opacity-50">
+            <div className="undercard-wrapper absolute top-0 left-0 z-0 h-full w-full rounded-md opacity-50">
                 {undercards.map((_, index) => {
                     const color = getSequentialColor();
                     return (
                         <div
                             key={index}
                             ref={(el) => (undercardsRef.current[index] = el!)}
-                            className="undercard duration-250 absolute left-0 top-0 h-full w-full rounded-md border shadow-md transition-transform"
+                            className="undercard absolute top-0 left-0 h-full w-full rounded-md border shadow-md transition-transform duration-250"
                             style={{
                                 background: `radial-gradient(circle, ${getDarkenedColor(
                                     color,

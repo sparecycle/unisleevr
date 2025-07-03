@@ -317,14 +317,14 @@ const Searchbar = ({
                 />
                 <button
                     type="submit"
-                    className="absolute bottom-2.5 end-2.5 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:bg-zinc-300 dark:hover:bg-zinc-400 dark:focus:ring-zinc-500"
+                    className="absolute end-2.5 bottom-2.5 rounded-lg bg-zinc-700 px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-800 focus:ring-4 focus:ring-zinc-200 focus:outline-hidden dark:bg-zinc-300 dark:hover:bg-zinc-400 dark:focus:ring-zinc-500"
                 >
                     {CTAText ?? `Search`}
                 </button>
             </div>
 
             <div
-                className={`autocomplete-results absolute left-0 right-0 top-full z-50 max-h-[80px] overflow-scroll overflow-x-clip rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
+                className={`autocomplete-results absolute top-full right-0 left-0 z-50 max-h-[80px] overflow-scroll overflow-x-clip rounded-b-lg border border-zinc-300 dark:border-zinc-600 ${
                     autoCompleteResultsFiltered.length > 0 || error || loading
                         ? 'block'
                         : 'hidden'
@@ -332,7 +332,7 @@ const Searchbar = ({
             >
                 <ul
                     ref={listRef}
-                    className="autocomplete-results-list z-99 relative w-auto rounded-b-lg bg-zinc-800"
+                    className="autocomplete-results-list relative z-99 w-auto rounded-b-lg bg-zinc-800"
                     tabIndex={0}
                 >
                     <div className="sticky top-0 z-10 mb-2 shadow-[0_0_10px_0_rgba(0,0,0,1)]">
