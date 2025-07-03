@@ -26,14 +26,14 @@ const DeckTileDeckFace = ({
     return (
         <div className="relative h-full w-full">
             <button
-                className={`btn transition-rotate absolute right-1 top-1 z-10 rounded-full border-none bg-black/50 p-1 opacity-0 duration-200 ease-in-out group-hover/deck-tile:opacity-100`}
+                className={`btn transition-rotate absolute top-1 right-1 z-10 rounded-full border-none bg-white/50 p-1 opacity-0 duration-200 ease-in-out group-hover/deck-tile:opacity-100 dark:bg-black/50`}
                 onClick={handleOnDeleteClick}
                 aria-label={`Delete ${title}`}
             >
                 <MdDeleteForever size={25} />
             </button>
             <button
-                className="deck-tile-header absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center overflow-hidden rounded-md"
+                className="deck-tile-header absolute top-0 left-0 z-0 flex h-full w-full items-center justify-center overflow-hidden rounded-md"
                 onClick={() => activeSetter && activeSetter(deck)}
             >
                 {deck.commanders?.length === 2 ? (
@@ -92,7 +92,7 @@ const DeckTileDeckFace = ({
                 )}
             </button>
             <div
-                className="deck-tile-body z-1 absolute bottom-0 left-0 flex h-auto w-full flex-wrap items-center justify-center rounded-b-md bg-zinc-900 p-0 pb-2 text-white shadow-md transition-transform duration-200 ease-in-out group-hover/deck-tile:bg-zinc-900/80"
+                className="deck-tile-body absolute bottom-0 left-0 z-1 flex h-auto w-full flex-wrap items-center justify-center rounded-b-md bg-zinc-900 p-0 pb-2 text-white shadow-md transition-transform duration-200 ease-in-out group-hover/deck-tile:bg-zinc-900/80 dark:bg-zinc-100 dark:text-black dark:group-hover/deck-tile:bg-zinc-100/80"
                 onClick={() => activeSetter && activeSetter(deck)}
             >
                 <div className="color-divider flex h-[3px] w-full">
@@ -110,14 +110,14 @@ const DeckTileDeckFace = ({
                     ))}
                 </div>
                 <div className="w-full pt-1 text-center">
-                    <h4 className="deck-tile-title hyphen-manual w-full text-wrap px-2 text-center font-bold">
+                    <h4 className="deck-tile-title hyphen-manual w-full px-2 text-center font-bold text-wrap">
                         {title.length > maxTitleLength
                             ? `${title.slice(0, maxTitleLength)}...`
                             : title}
                     </h4>
                 </div>
 
-                <h5 className="pb-1 text-center text-xs font-normal text-zinc-500 group-hover/deck-tile:text-white">
+                <h5 className="pb-1 text-center text-xs font-normal text-zinc-500 group-hover/deck-tile:text-white dark:group-hover/deck-tile:text-zinc-800">
                     {deck.commanders?.length > 0 &&
                         deck.commanders.map((commander: CardDataType) => (
                             <div

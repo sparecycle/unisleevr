@@ -1,7 +1,8 @@
 import { PageProps } from '@/types';
 import { Head } from '@inertiajs/react';
-import BottomCta from './Welcome/BottomCta';
-import Header from './Welcome/Header';
+// import BottomCta from './Welcome/BottomCta';
+import { usePage } from '@inertiajs/react';
+import Header from '../Components/Header';
 import Hero from './Welcome/Hero';
 import Problem from './Welcome/Problem';
 import Solution from './Welcome/Solution';
@@ -15,29 +16,21 @@ export default function Welcome({
     unisleevrVersion: string;
     phpVersion: string;
 }>) {
+    const user = usePage().props.auth.user;
+
     return (
         <>
             <Head>
                 <title>Welcome</title>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link
-                    rel="preconnect"
-                    href="https://fonts.gstatic.com"
-                    crossOrigin="anonymous"
-                />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Genos:ital,wght@0,100..900;1,100..900&family=Oxanium:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-                    rel="stylesheet"
-                />
             </Head>
             <div className="relative flex min-h-screen w-full flex-col overflow-x-clip bg-zinc-900">
-                <Header auth={auth} />
+                <Header auth={user} />
                 <main>
                     <Hero />
                     <Problem />
                     <Solution />
                     <UseCase />
-                    <BottomCta />
+                    {/* <BottomCta /> */}
                 </main>
 
                 <footer className="py-16 text-center text-sm text-black dark:text-white/70">

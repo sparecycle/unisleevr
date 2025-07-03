@@ -66,11 +66,11 @@ export default function Modal({
                         className={`mb-6 w-full transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 dark:text-white ${maxWidthClass}`}
                     >
                         <div
-                            className={`relative flex ${dynamicHeight ? 'h-auto' : 'h-[80vh]'} flex-col bg-zinc-900 px-4 pb-6 pt-11`}
+                            className={`relative flex ${dynamicHeight ? 'h-auto' : 'h-[80vh]'} flex-col bg-zinc-100 px-4 pt-11 pb-6 dark:bg-zinc-900`}
                         >
                             <button
                                 onClick={close}
-                                className="absolute right-0 top-0 p-2 text-2xl text-zinc-900 hover:text-zinc-100 focus:outline-hidden focus:ring-4 focus:ring-zinc-200 dark:text-zinc-200 dark:hover:text-zinc-500"
+                                className="absolute top-0 right-0 p-2 text-2xl text-zinc-900 hover:text-zinc-100 hover:text-zinc-500 focus:ring-4 focus:ring-zinc-200 focus:outline-hidden dark:text-zinc-200 dark:hover:text-zinc-500"
                             >
                                 <IoIosClose />
                             </button>
