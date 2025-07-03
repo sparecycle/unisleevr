@@ -47,8 +47,11 @@ const Solution = () => {
                     }
                 />
             }
+            className={
+                "after:absolute after:top-0 after:left-0 after:z-[1] after:h-full after:w-full after:bg-black/70 after:content-['']"
+            }
         >
-            <div className="container mx-auto flex flex-wrap justify-center gap-y-3">
+            <div className="relative z-[2] container mx-auto flex flex-wrap justify-center gap-y-3">
                 <SectionTitle className="w-full text-center">
                     Smarter Deckbuilding Starts Here
                 </SectionTitle>
