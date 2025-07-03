@@ -6,20 +6,16 @@
 
 ## How to Test
 
-<!-- Describe what testing you've done -->
+<!-- List how to test what you've done -->
 
 - [ ]
 
-<!-- Describe what testing you've done -->
-
-- [ ]
-
-## Screenshots (if applicable)
+## Screenshots or Recording (if applicable)
 
 <!-- Add screenshots here if there are UI changes -->
 
 ## To Do
 
-<!-- Describe what testing you've done -->
+<!-- Flag anything left to do -->
 
 -
