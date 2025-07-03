@@ -63,11 +63,13 @@ const ButtonShelf = ({ buttons }: ButtonShelfProps) => {
             <div
                 className={`buttonShelfWrapper flex w-full justify-center transition-transform duration-350 ${fixShelf ? 'fixed -top-[100px] left-0 z-50 translate-y-[100px] bg-black py-4' : 'relative'}`}
             >
-                <div className={`container grid ${gridColsClass} gap-1`}>
+                <div
+                    className={`container ${buttons.length > 4 ? 'grid' : 'flex'} ${gridColsClass} gap-2 ${fixShelf ? 'justify-center px-3' : 'justify-start'} items-center`}
+                >
                     {keyedButtons.map((button) => (
                         <PrimaryButton
                             key={`${button.key}`}
-                            className={`btn col-span-2 md:col-span-1 md:max-w-1/4`}
+                            className={`btn md:max-w-1/4`}
                             aria-label={button.label}
                             onClick={button.action ?? button.action}
                             format={button.link ? 'link' : 'button'}
