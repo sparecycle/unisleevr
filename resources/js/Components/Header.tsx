@@ -1,3 +1,5 @@
+import ApplicationLogo from '@/Components/ApplicationLogo';
+import NavLink from '@/Components/NavLink';
 import { Link } from '@inertiajs/react';
 import { Slant as Hamburger } from 'hamburger-react';
 import { useState } from 'react';
@@ -10,8 +12,27 @@ const Header = ({ auth }: Props) => {
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
-            <header className="sticky z-10 m-3 flex h-12 items-center justify-between rounded-md bg-black text-white">
-                <div className="grow p-4">logo</div>
+            <header className="sticky z-10 m-3 flex h-12 items-center justify-between rounded-md bg-black p-3 text-white">
+                <nav className="flex h-full w-auto">
+                    <Link href="/" className="h-full w-auto">
+                        <ApplicationLogo className="block h-full w-auto fill-current" />
+                    </Link>
+                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <NavLink
+                            href={route('decks.index')}
+                            active={route().current('decks.index')}
+                        >
+                            Decks
+                        </NavLink>
+                        <NavLink
+                            href={route('cards.index')}
+                            active={route().current('cards.index')}
+                        >
+                            Card Pool
+                        </NavLink>
+                    </div>
+                </nav>
+
                 <div className="relative h-12 w-12 grow-0">
                     <Hamburger size={20} toggled={open} toggle={setOpen} />
                 </div>

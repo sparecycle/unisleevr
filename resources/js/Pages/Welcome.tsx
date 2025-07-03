@@ -1,7 +1,7 @@
 import { PageProps } from '@/types';
 import { Head } from '@inertiajs/react';
 // import BottomCta from './Welcome/BottomCta';
-import Header from './Welcome/Header';
+import Header from '../Components/Header';
 import Hero from './Welcome/Hero';
 import Problem from './Welcome/Problem';
 import Solution from './Welcome/Solution';
