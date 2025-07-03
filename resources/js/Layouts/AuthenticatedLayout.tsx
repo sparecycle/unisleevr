@@ -21,9 +21,9 @@ export default function Authenticated({
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
-                            <div className="flex shrink-0 items-center">
+                            <div className="flex shrink-0 items-center [&_polyline]:fill-none [&_polyline]:stroke-zinc-800 dark:[&_polyline]:stroke-zinc-200">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-zinc-800 dark:text-zinc-200" />
+                                    <ApplicationLogo className="block h-9 w-auto fill-current" />
                                 </Link>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -178,8 +178,8 @@ export default function Authenticated({
             </nav>
 
             {header && (
-                <header className="bg-white shadow-sm dark:bg-zinc-800">
-                    <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+                <header className="bg-white dark:bg-zinc-800">
+                    <div className="container mx-auto px-2 py-2 sm:px-6 lg:px-8">
                         {header}
                     </div>
                 </header>

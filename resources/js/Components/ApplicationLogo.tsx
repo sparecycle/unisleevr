@@ -7,6 +7,7 @@ export default function ApplicationLogo(props: SVGAttributes<SVGElement>) {
             data-name="unisleevr-logo"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 100 117.84"
+            // className="text-zinc-800 dark:text-zinc-200"
             {...props}
         >
             <polyline

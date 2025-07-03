@@ -15,7 +15,7 @@ const DeckTileButtonFace = ({
                 <MdAdd size={'auto'} />
             </div>
             <div className="deck-tile-body flex h-1/3 w-full items-center justify-center">
-                <h4 className="deck-tile-title hyphen-manual w-full text-wrap px-2 text-center text-5xl font-bold md:text-xl">
+                <h4 className="deck-tile-title hyphen-manual w-full px-2 text-center text-5xl font-bold text-wrap md:text-xl">
                     {title}
                 </h4>
             </div>
