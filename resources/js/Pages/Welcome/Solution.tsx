@@ -2,6 +2,7 @@ import IconCardDecks from '@/Components/Icons/IconCardDecks';
 import IconCardSearch from '@/Components/Icons/IconCardSearch';
 import IconColorIdentities from '@/Components/Icons/IconColorIdentities';
 import IconList from '@/Components/Icons/IconList';
+import Picture from '@/Components/Picture';
 import IconText from '@/Components/Unauthenticated/IconText';
 import Paragraph from '@/Components/Unauthenticated/Paragraph';
 import Section from '@/Components/Unauthenticated/Section';
@@ -20,8 +21,37 @@ const Column = ({ children }: ColumnProps) => {
 
 const Solution = () => {
     return (
-        <Section>
-            <div className="container mx-auto flex flex-wrap justify-center gap-y-3">
+        <Section
+            useBackground={true}
+            background={
+                <Picture
+                    src="images/piles.jpg"
+                    alt="Piles of Magic Cards"
+                    sizes={{
+                        mobile: '320w',
+                        tablet: '640w',
+                        small: '1024w',
+                        desktop: '1920w',
+                        large: '2560w',
+                        ultra: '3840w',
+                    }}
+                    breakpoints={{
+                        mobile: 640,
+                        tablet: 1024,
+                        small: 1920,
+                        desktop: 2560,
+                        large: 3840,
+                    }}
+                    className={
+                        'absolute top-1/2 left-1/2 z-[0] -translate-x-1/2 -translate-y-1/2'
+                    }
+                />
+            }
+            className={
+                "after:absolute after:top-0 after:left-0 after:z-[1] after:h-full after:w-full after:bg-black/70 after:content-['']"
+            }
+        >
+            <div className="relative z-[2] container mx-auto flex flex-wrap justify-center gap-y-3">
                 <SectionTitle className="w-full text-center">
                     Smarter Deckbuilding Starts Here
                 </SectionTitle>
