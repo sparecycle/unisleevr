@@ -9,17 +9,19 @@ export default function Authenticated({
 }: PropsWithChildren<{ header?: ReactNode }>) {
     const user = usePage().props.auth.user;
 
+    console.log('Authenticated Layout', user);
+
     return (
         <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
             <ToastProvider>
-                <Header auth={user} />
-                {header && (
-                    <header className="bg-white dark:bg-zinc-800">
+                <header className="bg-white dark:bg-zinc-800">
+                    <Header auth={user} />
+                    {header && (
                         <div className="container mx-auto px-2 py-2 sm:px-6 lg:px-8">
                             {header}
                         </div>
-                    </header>
-                )}
+                    )}
+                </header>
                 <main className="dark:text-white">{children}</main>
             </ToastProvider>
         </div>
