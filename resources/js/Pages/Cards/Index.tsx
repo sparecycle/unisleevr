@@ -19,9 +19,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
     const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
     const [isAdding, setIsAdding] = useState(false);
     const [isRemoving, setIsRemoving] = useState(false);
-    const [currentCard, setCurrentCard] = useState<CardWithDecksType | null>(
-        null,
-    );
+    const [currentCard, setCurrentCard] = useState<CardWithDecksType | null>(null);
 
     const parsedCardsWithDeckRefs = attachDeckRefsToParsedCards(
         parsedCards,

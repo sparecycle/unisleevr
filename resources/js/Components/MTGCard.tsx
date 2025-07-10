@@ -1,4 +1,4 @@
-import { Deck } from '@/types/deck';
+import { Deck } from '@/types/mtg';
 import { useState } from 'react';
 import { ImSpinner11 } from 'react-icons/im';
 import { IoIosClose } from 'react-icons/io';

@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 type toastTypeString = 'success' | 'error' | 'info' | 'warning';
 
 type ToastContextType = {
-    openToast: (msg: string | undefined, type: toastTypeString) => void;
+    openToast: (msg: string, type: toastTypeString) => void;
     closeToast: (id: number) => void;
 };
 
