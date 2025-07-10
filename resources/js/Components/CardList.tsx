@@ -50,7 +50,7 @@ const CardList = ({
                             onDelete={() => handleDelete(card)}
                             decks={
                                 showDecks && isCardWithDecks(card)
-                                    ? card.decks
+                                    ? ( card as CardWithDecksType ).decks
                                     : []
                             }
                         ></MTGCard>
