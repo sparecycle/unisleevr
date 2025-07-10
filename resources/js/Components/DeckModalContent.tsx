@@ -131,7 +131,7 @@ const DeckModalContent = ({
             new Set(selectedCards.flatMap((card) => card.colorIdentity)),
         );
         const areAnyCardColorsInvalid = allUniqueColorsFromCards.some(
-            (color) => !currentColorIdentity.includes(color),
+            (color) => !currentColorIdentity.includes(color as mtgColorStrings),
         );
         const invalidColorIdentity =
             allUniqueColorsFromCards.length > 0
@@ -217,6 +217,7 @@ const DeckModalContent = ({
 
     const createDeck = (callback?: () => void) => {
         post(route('decks.store'), {
+            // @ts-expect-error - We have a type for the data that is more specific than the general RequestPayload type
             data,
             preserveScroll: true, // Prevents the page from scrolling to the top
             onSuccess: (response) => {
@@ -247,8 +248,8 @@ const DeckModalContent = ({
 
     const updateDeck = (callback?: () => void) => {
         patch(route('decks.update', deck?.id), {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data: data as any,
+            // @ts-expect-error - We have a type for the data that is more specific than the general RequestPayload type
+            data,
             preserveScroll: true,
             onSuccess: (response) => {
                 if (isValidDeck(response.props.updatedDeck)) {
