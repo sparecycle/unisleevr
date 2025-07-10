@@ -1,7 +1,7 @@
 import { useToast } from '@/Components/Toast/ToastContext';
 import {
     CardDataType,
-    CardWithDecks,
+    CardWithDecksType,
     Deck as DeckProps,
     mtgColorStrings,
 } from '@/types/mtg';
@@ -96,7 +96,7 @@ const Show = ({ deck }: Props) => {
             new Set(selectedCards.flatMap((card) => card.colorIdentity)),
         );
         const areAnyCardColorsInvalid = allUniqueColorsFromCards.some(
-            (color) => !currentColorIdentity.includes(color),
+            (color) => !currentColorIdentity.includes(color as mtgColorStrings),
         );
         const invalidColorIdentity =
             allUniqueColorsFromCards.length > 0
@@ -173,7 +173,7 @@ const Show = ({ deck }: Props) => {
         updateDeck();
     };
 
-    const handleCommanderDelete = (card: CardWithDecks | CardDataType) => {
+    const handleCommanderDelete = (card: CardWithDecksType | CardDataType) => {
         if (selectedCommanders.length > 1) {
             if (!isFormEdited) setIsFormEdited(true);
 
@@ -192,7 +192,7 @@ const Show = ({ deck }: Props) => {
             openToast('Deck needs at least one Commander.', 'error');
         }
     };
-    const handleCardDelete = (card: CardWithDecks | CardDataType) => {
+    const handleCardDelete = (card: CardWithDecksType | CardDataType) => {
         if (!isFormEdited) setIsFormEdited(true);
 
         const updatedCards = selectedCards.filter((c) => c.id !== card.id);

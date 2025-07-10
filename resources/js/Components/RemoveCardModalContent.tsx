@@ -1,4 +1,4 @@
-import { CardWithDecks, Deck } from '@/types/mtg';
+import { CardWithDecksType, Deck } from '@/types/mtg';
 import updateDecks, { removeCard } from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import Button from './Button';
 import LabeledCheckbox from './LabeledCheckbox';
 
 type Props = {
-    card: CardWithDecks;
+    card: CardWithDecksType;
     modalClose?: Dispatch<SetStateAction<boolean>>;
 };
 

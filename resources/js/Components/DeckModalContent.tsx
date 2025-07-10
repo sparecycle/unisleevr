@@ -247,7 +247,8 @@ const DeckModalContent = ({
 
     const updateDeck = (callback?: () => void) => {
         patch(route('decks.update', deck?.id), {
-            data,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data: data as any,
             preserveScroll: true,
             onSuccess: (response) => {
                 if (isValidDeck(response.props.updatedDeck)) {
