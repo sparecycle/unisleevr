@@ -217,6 +217,7 @@ const DeckModalContent = ({
 
     const createDeck = (callback?: () => void) => {
         post(route('decks.store'), {
+            // @ts-expect-error - We have a type for the data that is more specific than the general RequestPayload type
             data,
             preserveScroll: true, // Prevents the page from scrolling to the top
             onSuccess: (response) => {
@@ -247,6 +248,7 @@ const DeckModalContent = ({
 
     const updateDeck = (callback?: () => void) => {
         patch(route('decks.update', deck?.id), {
+            // @ts-expect-error - We have a type for the data that is more specific than the general RequestPayload type
             data,
             preserveScroll: true,
             onSuccess: (response) => {
