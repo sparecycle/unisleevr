@@ -131,7 +131,7 @@ const DeckModalContent = ({
             new Set(selectedCards.flatMap((card) => card.colorIdentity)),
         );
         const areAnyCardColorsInvalid = allUniqueColorsFromCards.some(
-            (color) => !currentColorIdentity.includes(color),
+            (color) => !currentColorIdentity.includes(color as mtgColorStrings),
         );
         const invalidColorIdentity =
             allUniqueColorsFromCards.length > 0
