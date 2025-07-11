@@ -17,6 +17,8 @@ const RemoveCardModalContent = ({ card, modalClose }: Props) => {
     const [selectedDecks, setSelectedDecks] = useState<Deck[] | []>(
         card.decks as Deck[],
     );
+
+    console.log('submitting', submitting);
     const handleCheckbox = (deck: Deck) => {
         const cardInDeck =
             deck.cards.filter((d) => d.id === card.id).length > 0;

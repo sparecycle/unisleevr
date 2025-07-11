@@ -11,7 +11,9 @@ const deleteCard = (
     const updatedDecks = decks.map((deck: Deck) => ({
         id: deck.id,
         name: deck.name,
-        cards: actions[action](deck, card),
+        cards: deck.cards
+            .filter((c) => c.id !== card.id)
+            .map((c) => ({ id: c.id })), // Remove the card and simplify data
     }));
     router.put(
         route('decks.update-batch'),
