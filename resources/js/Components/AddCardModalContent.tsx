@@ -1,5 +1,4 @@
-import { Deck } from '@/types/mtg';
-import { CardDataType } from '@/types/mtg';
+import { CardDataType, Deck } from '@/types/mtg';
 import updateDecks, { addCard } from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';

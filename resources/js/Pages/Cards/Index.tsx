@@ -1,9 +1,8 @@
-import ButtonShelf from '@/Components/ButtonShelf';
-import PageTitle from '@/Components/PageTitle';
-
 import AddCardModalContent from '@/Components/AddCardModalContent';
+import ButtonShelf from '@/Components/ButtonShelf';
 import CardList from '@/Components/CardList';
 import Modal from '@/Components/Modal';
+import PageTitle from '@/Components/PageTitle';
 import RemoveCardModalContent from '@/Components/RemoveCardModalContent';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CardDataType, CardWithDecksType, Deck } from '@/types/mtg';
@@ -19,7 +18,9 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
     const parsedCards: CardDataType[] | [] = prepCardDataForRender(cards) || [];
     const [isAdding, setIsAdding] = useState(false);
     const [isRemoving, setIsRemoving] = useState(false);
-    const [currentCard, setCurrentCard] = useState<CardWithDecksType | null>(null);
+    const [currentCard, setCurrentCard] = useState<
+        CardWithDecksType | CardDataType | null
+    >(null);
 
     const parsedCardsWithDeckRefs = attachDeckRefsToParsedCards(
         parsedCards,
@@ -40,7 +41,7 @@ export default function Cards({ cards, decks }: { cards: any; decks: Deck[] }) {
         { label: 'Add a Card', action: addCard },
     ];
 
-    const handleDelete = (card: CardWithDecksType) => {
+    const handleDelete = (card: CardWithDecksType | CardDataType) => {
         setIsRemoving(true);
         setCurrentCard(card);
     };
