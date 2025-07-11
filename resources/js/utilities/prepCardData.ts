@@ -3,6 +3,7 @@ import {
     CardWithDecksType,
     Deck,
     ScryfallCard,
+    mtgImgSrcType,
 } from '../types/mtg';
 import { splitStringByHyphen, turnManaCostIntoArray } from './general';
 
@@ -14,56 +15,74 @@ export const prepCardDataForRender = (
     // note: this might not be necessary if the scryfall search query is more specific
     const preFilteredCardData = filterNonPlayableCards(cardData);
 
-    const output = preFilteredCardData.map((card: ScryfallCard) => {
-        let parsedCardData;
-        if (card.card_faces) {
-            const frontFace = card.card_faces[0];
-            const backFace = card.card_faces[1];
-            const frontTypeLine = splitStringByHyphen(frontFace.type_line);
-            const backTypeLine = splitStringByHyphen(backFace.type_line);
+    const output = preFilteredCardData
+        .filter((card: ScryfallCard) => {
+            // For double-faced cards, ensure both faces have image_uris
+            if (card.card_faces) {
+                return (
+                    card.card_faces[0]?.image_uris &&
+                    card.card_faces[1]?.image_uris
+                );
+            }
+            // For single-faced cards, ensure image_uris exists
+            return !!card.image_uris;
+        })
+        .map((card: ScryfallCard) => {
+            let parsedCardData;
+            if (card.card_faces) {
+                const frontFace = card.card_faces[0];
+                const backFace = card.card_faces[1];
+                const frontTypeLine = splitStringByHyphen(frontFace.type_line);
+                const backTypeLine = splitStringByHyphen(backFace.type_line);
 
-            parsedCardData = {
-                id: card.id,
-                name: frontFace.name,
-                oracleText: frontFace.oracle_text,
-                colorIdentity: card.color_identity,
-                imgUris: frontFace.image_uris,
-                manaCost: turnManaCostIntoArray(frontFace.mana_cost as string),
-                cardSuperType: frontTypeLine[0],
-                cardType: frontTypeLine[1],
-                power: frontFace.power,
-                backCardData: {
+                parsedCardData = {
                     id: card.id,
-                    imgUris: backFace.image_uris,
-                    name: backFace.name,
-                    cardSuperType: backTypeLine[0],
-                    cardType: backTypeLine[1],
+                    name: frontFace.name,
+                    oracleText: frontFace.oracle_text as string,
+                    colorIdentity: card.color_identity as unknown as string,
+                    imgUris: (frontFace.image_uris ||
+                        {}) as unknown as mtgImgSrcType,
                     manaCost: turnManaCostIntoArray(
-                        backFace.mana_cost as string,
+                        frontFace.mana_cost as string,
                     ),
-                    oracleText: backFace.oracle_text,
-                    power: backFace.power,
-                    toughness: backFace.toughness,
-                },
-            };
-        } else {
-            const typeLine = splitStringByHyphen(card.type_line);
-            parsedCardData = {
-                id: card.id,
-                name: card.name,
-                oracleText: card.oracle_text,
-                colorIdentity: card.color_identity,
-                imgUris: card.image_uris,
-                manaCost: turnManaCostIntoArray(card.mana_cost as string),
-                cardSuperType: typeLine[0],
-                cardType: typeLine[1],
-                power: card.power,
-                toughness: card.toughness,
-            };
-        }
+                    cardSuperType: frontTypeLine[0],
+                    cardType: frontTypeLine[1],
+                    power: frontFace.power as string | undefined,
+                    toughness: frontFace.toughness as string | undefined,
+                    backCardData: {
+                        id: card.id,
+                        imgUris: (backFace.image_uris ||
+                            {}) as unknown as mtgImgSrcType,
+                        name: backFace.name,
+                        cardSuperType: backTypeLine[0],
+                        cardType: backTypeLine[1],
+                        manaCost: turnManaCostIntoArray(
+                            backFace.mana_cost as string,
+                        ),
+                        oracleText: backFace.oracle_text as string,
+                        power: backFace.power as string | undefined,
+                        toughness: backFace.toughness as string | undefined,
+                    },
+                };
+            } else {
+                const typeLine = splitStringByHyphen(card.type_line);
+                parsedCardData = {
+                    id: card.id,
+                    name: card.name,
+                    oracleText: card.oracle_text as string,
+                    colorIdentity: card.color_identity as unknown as string,
+                    imgUris: (card.image_uris ||
+                        {}) as unknown as mtgImgSrcType,
+                    manaCost: turnManaCostIntoArray(card.mana_cost as string),
+                    cardSuperType: typeLine[0],
+                    cardType: typeLine[1],
+                    power: card.power as string | undefined,
+                    toughness: card.toughness as string | undefined,
+                };
+            }
 
-        return parsedCardData;
-    });
+            return parsedCardData;
+        });
 
     return output;
 };
