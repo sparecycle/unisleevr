@@ -1,6 +1,6 @@
 import { mtgColors } from '@/constants';
 import { Deck } from '@/types/mtg';
-import { Dispatch, SetStateAction, useRef } from 'react';
+import { Dispatch, RefObject, SetStateAction, useRef } from 'react';
 import DeckTileButtonContent from './DeckTileButtonFace';
 import DeckTileDeckContent from './DeckTileDeckFace';
 
@@ -11,6 +11,7 @@ type DeckTileProps = {
     buttonAction?: () => void;
     activeSetter?: Dispatch<SetStateAction<null | Deck>>;
     onDelete?: () => void;
+    ref?: RefObject<HTMLDivElement>;
 };
 
 const DeckTile = ({
