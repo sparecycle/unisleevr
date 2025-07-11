@@ -47,7 +47,7 @@ const updateDecks = (args: UpdateDecks, callBack?: () => void) => {
     console.log(updatedDecks);
     router.put(
         route('decks.update-batch'),
-            // @ts-expect-error
+        // @ts-expect-error
         { user_id: user_id, decks: updatedDecks },
         {
             preserveState: true,

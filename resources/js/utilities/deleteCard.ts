@@ -1,4 +1,4 @@
-import { CardDataType, CardWithDecksType } from '@/types/mtg';
+import { CardDataType, CardWithDecksType, Deck } from '@/types/mtg';
 import { router } from '@inertiajs/react';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -7,7 +7,8 @@ const deleteCard = (
     card: CardDataType | CardWithDecksType,
     parentSetter?: Dispatch<SetStateAction<boolean>>,
 ) => {
-    const updatedDecks = decks.map((deck) => ({
+    const decks = card.decks || [];
+    const updatedDecks = decks.map((deck: Deck) => ({
         id: deck.id,
         name: deck.name,
         cards: actions[action](deck, card),
