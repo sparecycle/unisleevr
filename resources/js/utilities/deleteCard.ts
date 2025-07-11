@@ -7,11 +7,10 @@ const deleteCard = (
     card: CardDataType | CardWithDecksType,
     parentSetter?: Dispatch<SetStateAction<boolean>>,
 ) => {
-    const decks = card.decks || [];
+    const decks = ( card as CardWithDecksType ).decks || [];
     const updatedDecks = decks.map((deck: Deck) => ({
         id: deck.id,
         name: deck.name,
-        cards: actions[action](deck, card),
     }));
     router.put(
         route('decks.update-batch'),
