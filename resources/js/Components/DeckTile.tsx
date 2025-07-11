@@ -1,19 +1,20 @@
 import { mtgColors } from '@/constants';
 import { Deck } from '@/types/mtg';
-import React, { useRef } from 'react';
+import { Dispatch, forwardRef, RefObject, SetStateAction, useRef } from 'react';
 import DeckTileButtonContent from './DeckTileButtonFace';
 import DeckTileDeckContent from './DeckTileDeckFace';
 
 type DeckTileProps = {
     title: string;
     deck?: Deck;
-    activeSetter?: React.Dispatch<React.SetStateAction<Deck | null>>;
-    onDelete?: () => void;
     isButton?: boolean;
     buttonAction?: () => void;
+    activeSetter?: Dispatch<SetStateAction<null | Deck>>;
+    onDelete?: () => void;
+    ref?: RefObject<HTMLDivElement>;
 };
 
-const DeckTile = React.forwardRef<HTMLDivElement, DeckTileProps>(
+const DeckTile = forwardRef<HTMLDivElement, DeckTileProps>(
     ({ title, deck, activeSetter, onDelete, isButton, buttonAction }, ref) => {
         const colorIdentity = deck?.color_identity || [];
         const getSequentialColor = (() => {
