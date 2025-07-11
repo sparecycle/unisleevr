@@ -25,7 +25,7 @@ type DecksProps = {
     };
     updatedDeck?: Deck; // Add updatedDeck to the props
     pairedCommanders: {
-        allCards: any[];
+        allCards: unknown[];
         categories: pairedCommandersCategoryType[];
     };
 };

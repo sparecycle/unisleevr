@@ -1,4 +1,4 @@
-import { CardWithDecks, Deck } from '@/types/mtg';
+import { CardWithDecksType, Deck } from '@/types/mtg';
 import updateDecks, { removeCard } from '@/utilities/updateDecks';
 import { usePage } from '@inertiajs/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import Button from './Button';
 import LabeledCheckbox from './LabeledCheckbox';
 
 type Props = {
-    card: CardWithDecks;
+    card: CardWithDecksType;
     modalClose?: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -17,6 +17,8 @@ const RemoveCardModalContent = ({ card, modalClose }: Props) => {
     const [selectedDecks, setSelectedDecks] = useState<Deck[] | []>(
         card.decks as Deck[],
     );
+
+    console.log('submitting', submitting);
     const handleCheckbox = (deck: Deck) => {
         const cardInDeck =
             deck.cards.filter((d) => d.id === card.id).length > 0;

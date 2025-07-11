@@ -24,7 +24,7 @@ export default function Welcome({
                 <title>Welcome</title>
             </Head>
             <div className="relative flex min-h-screen w-full flex-col overflow-x-clip bg-zinc-900">
-                <Header auth={user} />
+                <Header user={user} />
                 <main>
                     <Hero />
                     <Problem />

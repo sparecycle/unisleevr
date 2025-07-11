@@ -1,25 +1,28 @@
-import { CardDataType, CardWithDecks, Deck } from '@/types/mtg';
+import { CardDataType, CardWithDecksType, Deck } from '@/types/mtg';
 import { router } from '@inertiajs/react';
 import { Dispatch, SetStateAction } from 'react';
 
-export const addCard = (deck: Deck, card: CardDataType | CardWithDecks) => {
+export const addCard = (deck: Deck, card: CardDataType | CardWithDecksType) => {
     return [...deck.cards, card];
 };
 
-export const removeCard = (deck: Deck, card: CardDataType | CardWithDecks) => {
+export const removeCard = (
+    deck: Deck,
+    card: CardDataType | CardWithDecksType,
+) => {
     return deck.cards.filter((c) => c.id !== card.id);
 };
 
 export const addCommander = (
     deck: Deck,
-    card: CardDataType | CardWithDecks,
+    card: CardDataType | CardWithDecksType,
 ) => {
     return [...deck.commanders, card];
 };
 
 export const removeCommander = (
     deck: Deck,
-    card: CardDataType | CardWithDecks,
+    card: CardDataType | CardWithDecksType,
 ) => {
     return deck.commanders.filter((c) => c.id !== card.id);
 };
@@ -44,6 +47,7 @@ const updateDecks = (args: UpdateDecks, callBack?: () => void) => {
     console.log(updatedDecks);
     router.put(
         route('decks.update-batch'),
+        // @ts-expect-error It's an object, who cares what kind of object
         { user_id: user_id, decks: updatedDecks },
         {
             preserveState: true,

@@ -15,7 +15,7 @@ export default function Authenticated({
         <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
             <ToastProvider>
                 <header className="bg-white dark:bg-zinc-800">
-                    <Header auth={user} />
+                    <Header user={user} />
                     {header && (
                         <div className="container mx-auto px-2 py-2 sm:px-6 lg:px-8">
                             {header}

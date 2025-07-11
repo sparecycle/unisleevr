@@ -1,14 +1,15 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import NavLink from '@/Components/NavLink';
+import { User } from '@/types';
 import { Link } from '@inertiajs/react';
 import { Slant as Hamburger } from 'hamburger-react';
 import { useState } from 'react';
 
 type Props = {
-    auth;
+    user: User | null;
 };
 
-const Header = ({ auth }: Props) => {
+const Header = ({ user }: Props) => {
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
@@ -22,7 +23,7 @@ const Header = ({ auth }: Props) => {
                             <ApplicationLogo className="block h-full w-auto fill-current" />
                         </Link>
                         <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            {auth ? (
+                            {user ? (
                                 <>
                                     <NavLink
                                         href={route('decks.index')}
@@ -66,7 +67,7 @@ const Header = ({ auth }: Props) => {
             >
                 <nav>
                     <ul>
-                        {auth ? (
+                        {user ? (
                             <>
                                 <li className="text-white">
                                     <Link href={route('decks.index')}>

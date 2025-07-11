@@ -32,7 +32,7 @@ const CardList = ({
                         key={`${card.id}`}
                         className={
                             invalidCards?.includes(card.id)
-                                ? 'rounded-mtg border border-2 border-solid border-red-800'
+                                ? 'rounded-mtg border-2 border-solid border-red-800'
                                 : ''
                         }
                     >
@@ -50,7 +50,7 @@ const CardList = ({
                             onDelete={() => handleDelete(card)}
                             decks={
                                 showDecks && isCardWithDecks(card)
-                                    ? card.decks
+                                    ? (card as CardWithDecksType).decks
                                     : []
                             }
                         ></MTGCard>

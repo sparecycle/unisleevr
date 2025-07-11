@@ -1,4 +1,4 @@
-import { Deck } from '@/types/deck';
+import { Deck } from '@/types/mtg';
 import { useState } from 'react';
 import { ImSpinner11 } from 'react-icons/im';
 import { IoIosClose } from 'react-icons/io';
@@ -37,7 +37,7 @@ const MTGCard = ({
             <div className="card-actions group absolute z-10 aspect-[2.5/3.5] w-full content-center">
                 {onDelete && (
                     <button
-                        className={`btn btn-primary transition-rotate absolute right-0 top-0 rounded-full border-none bg-black/50 p-1 duration-200 ease-in-out hover:bg-black`}
+                        className={`btn btn-primary transition-rotate absolute top-0 right-0 rounded-full border-none bg-black/50 p-1 duration-200 ease-in-out hover:bg-black`}
                         onClick={onDelete}
                     >
                         <MdDeleteForever className="h-12 w-12 md:h-10 md:w-10 lg:h-6 lg:w-6" />
@@ -45,7 +45,7 @@ const MTGCard = ({
                 )}
                 {decks && decks.length > 0 && (
                     <button
-                        className={`btn btn-primary transition-rotate absolute bottom-0 right-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black group-hover:opacity-100 md:bottom-auto md:top-14 lg:top-10 lg:opacity-0`}
+                        className={`btn btn-primary transition-rotate absolute right-0 bottom-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out group-hover:opacity-100 hover:bg-black md:top-14 md:bottom-auto lg:top-10 lg:opacity-0`}
                         onClick={() => setDisplayDecks(true)}
                     >
                         <TbCardsFilled className="h-12 w-12 md:h-10 md:w-10 lg:h-6 lg:w-6" />
@@ -65,13 +65,13 @@ const MTGCard = ({
 
     return (
         <div
-            className={`card group/card relative aspect-[2.5/3.5] w-full overflow-hidden rounded-mtg shadow-md`}
+            className={`card group/card rounded-mtg relative aspect-[2.5/3.5] w-full overflow-hidden shadow-md`}
         >
             <div
-                className={`overlay absolute top-0 z-10 flex h-full w-full flex-col items-center justify-center rounded-mtg bg-zinc-900/90 duration-150 ease-in-out ${displayDecks ? 'left-0 opacity-100' : '-left-full opacity-0'}`}
+                className={`overlay rounded-mtg absolute top-0 z-10 flex h-full w-full flex-col items-center justify-center bg-zinc-900/90 duration-150 ease-in-out ${displayDecks ? 'left-0 opacity-100' : '-left-full opacity-0'}`}
             >
                 <button
-                    className="btn btn-primary absolute right-0 top-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black"
+                    className="btn btn-primary absolute top-0 right-0 rounded-full border-none bg-black/50 p-1 opacity-100 duration-200 ease-in-out hover:bg-black"
                     onClick={() => setDisplayDecks(false)}
                 >
                     <IoIosClose size={25} />

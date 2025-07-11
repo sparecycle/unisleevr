@@ -1,4 +1,29 @@
 export type mtgColorStrings = 'W' | 'U' | 'B' | 'R' | 'G';
+
+export type ScryfallCard = {
+    id: string;
+    name: string;
+    type_line: string;
+    card_faces?: ScryfallCardFace[];
+    games?: string[];
+    layout?: string[];
+    set_type?: string;
+    // ... other known properties
+    [key: string]: unknown | unknown[]; // for additional properties
+};
+
+export type ScryfallCardFace = {
+    name: string;
+    type_line: string;
+    oracle_text: string;
+    image_uris?: Record<string, string>;
+    mana_cost?: string;
+    power?: string;
+    toughness?: string;
+    // ... other known properties
+    [key: string]: unknown; // for additional properties
+};
+
 export interface mtgImgSrcType {
     normal: string;
     large: string;
@@ -33,7 +58,7 @@ export interface Deck {
     created_at: string;
     updated_at: string;
     user_id: number;
-    cards: CardWithDecks[];
-    commanders: CardWithDecks[];
+    cards: CardWithDecksType[];
+    commanders: CardWithDecksType[];
     color_identity: mtgColorStrings[];
 }
