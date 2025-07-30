@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php", "nodejs", "npm", "sqlite"]
+nixPkgs = ["php", "nodejs_18", "sqlite"]
 
 [phases.install]
 cmds = ["composer install --no-dev", "npm ci"]
