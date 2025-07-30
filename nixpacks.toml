@@ -1,11 +1,5 @@
 [phases.setup]
-nixPkgs = ["php", "nodejs_18", "sqlite"]
+nixPkgs = ["sqlite"]
 
-[phases.install]
-cmds = ["composer install --no-dev", "npm ci"]
-
-[phases.build] 
-cmds = ["npm run build"]
-
-[start]
-cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
+[phases.build]
+cmds = ["touch database/database.sqlite", "chmod 664 database/database.sqlite", "chmod 775 database/"]
