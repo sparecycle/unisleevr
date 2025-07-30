@@ -5,7 +5,11 @@ nixPkgs = ["php", "nodejs_18", "sqlite", "phpPackages.composer"]
 cmds = ["composer install --no-dev --optimize-autoloader", "npm ci"]
 
 [phases.build] 
-cmds = ["npm run build", "touch database/database.sqlite", "chmod 664 database/database.sqlite"]
+cmds = ["npm run build", "mkdir -p /app/database",
+  "touch /app/database/database.sqlite", 
+  "chmod 664 /app/database/database.sqlite",
+  "chmod 775 /app/database/",
+  "php artisan migrate --force"]
 
 [start]
 cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
